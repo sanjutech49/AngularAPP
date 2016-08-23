@@ -1,0 +1,95 @@
+﻿<div  ng-controller="sequenceController"  ng-init="form={};" >
+    <ng-form name="form.sequenceForm" novalidate>
+        <div class="settings-contentbody-row">
+            <div class="settings-contentbody-cell settings-left-pannel">
+                <span class="settings-panel-heading">Sequences</span>
+                <div id="custom-search-input">
+
+                    <div class="table-row search-warap">
+
+                        <div class="table-cell">
+                            <div class="settings-search">
+                                <input type="text" class="search-query form-control icon-search " ng-model="filter.sequenceName" placeholder="Search">
+                                <a class="searchclear" ng-click="filter.sequenceName = ''"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                
+                            </div>
+                        </div>
+                        <div class="table-cell">
+                            <button class="btn btn-default margin-left5" ng-click="clearSequenceFields();focusInput=true">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="settings-multipleSelect-wrap">
+                                <select class="settings-multipleSelect" ng-model="selectedSequences" multiple="multiple" size=13>
+                                    <option ng-repeat="seq in getDetails.sequences | orderBy: 'sequenceName' | filter: filter" ng-click="selectedSequence(seq)" value="{{seq.sequenceId}}">{{seq.sequenceName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="settings-contentbody-cell settings-right-pannel">
+                <span class="settings-panel-heading">Add Sequences</span>
+                <div class="settings-rightpannel-body">
+                    <div class="form-horizontal settings">
+                       <!--<div class="alert alert-danger alert-dismissible ng-isolate-scope" ng-show="IsHidden==false && ( errors.length > 0  || sequenceForm.$invalid)  " role="alert">
+                            <button type="button" class="close" aria-label="Close" ng-click="ShowHide()"><span aria-hidden="true">×</span></button>
+                            <div ng-show="sequenceForm.sequenceName.$error.required && sequenceForm.sequenceName.$dirty">Please enter Sequence Name</div>
+                            <div ng-show="sequenceForm.firstNumber.$error.required && sequenceForm.firstNumber.$dirty">Please enter First Number</div>
+                            <div ng-show="errors.length > 0" ng-repeat="error in errors"> {error}}</div>
+                        </div>--> 
+
+                        <!--Place the error directive here
+                        <error-control attribute-scope="sequence"></error-control>-->
+                        <div ng-show="true">
+                            <div class="form-group" ng-hide="true">
+                                <label for="" class="col-sm-5 text-right control-label">Sequence Id<i class="mandatory">*</i></label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="sequenceId" ng-model="sequence.sequenceId" ng-init="sequence.sequenceId = ''" class="form-control input-sm" ng-readonly="sequence.readonly" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-5 text-right control-label">Sequence Name<i class="mandatory">*</i></label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="sequenceName" onblur="this.value = this.value.trim();" ng-model="sequence.sequenceName" 
+                                           maxlength="32" class="form-control input-sm textbox-customstyle" ng-readonly="sequence.readonly" focus="changeFocus" focus-me="focusInput" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-5 text-right control-label">Sequence Prefix</label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="sequencePrefix" onblur="this.value = this.value.trim();" ng-model="sequence.sequencePrefix" class="form-control input-sm textbox-customstyle" ng-readonly="sequence.readonly" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-5 text-right control-label">First Number<i class="mandatory">*</i></label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="firstNumber" ng-model="sequence.firstNumber" ng-init="sequence.firstNumber = 1" only-number0999 
+                                           maxlength="13" class="form-control input-sm textbox-customstyle" 
+                                           ng-readonly="sequence.readonly" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-5 text-right control-label">Padded Length</label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="paddedLength" ng-model="sequence.paddedLength" class="form-control input-sm textbox-customstyle" 
+                                           maxlength="2" only-number0999 ng-readonly="sequence.readonly" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-bottom-devider clearfix"></div>
+        <div class="settings-bottom-btngroup">
+            <div class="btn-left"><button class="btn btn-danger" ng-disabled="isDeleteClicked" ng-click="confirmClick('Are you sure you want to delete?','Confirm','Delete','Cancel') && delete()"  confirm-click> <i class="fa fa-times"></i> Delete</button></div>
+            <div class="btn-right"><button class="btn btn-primary" ng-click="save(sequence)"> <i class="fa fa-pencil"></i> Save</button></div>
+        </div>
+    </ng-form>
+</div>

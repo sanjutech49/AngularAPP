@@ -1,0 +1,439 @@
+﻿<div id="ImageReferenceAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="imageReferenceAttributeForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'imageReferenceAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(imageReferenceAttributeForm.$dirty,'ImageReference');">&times;</button>
+                    <h4><b>{{ action }} Image Reference Attribute</b></h4>                    
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <basic-properties attribute-scope="imageReferenceAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"
+                                          clear-unique-group-values="clearUniqueGroupValues"></basic-properties>
+
+
+                        <div class="row">
+                            <div class="col-sm-12 marginTop20">
+                                <div class="attribute-model-title">Image Reference Behavior</div>
+                            </div>
+                            <div class="col-sm-12">
+                                The image references associated with this attribute can be modified when:
+                            </div>
+                            <div class="col-sm-12 top-margin-10">
+                                <div class="col-sm-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-ng-model="imageReferenceAttribute.isEditProduct" />Editing the Product
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-ng-model="imageReferenceAttribute.isViewProduct" />
+                                            Viewing the Product
+                                        </label>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 marginTop15">
+                                <div class="attribute-model-title">Image Reference Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label marginbottom5" for="">Image Selection Method<span class="mandatory">*</span></label>
+                                    <select class="form-control" data-ng-model="imageReferenceAttribute.imageSelectionMethod" data-ng-options="option.key as option.value for option in imageSelectionOptions"></select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-xs-6 img-ref-btn">
+                                <label class="control-label marginbottom5" for="">Specify the Image Types the reference will accept<span class="mandatory">*</span></label>
+                                <button class="btn btn-default" type="button" data-ng-click="showAcceptedImageTypes();" data-toggle="modal" data-target="#imageTypesConfigurationAttribute">Accepted Image Types</button>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-xs-12 imageroles">
+                                <div class="col-xs-4">
+                                    <div class="row">
+                                        <b class="paddingTop10 display-block">Image Roles</b>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-8 clearfix">
+                                    <div class="row">
+                                        <div class="flat-right marginbottom10">
+                                            <div class="form-group">
+                                                <div class="table-row">
+                                                    <div class="table-cell table-cel-padding labelmargin0">
+                                                        <label class="form-control-label">Add Role</label>
+                                                    </div>
+
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input class="form-control" type="text" data-ng-model="imageReferenceAttribute.newImageRoleName" />
+                                                    </div>
+
+                                                    <div class="table-cell table-cel-padding">
+                                                        <button class="btn btn-default" type="button" data-ng-click="addNewImageRole();"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <div id="newImageRoleError" class="error-message"></div>
+                                    <error-control attribute-scope="errorRoleAttribute" ng-show="!errorRoleAttribute.isHide"></error-control>
+
+                                </div>
+                                <div class="settings-bottom-devider clearfix"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 table-border-radius marginTop10">
+
+                                <table class="table table-condensed table-hover">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th class="align-center">Default</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr data-ng-repeat="role in imageReferenceAttribute.imageRoles">
+                                            <td data-ng-bind="role.name"></td>
+                                            <td class="align-center">
+                                                <input type="radio" name="isDefaultImageRole" value="{{role.id}}" data-ng-click="changeDefaultImageRole(role.id)"
+                                                       data-ng-model="imageReferenceAttribute.defaultImageRole" />
+                                            </td>
+                                            <td class="text-right table-links">
+                                                <a href="#"><i class="fa fa-pencil grid-actions" data-toggle="modal" data-target="#editImageRoleSectionAttribute" data-ng-click="editImageRole(role);"></i></a>
+                                                <a href="#"><i class="fa fa-times grid-actions" data-ng-click="confirmClick('Are you sure you want to delete?','Confirm','Delete','Cancel') && deleteImageRole(role);" confirm-click></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="clearImageReferenceFields();openErrorScreen(imageReferenceAttributeForm.$dirty,'ImageReference');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveImageReferenceAttribute()" ng-disabled="imageReferenceAttribute.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="editImageRoleSectionAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="editImageRoleSectionAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-ng-click="openErrorScreen(editImageRoleSectionAttributeForm.$dirty,'editImageRoleSection',true,'imageReferenceAttributeForm');" aria-hidden="true">&times;</button>
+                    <h4><b>Edit Image Role</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline marginbottom10">
+                        <div class="form-group">
+                            <label class="form-control-label">Role Name</label>
+                            <input class="form-control" type="text" data-ng-model="imageReferenceAttribute.editImageRole.name" />
+                        </div>
+                    </div>
+                    <div id="editImageRoleError" class="error-message"></div>
+                    <error-control attribute-scope="errorRoleAttribute"></error-control>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button data-ng-click="openErrorScreen(editImageRoleSectionAttributeForm.$dirty,'editImageRoleSection',true,'imageReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button data-ng-click="saveImageRoleName()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="imageTypesConfigurationAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="imageTypesConfigurationAttributeForm" role="form"  novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(imageTypesConfigurationAttributeForm.$dirty,'imageTypesConfiguration',true,'imageReferenceAttributeForm');">&times;</button>
+                    <h4><b>Accepted Image Types</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="attribute-model-title">Configure Image Reference</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!--<div class="col-xs-4">
+
+                                <label>
+                                    <input type="radio" name="applyImageType" value="1" ng-checked="(imageReferenceAttribute.imageApplyType == '1')" data-ng-click="changeImageApplyType('1');" />
+                                    <b>Any Image Type</b>
+                                </label>
+
+                            </div>-->
+                            <div class="col-xs-4">
+
+                                <label>
+                                    <input type="radio" name="applyImageType" value="2" ng-checked="(imageReferenceAttribute.imageApplyType == '2')" data-ng-click="changeImageApplyType('2');" />
+                                    <b>Specific Image Types</b>
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <div class="specific-img-main-box clearfix marginTop15" data-ng-show="(imageReferenceAttribute.imageApplyType == '2')">
+                            <div class="clearfix">
+                                <tree-multi-select control-id="acceptedImageTypes" options-list="allImageLibraryTypes"
+                       selected-values="selectedImageLibraryTypes" create-content-node="createImageTypeInnerContentNode">
+    </tree-multi-select>
+
+                                <div id="imageMultiSelectInnerDroppdown_parent">
+                                    <div id="imagePropertiesDropdown" class="dropdown">
+                                        <div id="toggleImageProperties" href="#" data-toggle="dropdown"></div>
+                                        <div class="dropdown-menu dropdown-menu-right width220">
+                                            <div class="margin-10 reference-dropdown-label">
+
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" data-ng-model="imageProperties.canAddNewImages" />
+                                                            User can Add New Images
+                                                        </label>
+                                                    </div>
+
+
+                                                <div class="specific-img-main-box" data-ng-show="imageProperties.canAddNewImages">
+                                                    <p><b>Link New Images to</b></p>
+
+                                                    <div class="radio" data-ng-repeat="option in linkImageOptions">
+                                                    <label>
+                                                        <input type="radio" name="linkNewImage" value="{{option.key}}"
+                                                               data-ng-checked="(imageProperties.linkNewImageOption == option.key)"
+                                                               data-ng-model="imageProperties.linkNewImageOption">
+                                                        {{option.value}}
+                                                    </label>
+                                                </div>
+
+                                                    
+                                                </div>
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" data-ng-model="imageProperties.canLinkImages" />
+                                                        User can Link to Existing Images
+                                                    </label>
+                                                </div>
+
+                                                <div data-ng-show="imageProperties.canLinkImages">
+                                                    <button class="btn btn-default btn-xs" type="button" data-ng-click="showImageLinkSources();" data-toggle="modal" data-target="#imageReferenceConfigurationAttribute">Specify Linking Sources</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="imageFiltersDropdown" class="dropdown image-type-nav">
+                                        <div id="toggleImageFilters" href="#" data-toggle="dropdown"></div>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <div class="margin-10 reference-dropdown-label" data-ng-repeat="option in imageFilterOptions">
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="imageFilter" value="{{option.key}}"
+                                                               data-ng-checked="isImageOptionSelected(option.key)"
+                                                               data-ng-disabled="isImageOptionDisabled(option.key)"
+                                                               data-ng-click="changeImageFilters(option.key)">
+                                                        {{option.value}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row top-margin-10">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-plus fa-lg green-color"></i>
+                                    Define Image Addition & Linking Properties
+                                </div>
+                                <div class="col-xs-6">
+                                    <i class="fa fa-filter fa-lg gray-color"></i>
+                                    Define Image Classification Filters
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <div class="modal-footer">                            
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(imageTypesConfigurationAttributeForm.$dirty,'imageTypesConfiguration',true,'imageReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button data-ng-click="saveAcceptedImageTypes()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+
+                        </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="imageReferenceConfigurationAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="imageReferenceConfigurationAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(imageReferenceConfigurationAttributeForm.$dirty,'imageReferenceConfiguration',true,'imageReferenceAttributeForm');" aria-hidden="true">&times;</button>
+                    <h4><b>Linked Image Sources</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute-model-title">Configure Image Reference</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 refefence-tabbing">
+
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#" data-target="#imageSourceSection">Source Content Types</a></li>
+                                    <li><a data-toggle="tab" href="#" data-target="#imageSearchLibrariesSection">Source Image Libraries</a></li>
+                                    <li><a data-toggle="tab" href="#" data-target="#imageSearchSection">Search Options</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="imageSourceSection">
+                                        <div>
+                                            <tree-multi-select control-id="imageContentTypes" options-list="allImageContentTypes"
+                                                               selected-values="selectedImageContentTypes" create-content-node="createImageContentTypeInnerNode">
+                                            </tree-multi-select>
+                                            <div>
+                                                <i class="fa fa-search right-margin-10"></i>
+                                                <span>Select Searches used to find Content Objects which have linkable images</span>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="tab-pane" id="imageSearchLibrariesSection">
+                                        <div>
+                                            <tree-multi-select control-id="imageLibraries" options-list="allImageLibraryTypes"
+                                                               selected-values="selectedImageLibraries" create-content-node="createImageLibraryInnerNode">
+                                            </tree-multi-select>
+                                            <div>
+                                                <i class="fa fa-search right-margin-10"></i>
+                                                <span>Select Searches used to find Images within the Selected Image Library</span>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="tab-pane" id="imageSearchSection">
+                                        <div class="bottom-margin-10">
+                                            Select the search interfaces which can be used to link images from other content objects
+                                        </div>
+                                        <div>
+                                            <tree-multi-select control-id="imageSearchOptions" options-list="allImageSearchOptions"
+                                                               selected-values="selectedImageSearchOptions" create-content-node="createImageSearchOptionInnerNode">
+                                            </tree-multi-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(imageReferenceConfigurationAttributeForm.$dirty,'imageReferenceConfiguration',true,'imageReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button data-ng-click="saveImageReferenceConfiguration()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="editImageSearchOptionSectionAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="editImageSearchOptionSectionAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(editImageSearchOptionSectionAttributeForm.$dirty,'editImageSearchOptionSection',true,'imageReferenceAttributeForm');" aria-hidden="true">&times;</button>
+                    <h4><b>Select Search Interface</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="bottom-gray-border font-bold">
+                        Selected Search Interface
+                    </div>
+                    <div class="specific-img-main-box marginTop15">
+                        <div id="editImageSearchOption"></div>
+                    </div>
+                    <div class="bottom-gray-border marginTop15 font-bold">
+                        Search Name
+                    </div>
+                    <div class="top-margin-5 marginbottom10">
+                        <input id="imageSearchOptionName" class="form-control" type="text" value="" />
+                    </div>
+                    
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(editImageSearchOptionSectionAttributeForm.$dirty,'editImageSearchOptionSection',true,'imageReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button data-ng-click="saveImageSearchOption()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

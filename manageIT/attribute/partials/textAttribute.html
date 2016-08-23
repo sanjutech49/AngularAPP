@@ -1,0 +1,134 @@
+﻿<div id="TextAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="textAttributeForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'textAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(textAttributeForm.$dirty,'Text');" >&times;</button>
+                    <h4><b>{{ action }} Text Attribute</b></h4>
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <basic-properties attribute-scope="textAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"
+                                          clear-unique-group-values="clearUniqueGroupValues"></basic-properties>
+                        <div class="row">
+                            <div class="col-xs-12 marginTop20">
+                                <div class="attribute-model-title">Text Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="attribute">
+                                    <div class="form-horizontal">
+
+                                        <div class="form-group row">
+                                            <div class="col-xs-2">
+                                                <label class="control-label text-left" for="">Format<span class="mandatory">*</span></label>
+                                            </div>
+                                            <div class="col-xs-4 row">
+                                                <select class="form-control" data-ng-model="textAttribute.format" data-ng-options="option.key as option.value for option in lineFormat" required></select>
+                                            </div>
+
+                                            <div class="col-xs-3">
+                                                <label class="control-label" for="">Field Width <span class="mandatory">*</span></label>
+                                            </div>
+                                            <div class="col-xs-3 row">
+
+                                                <input type="text" name="fieldWidth" ng-model="textAttribute.fieldWidth" maxlength="4" class="input-medium form-control" required
+                                                       only-number0999 />
+
+                                            </div>
+                                            <div class="col-xs-1 row">
+
+                                                <span class="text-attribute-px-text">&nbsp;px</span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-xs-2">
+                                                <label class="control-label text-left" for="">Minimum Length</label>
+                                            </div>
+                                            <div class="col-xs-1 row">
+                                                <input type="text" name="attributeMinLenVal" ng-model="textAttribute.minimumLength" only-number0999 maxlength="4" class="formcontrl-padding form-control" />
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="textAttribute.minWordType" data-ng-options="option.key as option.value for option in wordType">
+                                                    <option value="" hidden></option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-xs-3">
+                                                <label class="control-label text-left" for="">Maximum Length</label>
+                                            </div>
+                                            <div class="col-xs-1 row">
+                                                <input type="text" name="maxLenthValue" ng-model="textAttribute.maximumLength" only-number0999 maxlength="4" class="formcontrl-padding form-control" />
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <select class="form-control" data-ng-model="textAttribute.maxWordType" data-ng-options="option.key as option.value for option in wordType">
+                                                    <option value="" hidden></option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="attribute">
+                                    <div class="form-horizontal">
+                                        <div class="list-selection-devider marginTop15"></div>
+
+                                        <div class="form-group row">
+                                            <div class="col-xs-2">
+                                                <label class="control-label text-left" for="">Default Value</label>
+                                            </div>
+                                            <div class="col-xs-3 row">
+                                                <input class="form-control" type="text" name="defaultValue" ng-model="textAttribute.defaultValue" ng-if="textAttribute.format==0" style="width:{{textAttribute.fieldWidth>615?615:textAttribute.fieldWidth}}px;"/>
+                                                <textarea class="form-control" type="text" name="defaultValue" ng-model="textAttribute.defaultValue" ng-if="textAttribute.format==1" style="width:{{textAttribute.fieldWidth>615?615:textAttribute.fieldWidth}}px"></textarea>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--<div class="row">
+                            <div class="col-xs-12">
+                                <div class="font-bold color-red" ng-show="textAttributeForm.name.$error.required && textAttributeForm.name.$dirty">Name is required</div>
+                                <div class="font-bold color-red" ng-show="textAttributeForm.identifier.$error.required && textAttributeForm.identifier.$dirty">Identifier is required</div>
+                                <div class="font-bold color-red" ng-show="textAttributeForm.format.$error.required && textAttributeForm.format.$dirty">Format is required</div>
+                                <div class="font-bold color-red" ng-show="textAttributeForm.fieldWidth.$error.required && textAttributeForm.fieldWidth.$dirty">Field Width is required</div>
+                                <div class="font-bold color-red" ng-show="errorsText.length > 0" ng-repeat="error in errorsText">{{error}}</div>
+                            </div>
+                        </div>-->
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(textAttributeForm.$dirty,'Text');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveTextAttribute(textAttribute)" ng-disabled="textAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

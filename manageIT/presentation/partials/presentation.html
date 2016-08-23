@@ -1,0 +1,266 @@
+﻿<!-- Presentation---------------------------------------- -->
+<div ng-controller="presentationController">
+    <div class="row">
+        <div class="col-xs-12">
+            <error-control attribute-scope="messageModel" ng-show="!messageModel.isHide"></error-control>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h6 class="font-bold">Presentation</h6>
+            <form class="form-horizontal" name="updatepresentation" role="form" novalidate>
+                    <div class="form-group">
+                        <label for="" class="col-xs-3 control-label align-left">Naming Expression</label>
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control" readonly id="nameexpression" ng-model="presentation.nameexpression" value="">
+                        </div>
+                        <div class="col-xs-3 imageroles">
+                            <div class="row">
+                                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editnamingExpression">Change</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="" class="col-xs-3 control-label align-left">Default Search Type</label>
+                        <div class="col-xs-3">
+                            <select class="form-control" ng-model="presentation.defaultsearchtype">
+                                <option ng-selected="presentation.defaultSearchType == 0" value="0">Search</option>
+                                <option ng-selected="presentation.defaultSearchType == 1" value="1">List</option>
+                                <option ng-selected="presentation.defaultSearchType == 2" value="2">Browse</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="" class="col-xs-3 control-label align-left">Default Image</label>
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control" id="selected-image" value="{{presentation.selectimage}}" >
+                        </div>
+                        <div class="col-xs-3 imageroles">
+                            <div class="row">
+                                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" ng-click="listimagedetails(imagedata.id)" data-target="#selectDefaultimage">Change</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-xs-3 control-label align-left">Default Icon</label>
+                        <div class="col-xs-2">
+                            <div class="presnton-icon-wrap">
+                                <img src="{{uploadme}}" alt="" />
+                               
+                            </div>
+                        </div>
+                        <div class="col-xs-3 imageroles button-top-margin">
+                            <div class="row">
+                                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#uploadDefaulticon">
+                                    Change
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        </div>
+    </div>
+
+    <div class="col-xs-12 marginTop20 update-btnbg">
+        <button type="button" class="btn btn-update pull-right" ng-click="savepresentation(presentation)"> <i class="fa fa-pencil"></i> Update</button>
+
+    </div>
+    <!-- Edit Naming Expresssion Modal -->
+    <div id="editnamingExpression" class="modal fade attribute-container" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="editnamingExpression">
+        <div class="modal-dialog model-width700">
+            <form name="editnamingExpressionAttributeForm" role="form" novalidate>
+
+                <div class="modal-content add-sub-object-main">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(formDirty,'editnamingExpression');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>Edit Naming Expression</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="nameexpres-header">Available Attribues</div>
+                                <div class="avail-attributes-wrap">
+                                    <ul>
+                                        <li class="select-option" ng-repeat="data in attributes" ng-class="{selected : data.attributeId === idSelectedVote}" ng-click="setSelected(data.attributeId);">{{data.name}}</li>
+                                    </ul>
+                                   
+                                    <div ng-repeat="detailPerAttr in detailsToFilter() | filter:filterDetails">
+                                        <span class="accordion-toggle collapsed" data-toggle="collapse" data-target="#demo{{detailPerAttr.attributeSetName}}"><b>{{detailPerAttr.attributeSetName}} (attribute set)</b></span>
+                                        <ul id="demo{{detailPerAttr.attributeSetName}}" class="collapse">
+                                            <li class="select-option text-only" ng-class="{selected : detail.attributeId === idSelectedVote}" ng-repeat="detail in attributeset | filter:{attributeSetName: detailPerAttr.attributeSetName}" ng-click="setSelected(detail.attributeId);">{{detail.name}}</li>
+                                        </ul>
+                                    </div>                                    
+                                    <div ng-repeat="data in subobject">  
+                                        <span class="accordion-toggle collapsed" data-toggle="collapse" data-target="#{{data.id}}"><b>{{data.name}} (Sub Object)</b></span>
+                                        <div id="{{data.id}}" class="collapse">                                           
+                                            <ul>
+                                                <li class="select-option"  ng-repeat="attdata in data.attributes" ng-click="setSubSelected(attdata.attributeId+'/'+data.id+ '/'+ data.name );" ng-class="{selected : attdata.attributeId+'/'+data.id + '/'+ data.name === idSubSelectedVote}">{{attdata.name}} </li>
+                                            </ul>    
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="marginTop10">
+                                    <button class="btn btn-default btn-sm button100per" ng-click="insertselectedattribute()">Add Naming Expression</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="nameexpres-header">Naming Expression</div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+
+                                            <input type="text" class="form-control" required id="name" ng-model="nameexpression" name="searchinterfacename">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <p><span class="font-bold">Note:</span> When using multi-value attributes the first attribute value will be displayed as the default.</p>
+                                        <p>To display a different attribute value. the value index must be specified (starting at index 1 for the first value).</p>
+                                        <p>Example : To display the second value specified in the name attribute, the following placeholder woluld be used (name [2])</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="openErrorScreen(formDirty,'editnamingExpression');" class="btn btn-grey" type="button" aria-hidden="true" data-toggle="modal" data-target="#ErrorScreen"><i class="fa fa-times"></i> Discard</button>
+                            <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="displaynameexpression(nameexpression)"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+           </div>           
+         </form>
+       </div>
+    </div>
+    <!-- Upload Default Icon -->
+    <div id="uploadDefaulticon" class="modal fade attribute-container" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="uploadDefaulticon">
+        <div class="modal-dialog model-width400">
+            <div class="modal-content add-sub-object-main">
+                <form name="uploadDefaulticonAttributeForm" role="form" novalidate>
+                    <div class="modal-header">                      
+                        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                        <button type="button" class="close" ng-click="openErrorScreen(uploadDefaulticonAttributeForm.$dirty,'uploadDefaulticon');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>Upload Default Icon</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="nameexpres-header">Upload Icon</div>
+                                <p>Specify an PNG file which will be used content type's icon.</p>
+
+                                <div class="icon-dropper-wrap table-row">
+                                    <div class="table-cell"><!--Click Here to select or Drag and Drop an<br> PNG file for upload.--><img src="{{uploadme}}" width="100" height="100" alt="" />
+
+                                        <input type="file" ng-model="uploadedfilename" fileread="uploadme" />
+                                        <input type="hidden" id="uploadimagename" value="" ng-model="uploadimagename" />
+                                    </div>                                   
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <div class="btn-left">
+                                <button class="btn btn-danger" ng-click="removeicon()"> <i class="fa fa-times"></i> Remove Icon</button>
+                            </div>
+                            <button ng-click="openErrorScreen(uploadDefaulticonAttributeForm.$dirty,'uploadDefaulticon');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="uploadImage(uploadimagename)"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Select Default Image -->
+    <div id="selectDefaultimage" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <form name="selectDefaultimageAttributeForm" role="form" novalidate>
+                <div class="modal-content marginTop50 attributes-wrap">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(selectDefaultimageAttributeForm.$dirty,'selectDefaultimage');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4>Select Default Image</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="">Image Attribute</label>                            
+                            <select class="form-control" ng-model="selectedimagedata.selectimage" ng-change="listimagedetails(selectedimagedata.selectimage)">
+                                <option value=""> Select Image Attribute </option>
+                                <option ng-selected="selectedimagedata.id == data.attributeId" ng-repeat="data in attributes | filter:{ attributeType : 'ImageReferenceAttribute'} " value="{{data.attributeId}}">{{data.name}}</option>
+                            </select>
+                        </div>         
+              
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class="font-bold marginbottom10">Roles</span>
+                            <div class="cor-border min-height150">                               
+                                    <table class="table table-hover table-condensed attribute-map-chckradio">
+                                        <tr ng-repeat="dataimg in imagedatalist.imageRoles">
+                                            <td>
+                                                <div class="checkbox" >
+                                                    <label><input type="checkbox" checkbox-group>{{dataimg.roleName}} {{dataimg.roleId}}</label>
+                                                </div>
+                                            </td>
+                                        </tr>                                       
+                                    </table>                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-xs-12">
+                            <span class="font-bold marginbottom10">Image Types</span>
+                            <div class="cor-border min-height100">                             
+                                    <table class="table table-hover table-condensed attribute-map-chckradio">
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox" ng-repeat="dataimagetype in allImageLibraryTypes">
+                                                    <label><input type="checkbox" checkboxselected-group> {{ dataimagetype.label}}</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row marginTop10">
+                        <div class="col-xs-12">
+                            <span class="font-bold marginbottom10">Image #</span>
+                        </div>
+                    </div>
+                    <div class="row marginTop10">
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" id="imageIndex" ng-model="selectedimagedata.imageIndex" value="{{selectedimagedata.imageindex}}">
+                        </div>
+                        
+                        <div class="col-xs-9">
+                            <select class="form-control" ng-model="selectedimagedata.imageIndexPosition">
+                                <option value=""></option>
+                                <option value="0" ng-selected="selectedimagedata.indexPosition == '0'">From Start</option>
+                                <option value="1" ng-selected="selectedimagedata.indexPosition == '1'">From End</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(selectDefaultimageAttributeForm.$dirty,'selectDefaultimage');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button class="btn btn-primary" type="button"><i class="fa fa-pencil" ng-click="saveimagedata(selectedimagedata)"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    <div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div>   
+</div>

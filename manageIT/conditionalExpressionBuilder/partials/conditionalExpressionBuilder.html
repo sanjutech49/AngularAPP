@@ -1,0 +1,164 @@
+﻿
+<div class="row bottom-border clearfix" ng-repeat="cond in conditionsDisplay">
+    <div class="col-xs-8 marginTop5">
+        <span ng-hide="true">{{cond.conditionId}}</span>
+        <span class="valign-top" ng-hide="isFirst">{{cond.conditionType}}</span>
+        <span class="classification-expl marginRight4">!</span> <input type="checkbox" ng-checked="cond.expressionNegationOperator"
+                                                                       ng-model="storeExpressions[$index]">
+        <span class="valign-top">
+            (<span class="valign-top" ng-show="cond.negationOperator">!</span>{{cond.attributeType.identifier}}
+            
+                {{cond.conditionOperator}}
+                {{cond.conditionValue}}
+                {{cond.attributeValue}}<span class="valign-top" ng-show="cond.subConditions.length == 0">)</span>
+        </span>
+
+        <div class="pull-right table-links">
+            <a href="#" rel="tooltip" title="Delete" ng-click="deleteExpression(cond,false,$index,null)"><i class="fa fa-times"></i></a>
+            <a href="#" rel="tooltip" title="Edit" ng-click="editExpression(cond,false,$index,null)"><i class="fa fa-pencil"></i></a>
+        </div>
+
+
+        <div class="marginTop10" ng-repeat="condChild in cond.subConditions">
+            <span ng-hide="true">{{condChild.conditionId}}</span>
+            &nbsp;{{condChild.conditionType}}&nbsp;<span ng-show="condChild.negationOperator">!</span>{{condChild.attributeType.identifier}}
+            &nbsp;{{condChild.conditionOperator}}&nbsp;{{condChild.conditionValue}}
+            &nbsp;{{condChild.attributeValue}}<span ng-show="cond.subConditions.length == ($index+1)">)</span>
+            <div class="pull-right table-links">
+                <a href="#" rel="tooltip" title="Delete" ng-click="deleteExpression(condChild,true,$parent.$index,$index)"><i class="fa fa-times"></i></a>
+                <a href="#" rel="tooltip" title="Edit" ng-click="editExpression(condChild,true,$parent.$index,$index)"><i class="fa fa-pencil"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-xs-4">
+        <ul class="classification-dropdown">
+            <li class="dropdown pull-right">
+                <button href="#" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" role="button" ng-click="showAttributeMatch(true,cond.attributeType.attributeId,$index)">Add Sub-Condition</button>
+                <!--<ul class="dropdown-menu">
+                    <li>
+                        <a href="#" ng-click="showAttributeMatch(true,cond.attributeType.attributeId,$index)"> Attribute Match</a>
+                    </li>
+                </ul>-->
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<div class="row marginTop15" ng-show="isAttributeMatch">
+    <div class="col-xs-1">
+        <div class="marginTop5">
+            <span class="classification-expl">!</span>
+            <label>
+                <input type="checkbox" name="chkBoxExpLevel" ng-checked="condExpBuilder.negationOperator" ng-model="condExpBuilder.negationOperator">
+            </label>
+        </div>
+    </div>
+
+    <div class="col-xs-2" ng-show="showCondition">
+            <select class="form-control" name="conditionType" ng-options="condAndOr.value for condAndOr in conditionAndOr track by condAndOr.key" ng-model="condExpBuilder.conditionType"></select>
+    </div>
+
+    <div class="col-xs-2">
+        <select class="form-control" name="attributeType" ng-change="filterOperator(condExpBuilder.attributeType.attributeType)" ng-options="attr.identifier for attr in attributes track by attr.attributeId" ng-model="condExpBuilder.attributeType"></select>
+    </div>
+
+    <div class="col-xs-2">
+        <select class="form-control" name="conditionOperator"
+                ng-options="compOption.value for compOption in operators track by compOption.key"
+                ng-model="condExpBuilder.conditionOperator"></select>
+    </div>
+
+
+
+    <div class="col-xs-2" ng-show="condExpBuilder.attributeType.attributeType == 'YesNoAttribute'
+                                                    || condExpBuilder.attributeType.attributeType == 'ListAttribute'">
+        <select class="form-control" name="conditionValue"
+                ng-options="condVal.value for condVal in conditionValues track by condVal.key"
+                ng-model="condExpBuilder.conditionValue"
+                ></select>
+</div>
+
+
+
+    <div class="col-xs-2" ng-show="condExpBuilder.attributeType.attributeType == 'YesNoAttribute'
+                                                    || condExpBuilder.attributeType.attributeType == 'ListAttribute'">
+        <select class="form-control" name="attributeValue"
+                ng-options="attrVal.value for attrVal in operandNext track by attrVal.key"
+                ng-model="condExpBuilder.attributeValue"></select>
+
+
+        </div>
+
+
+     
+    <div class="col-xs-4" ng-show="condExpBuilder.attributeType.attributeType == 'TextAttribute'
+                                                   || condExpBuilder.attributeType.attributeType == 'SequenceAttribute'
+                                                   || condExpBuilder.attributeType.attributeType == 'DecimalAttribute'
+                                                   || condExpBuilder.attributeType.attributeType == 'IntegerAttribute'
+                                                   || condExpBuilder.attributeType.attributeType == 'SubObjectAttribute'">
+        <input class="form-control" type="text" name="constantValue" ng-model="condExpBuilder.constantValue">
+
+        </div>
+
+
+
+    <div class="" ng-show="condExpBuilder.attributeType.attributeType == 'DateTimeAttribute'
+                                                   || condExpBuilder.attributeType.attributeType == 'DateAttribute'
+                                                   || condExpBuilder.attributeType.attributeType == 'TimeAttribute'">
+
+        <div class="col-xs-1 no-padding">
+            <label for="" class="control-label" ng-hide="condExpBuilder.attributeType.attributeType == 'DateAttribute'">Current Time + offset</label>
+            <label for="" class="control-label" ng-show="condExpBuilder.attributeType.attributeType == 'DateAttribute'">Current Date + offset</label>            
+        </div>
+
+        <div class="col-xs-1">
+            <input type="text" name="datetimeOffsetValue" ng-model="condExpBuilder.datetimeOffsetValue" class="form-control" />
+        </div>
+
+        <div class="col-xs-2">
+            <select class="form-control" name="datetimeOffsetType"
+                    ng-options="option.value for option in timeOffSetDefaultValues track by option.key"
+                    ng-model="condExpBuilder.datetimeOffsetType" <!--ng-disabled="condExpBuilder.attributeType.attributeType == 'DateAttribute'"-->></select>
+        </div>
+
+    </div>
+
+
+
+        <div class="col-xs-1 classification-btnsmall">
+            <button ng-click="saveExpression(condExpBuilder)" class="btn btn-primary btn-xs pull-right" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+        </div>
+    <div class="col-md-12">
+        <div class="alertWrap attribute-container">
+            <div class="alert alert-danger alert-dismissable close-small alert-wrap" ng-show="condExpBuilder.errorMessages.length>0">
+                <button type="button" class="close" aria-hidden="true" ng-click="condExpBuilder.errorMessages=[]">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                </button>
+                <div ng-repeat="msgs in condExpBuilder.errorMessages" class="ng-binding ng-scope">
+                    {{msgs}}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <ul class="classification-dropdown marginTop10">
+            <li class="dropdown pull-right">
+                <button href="#" class="btn btn-default btn-xs dropdown-toggle" ng-click="showAttributeMatch(false, '',conditionsDisplay.length)" data-toggle="dropdown" role="button">Add Condition </button>
+                <!--<ul class="dropdown-menu">
+                    <li>
+                        <a href="#" ng-click="showAttributeMatch(false, '',conditionsDisplay.length)"> Attribute Match</a>
+                    </li>
+                </ul>-->
+            </li>
+        </ul>
+    </div>
+</div>
+
+

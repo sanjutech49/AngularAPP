@@ -1,0 +1,146 @@
+﻿<div id="addAttributeMap" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width700">
+        <div class="modal-content add-sub-object-main">
+            <form name="attributeMapForm" role="form" ng-init="setFormScope(this,'attributeMapForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" ng-click="openErrorScreen(attributeMapForm.$dirty,'attributeMap');" class="close" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                    <h4><b>{{action}} Attribute Map</b></h4>                    
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="attribute-model-title">Target Attribute</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <label class="control-label">Select Target Attribute<span class="form-mandatory">*</span></label>
+                                <select class="form-control" ng-model="attributeMap.targetAttribute" name="targetAttribute" ng-click="getAttributeTreeStructure(attributeMap.targetAttribute)">
+                                    <option ng-repeat="option in targetAttributeList" value="{{option}}"
+                                            ng-selected="attributeMap.targetAttribute.attributeId==option.attributeId">
+                                        {{option.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="specific-img-main-box clearfix marginTop15">
+                            <div class="clearfix">
+                                <tree-multi-select control-id="acceptedMapTypes" options-list="allMapTypes"
+                                                   selected-values="attributeMap.selectedMapTypes" create-content-node="createMapTypeInnerContentNode">
+                                </tree-multi-select>
+                                <div id="mapMultiSelectInnerDroppdown_parent">
+                                    <div id="mapFiltersDropdown" class="dropdown">
+                                        <div id="toggleMapFilters" href="#" data-toggle="dropdown"></div>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <div class="margin-10" data-ng-repeat="option in mapFilterOptions">
+                                                <label>
+                                                    <input type="checkbox" name="mapFilter" value="{{option.key}}"
+                                                           data-ng-checked="isMapOptionSelected(option.key)"
+                                                           data-ng-click="changeMapFilters(option.key)">
+                                                    {{option.value}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="mapPropertiesDropdown" class="dropdown">
+                                        <div id="toggleMapProperties" href="#" data-toggle="dropdown"></div>
+                                        <div class="dropdown-menu dropdown-menu-right width220">
+                                            <div class="margin-10 reference-dropdown-label">
+                                                <div class="attribute-map-chckradio">
+                                                    <div class="table-row marginbottom5">
+                                                        <div class="table-cell table-cel-padding">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="itemFilter" ng-click="checkFilterValues(mapProperties)" ng-model="mapProperties.itemFilter" value="All">
+                                                                    All
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="table-row marginbottom5">
+                                                        <div class="table-cell table-cel-padding width66">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="itemFilter" ng-click="checkFilterValues(mapProperties)" ng-model="mapProperties.itemFilter" value="First">
+                                                                    First
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="table-cell table-cel-padding">
+                                                            <input type="text" class="form-control" ng-model="mapProperties.firstItems">
+                                                        </div>
+                                                        <div class="table-cell table-cel-padding">
+                                                            <label for="">Items</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-row marginbottom5">
+                                                        <div class="table-cell table-cel-padding width66">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="itemFilter" ng-click="checkFilterValues(mapProperties)" ng-model="mapProperties.itemFilter" value="Last">
+                                                                    Last
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="table-cell table-cel-padding">
+                                                            <input type="text" class="form-control" ng-model="mapProperties.lastItems">
+                                                        </div>
+                                                        <div class="table-cell table-cel-padding">
+                                                            <label for="">Items</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="table-row marginbottom5" ng-show="mapProperties.isMultiple=='true'">
+                                                        <div class="table-cell table-cel-padding">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="itemFilter" ng-click="checkFilterValues(mapProperties)" ng-model="mapProperties.itemFilter" value="Range">
+                                                                    Range
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="table-cell table-cel-padding">
+                                                            <input type="text" class="form-control" ng-model="mapProperties.rangeFrom">
+                                                        </div>
+                                                        <div class="table-cell table-cel-padding">
+                                                            <label for="">to</label>
+                                                        </div>
+                                                        <div class="table-cell table-cel-padding">
+                                                            <input type="text" class="form-control" ng-model="mapProperties.rangeTo">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row top-margin-10 clearfix">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-filter fa-lg gray-color"></i>
+                                    Define Content Type Classification Filters
+                                </div>
+                                <div class="col-xs-6">
+                                    <i class="fa fa-plus fa-lg green-color"></i>
+                                    Define Item Filters
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(attributeMapForm.$dirty,'attributeMap');clearAcceptedMapTypes();" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button data-ng-click="saveAttributeMap()" ng-disabled="!(attributeMap.targetAttribute != null && attributeMap.targetAttribute != '' && attributeMap.selectedMapTypes != null && attributeMap.selectedMapTypes.length > 0)" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div>

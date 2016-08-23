@@ -1,0 +1,223 @@
+﻿<div ng-init="saveowenerslist();getSearchInterfaces();getlibrary('Owner');">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                <error-control attribute-scope="messageModel" ng-show="!messageModel.isHide"></error-control>
+            </div>
+            <div class="marginTop20">
+                <p>
+                     Adding one or more Owner Content Types, will require the images in this library to be associated with an image
+                    attribute within the selected content types when the image is added.
+                </p>
+                <p>
+                    First select the owning image attribute, then use the search options to specify the searches which can be used to
+                    find the owner content object when adding a new image.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs position-relative" role="tablist">
+                <li class="active"><a href="#" data-target="#ownercontenttypes" role="tab" data-toggle="tab">Owner Search Options</a></li>
+                <li><a href="#" data-target="#searchoptions" role="tab" data-toggle="tab">Search Options Order</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- Tab1 -->
+                <div role="tabpanel" class="tab-pane active" id="ownercontenttypes">
+                    <div class="clearfix marginTop15">
+
+                        <div class="clearfix">
+                            <div id="">
+                                <div id="">
+                                    <div class="filter-table-row">
+                                        <div class="filter-table-cell filter-table-cel-padding width-40-percent">
+                                            <div class="font-bold">Product Image Owners</div>
+                                            <div class="multi-select">
+                                                <div class="padding10 min-height200 cor-border">
+                                                    <div ng-repeat="data in listattributesSearchval" style="padding-left:10px">
+                                                        <a data-toggle="collapse" data-target="#add_{{data.domainIdentifier}}"> {{data.domainName}} </a>
+                                                        <div id="add_{{data.domainIdentifier}}" class="collapse in" ng-repeat="content in data.contentTypes" style="padding-left:10px">
+                                                            <span ng-init="filter_length = (content.defaultAttributes | filter: { attributeType : 'ImageReferenceAttribute' }).length"></span>
+                                                            <a data-toggle="collapse" ng-show="filter_length > 0" data-target="#first_add_{{content.identifier}}"> {{content.identifier}} </a>
+                                                            <div id="first_add_{{content.identifier}}" class="collapse" ng-class="{in:  $index == 0}"  style="padding-left:10px" ng-repeat="attr in content.defaultAttributes | filter:{ attributeType : 'ImageReferenceAttribute'}">
+                                                                <a ng-click="loadSearchList(attr.attributeId,content.contentTypeId,data.domainId,data.domainName,content.name )" ng-class="{selected : attr.attributeId === idSelected}"> {{attr.name}}  </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="padding10">
+                                                    <a href="#" class="" data-toggle="modal" data-target="#addOwner"><i class="fa fa-plus fa-lg green-color"></i> Select Owner Image Attributes</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="filter-table-cell filter-table-cel-padding width-60-percent">
+                                            <div class="font-bold">Product Search Interfaces</div>
+                                            <div class="multi-select">
+                                                <div class="padding10">
+                                                    <div class="def-table-row width-100-percent" ng-repeat="search in searchinterfaces">
+                                                        <div class="def-table-cel attribute-map-chckradio">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <!--<input type="checkbox" ng-click="updatesearchlist(search.searchInterfaceId,search.name)" name="dimentions" value="{{search.name}}"> {{search.name}}-->
+                                                                   
+                                                                    <input type="checkbox" name="{{search.name}}" value="{{search.name}}" ng-checked="search.selected"  ng-click="updatesearchlist(search.searchInterfaceId,search.name)">
+                                                                    {{search.name}}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <!--Edit search Interface name - Hiding this part based on james/ram confirmation. we can reuse this if required in future.-->
+
+                                                        <!--<div class="def-table-cel table-links align-right">
+                                                            <a href="#" data-toggle="modal" data-target='#renamesearchinterface' ng-click="editsearch(search)"><i class="fa fa-pencil"></i></a>
+                                                        </div>-->
+                                                    </div>
+
+                                                    <div class="settings-bottom-devider marginbottom5 clearfix"></div>
+
+                                                    <div class="def-table-row width-100-percent">
+                                                        <div class="def-table-cel attribute-map-chckradio">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox"> Selected Product (via Composition)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="def-table-cel table-links align-right">
+                                                            <a href="#" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <!-- Tab2 -->
+                <div role="tabpanel" class="tab-pane" id="searchoptions">
+                    <div class="marginTop15 padding5">
+                        <!--Drag and drop search Interface name - Hiding this part based on james/ram confirmation. we can reuse this if required in future.-->
+                        <!--<span class="font-bold">Drag and Drop the Selected Search Options to Specify the Order they will Appear</span>-->
+                        <!--<div ui-sortable="sortableOptionsA" class="cor-border padding10 min-height200 bg-white">
+                            <ul class="searchopt-order-list dragging-table" ng-repeat="data in searchlistoptions"> 
+                                <li>{{ data.searchName}} <span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li> 
+                            </ul>
+                        </div>-->
+                        <div class="cor-border padding10 min-height200 bg-white">
+                            <ul class="searchopt-order-list" ng-repeat="data in searchlistoptions">
+                                <li>{{ data.searchName}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 marginTop20 update-btnbg align-right padding10">
+        <button class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+        <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="updateOwnerType(searchlistoptions)"><i class="fa fa-pencil"></i> Save</button>
+    </div>
+    <!-- Image library File Types here -->
+    <div class="clearfix"></div>
+    <!-- Modals here ------------------------------------------------------------------------------------------------------------------->
+    <!-- Rename Search Interface modal -->
+
+    <!-- Rename search Interface name - Hiding this part based on james/ram confirmation. we can reuse this if required in future.-->
+
+
+    <!--<div id="renamesearchinterface" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+        <div class="modal-dialog model-width400">
+            <div class="modal-content add-sub-object-main">
+                <form name="editImageSearchOptionSectionForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(editImageSearchOptionSectionForm.$dirty,'renamesearchinterface');"
+                                data-toggle="modal" data-target="#ErrorScreen">
+                            &times;
+                        </button> 
+                        <h4><b>Rename Search Interface</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bottom-gray-border font-bold">
+                            Selected Search Interface
+                        </div>
+                        <div class="specific-img-main-box marginTop15">
+                            <div id="editImageSearchOption">{{editsearch.oldName}}</div>
+                        </div>
+                        <div class="bottom-gray-border marginTop15 font-bold">
+                            Search Name
+                        </div>
+                        <div class="top-margin-5 marginbottom10">
+                            <input id="imageSearchOptionName" class="form-control" type="text" ng-model="editsearch.name" value="{{editsearch.name}}" />
+                            <input id="imageSearchOptionName" class="form-control" type="hidden" ng-model="editsearch.searchInterfaceId" value="{{editsearch.searchInterfaceId}}" />
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <div class="btn-left"><button type="button" class="btn btn-grey" ng-click="openErrorScreen(editImageSearchOptionSectionForm.$dirty,'renamesearchinterface');" data-toggle="modal" data-target="#ErrorScreen"> <i class="fa fa-times"></i> Discard</button></div>
+                            <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="savesearchval(editsearch)"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>-->
+</div>
+<!--Add Owner MODAl START------------------------------------------------->
+<div id="addOwner" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addOwner">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="addOwner" novalidate>
+                <div class="modal-header">                   
+                    <button type="button" class="close" ng-click="openErrorScreen(addOwner.$dirty,'addOwner');"
+                            data-toggle="modal" data-target="#ErrorScreen">
+                        &times;
+                    </button>   
+                    <h4><b>Add Owner</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="attribute-model-title">Configure Owner Search Options</div>
+                            <p>Please select the image Attribute which a new Product Image must be assigned to.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class="font-bold">Product Image Owners</span>
+                            <div class="css-treeview padding10 min-height200 cor-border">
+                                <div  class="collapse in" ng-repeat="data in listattributesval" style="padding-left:10px">
+                                    <a data-toggle="collapse " data-target="#{{data.domainIdentifier}}"> {{data.domainName}} </a>
+                                    <div id="{{data.domainIdentifier}}" class="collapse in" ng-repeat="content in data.contentTypes" style="padding-left:10px">
+                                        <span ng-init="filter_len = (content.defaultAttributes | filter: { attributeType : 'ImageReferenceAttribute' }).length"></span>
+
+                                        <a data-toggle="collapse" ng-show="filter_len > 0" data-target="#first_{{content.identifier}}"> {{content.identifier}}   </a>
+
+                                        <div id="first_{{content.identifier}}" class="collapse" ng-class="{in:  $index == 0}"  style="padding-left:10px" ng-repeat="attr in content.defaultAttributes | filter:{ attributeType : 'ImageReferenceAttribute' } "> 
+                                            <a ng-click="addownersearch(attr.attributeId,content.contentTypeId,attr.name)" ng-class="{selected : attr.attributeId === idSelectedVote}">{{filtered}} {{attr.name}} {{data.contentTypeId}} </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">                        
+                        <div class="btn-left"><button type="button" class="btn btn-grey" ng-click="openErrorScreen(addOwner.$dirty,'addOwner');" data-toggle="modal" data-target="#ErrorScreen"> <i class="fa fa-times"></i> Discard</button></div>
+                        <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="saveowenerslist()"> <i class="fa fa-pencil" ></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div>

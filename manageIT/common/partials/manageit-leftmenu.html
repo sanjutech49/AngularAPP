@@ -1,0 +1,25 @@
+﻿<div id="MainMenu"> 
+    <div class="list-group">
+        <div ng-repeat="mainMenu in leftMenuItems" class="main-menu">
+            <a href="#" data-target="#main{{$index}}" ng-class="{'icon-true':mainMenu.nestedMenu.length > 0, 'seperator': $index ==2, 'active-left-menu':  leftactivemenu1 == mainMenu.url }" class="list-group-item" data-toggle="collapse" ng-click="expandcollapse('main'+$index,mainMenu.url,mainMenu.nestedMenu)" data-parent="#MainMenu">
+                {{mainMenu.itemName}}
+            </a>
+            <div class="collapse" id="main{{$index}}" ng-class="{'in': $index ==2}" expandCollapse>
+                <div ng-repeat="subMenu in mainMenu.nestedMenu" class="sub-menu">                    
+                    <a ng-hide="subMenu.itemName == 'Permissions'"href="#" data-target="#sub{{$index}}{{divid}}" class="list-group-item submenu" ng-class="{'active-left-menu': leftactivemenu == subMenu.url && leftactivemenu1 ==leftactivemenu,'icon-true':subMenu.nestedMenu.length > 0 }" data-toggle="collapse" data-parent="#sub{{$index}}" ng-click="expandcollapse('sub'+$index+divid, subMenu.url, '')">
+                        {{ subMenu.itemName }}
+                    </a >
+                    <a href="#" ng-show="subMenu.itemName == 'Permissions'" data-target="#sub{{$index}}{{divid}}" class="list-group-item submenu" ng-class="{'icon-true':subMenu.nestedMenu.length > 0}" data-toggle="collapse" data-parent="#sub{{$index}}" ng-click="expandcollapse('sub'+$index+divid, subMenu.url, '')">
+                        {{ subMenu.itemName }}
+                    </a>                  
+
+                    <div class="collapse" id="sub{{$index}}{{divid}}" ng-show="subMenu.nestedMenu.length > 0">
+                        <div ng-repeat="childMenu in subMenu.nestedMenu">
+                            <a href="" class="list-group-item child-menu" ng-click="loadDetails(childMenu.url)" ng-class="{'active-left-menu': leftactivemenu == childMenu.url}">{{ childMenu.itemName }} </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   

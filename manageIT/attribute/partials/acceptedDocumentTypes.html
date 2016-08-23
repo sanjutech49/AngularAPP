@@ -1,0 +1,120 @@
+﻿<div id="acceptedDocumentTypesAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="acceptedDocumentTypesAttributeForm" role="form" ng-init="setFormScope(this,'acceptedDocumentTypesAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="clearAcceptedDocTypes();openErrorScreen(acceptedDocumentTypesAttributeForm.$dirty,'acceptedDocumentTypes',true,'documentReferenceAttributeForm');">&times;</button>
+                    <h4><b>Accepted Document Types</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="attribute-model-title">Configure Document Reference</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--<div class="col-xs-4">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="docType" value="1" ng-checked="(documentReferenceAttribute.docApplyType == '1')" data-ng-click="changeDocApplyType('1');" />
+                                        <span><b>Any Document Type</b></span>
+                                    </label>
+                                </div>
+                            </div>-->
+                            <div class="col-xs-4">
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="docType" value="2" ng-checked="(documentReferenceAttribute.docApplyType == '2')" data-ng-click="changeDocApplyType('2');" />
+                                        <span><b>Specific Document Types</b></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="specific-img-main-box clearfix marginTop15" data-ng-show="(documentReferenceAttribute.docApplyType == '2')">
+                            <div class="clearfix">
+                                <tree-multi-select control-id="acceptedDocTypes" options-list="allDocTypes"
+                                                   selected-values="documentReferenceAttribute.selectedDocTypes" create-content-node="createDocTypeInnerContentNode">
+                                </tree-multi-select>
+
+                                <div id="docMultiSelectInnerDroppdown_parent">
+                                    <div id="docPropertiesDropdown" class="dropdown">
+                                        <div id="toggleDocProperties" href="#" data-toggle="dropdown"></div>
+                                        <div class="dropdown-menu dropdown-menu-right width220">
+                                            <div class="margin-10 reference-dropdown-label">
+                                                <div>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" data-ng-model="docProperties.canAddNewDocs" />
+                                                            User can Upload New Documents
+                                                        </label>
+                                                    </div>
+                                                    </div>
+
+                                                <!--<div class="specific-img-main-box" data-ng-show="docProperties.canAddNewDocs">
+                                                    <p><b>Link New Documents to</b></p>
+                                                    <div data-ng-repeat="option in linkDocOptions">
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="linkNewDoc" value="{{option.key}}"
+                                                                       data-ng-checked="(docProperties.linkNewDocOption == option.key)"
+                                                                       data-ng-model="docProperties.linkNewDocOption">
+                                                                {{option.value}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" data-ng-model="docProperties.canLinkDocs" />
+                                                        User can Link to Existing Documents
+                                                    </label>
+                                                </div>
+                                                <div data-ng-show="docProperties.canLinkDocs">
+                                                    <button class="btn btn-default btn-xs" type="button" data-ng-click="showDocLinkSources();" data-toggle="modal" data-target="#linkedDocumentSourcesAttribute">Specify Linking Sources</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="docFiltersDropdown" class="dropdown">
+                                        <div id="toggleDocFilters" href="#" data-toggle="dropdown"></div>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <div class="margin-10" data-ng-repeat="option in docFilterOptions">
+                                                <label>
+                                                    <input type="checkbox" name="docFilter" value="{{option.key}}"
+                                                           data-ng-checked="isDocOptionSelected(option.key)"
+                                                           data-ng-click="changeDocFilters(option.key)">
+                                                    {{option.value}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row top-margin-10 clearfix">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-plus fa-lg green-color"></i>
+                                    Define Document Addition & Linking Properties
+                                </div>
+                                <div class="col-xs-6">
+                                    <i class="fa fa-filter fa-lg gray-color"></i>
+                                    Define Document Classification Filters
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="clearAcceptedDocTypes();openErrorScreen(acceptedDocumentTypesAttributeForm.$dirty,'acceptedDocumentTypes',true,'documentReferenceAttributeForm');discardAcceptedDocTypes();" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button data-ng-click="saveAcceptedDocTypes()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

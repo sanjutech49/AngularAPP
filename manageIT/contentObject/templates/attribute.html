@@ -1,0 +1,1814 @@
+﻿<div ng-switch="option.attributeType">
+    <!-- List attribute Start --------->
+    <div class="content-object-trow marginbottom10" ng-switch-when="ListAttribute">
+        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+            <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+        </div>
+        <div class="content-object-tcell list-attribute-button list-attribute-dropdown" ng-init="jsonListfromObject(option)" id="option.attributeId">
+            <!--<select class="form-control" ng-model="selected" data-ng-options="opt for opt in option.listValues" required></select>-->
+            <div ng-switch="option.displayInputType" ng-if="option.listType==0">
+                <div ng-switch-when="2">
+                    <div ng-dropdown-multiselect="" options="option.listItem" selected-model="option.selectedItem" radiobuttons="true" extra-settings="option.listsettings"></div>
+                </div>
+                <!--autoComplete-->
+                <div ng-switch-when="3">
+                    <multiple-autocomplete ng-model="option.selectedItem" object-property="label" suggestions-arr="option.listItem">
+                    </multiple-autocomplete>
+                </div>
+                <div ng-switch-default>
+                    <div ng-dropdown-multiselect="" options="option.listItem" selected-model="option.selectedItem" extra-settings="option.listsettings"></div>
+                </div>
+            </div>
+
+
+            <div ng-switch="option.displayInputType" ng-if="option.listType==1">
+                <div ng-switch-when="0">
+                    <div ng-dropdown-multiselect="" options="option.listItem" selected-model="option.selectedItem" checkboxes="true" extra-settings="option.listsettings"></div>
+                </div>
+                <div ng-switch-when="2">
+                    <div ng-dropdown-multiselect="" options="option.listItem" selected-model="option.selectedItem" radiobuttons="true" extra-settings="option.listsettings"></div>
+                </div>
+                <!--autoComplete-->
+                <div ng-switch-when="3">
+                    <multiple-autocomplete ng-model="option.selectedItem" object-property="label" suggestions-arr="option.listItem">
+                    </multiple-autocomplete>
+                </div>
+                <div ng-switch-when="4">
+                    <select size="{{option.listItem.length}}" multiple ng-model="option.available" ng-options="litem as litem.label for litem in option.listItem" style="width: 400px"></select>
+                    <div class="center-align list-multiple-select-btnwrap">
+                        <button class="btn-default add_field_button" value="Down" ng-click="moveItem(option.available[0],option.listItem,option.selectedItem);"><i class="fa fa-arrow-down"></i></button>
+                        <button class="btn-default add_field_button" value="Up" ng-click="moveItem(option.selectedlistItem[0],option.selectedItem,option.listItem);"><i class="fa fa-arrow-up"></i></button>
+                    </div>
+                    <label class="pull-right" for="selected">Selected</label>
+                    <select size="{{option.selectedItem.length}}" multiple ng-model="option.selectedlistItem" ng-options="litem as litem.label for litem in option.selectedItem" style="width: 400px"></select>
+                </div>
+                <div ng-switch-default>
+                    <div ng-dropdown-multiselect="" options="option.listItem" selected-model="option.selectedItem" extra-settings="option.listsettings"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- List attribute End--------->
+    <!-- Decimal Attribute start -->
+    <div class="content-object-trow marginbottom10" ng-switch-when="DecimalAttribute">
+        <div class="content-object-tcell paddingRight20 width180 labels-bold" ng-init="setDefaultValue(option,option.defaultValue)">
+            <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+        </div>
+
+        <div ng-repeat="item in option.defaultValues track by $index" ng-model="option.defaultValues" ng-init="subForm='tags'+$index">
+            <ng-form name="{{subForm}}">
+                <div class="content-object-tcell position-relative">
+                    <div class="dollar-symbol" ng-if="option.valueType!=0">{{decimalDisplaySymbol(option.valueType)}}</div>
+                </div>
+                <div class="content-object-tcell position-relative">
+                    <input type="text" id="{{option.attributeId}}" name="deciAttr" ng-model="item.value" precision="option.decimalPlaces" class="form-control"
+                           ng-readonly="option.readOnly" decimal-only />
+                </div>
+            </ng-form>
+            <div class="content-object-tcell paddingLeft5 listbox-wrap" style="float:right" ng-if="option.multipleValues.allowMultipleValues">
+                <a href="#"><i class="fa fa-caret-down" aria-hidden="true" ng-if="option.defaultValues.length>1" ng-click="moveDown($index,option)"></i></a>
+                <a href="#"><i class="fa fa-caret-up" aria-hidden="true" ng-if="option.defaultValues.length>1" ng-click="moveUp($index,option)"></i></a>
+                <button class="btn btn-default add_field_button" ng-if="$index==0" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,option)">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <button class="btn btn-red add_field_button" ng-if="$index>0" ng-click="removeItem($index,option)"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+    </div>
+    <!-- Decimal Attribute End -->
+    <!-- YesNo Attribute start -->
+    <div class="content-object-trow marginbottom10" ng-switch-when="YesNoAttribute">
+        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+            <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+        </div>
+
+        <div class="content-object-tcell list-attribute-button list-attribute-dropdown">
+            <div ng-switch="option.displayType" ng-init="jsonListfromObject(option)" id="option.attributeId" ng-readonly="option.readOnly">
+                <div ng-switch-when="0">
+                    <div ng-dropdown-multiselect="" options="option.listItem" selected-model="option.selectedItem" checkboxes="true" extra-settings="option.listsettings"></div>
+                </div>
+                <div ng-switch-when="1">
+                    <div ng-dropdown-multiselect="" options="option.listItem" selected-model="option.selectedItem" radiobuttons="true" extra-settings="option.listsettings"></div>
+                </div>
+                <div ng-switch-default>
+                    <div ng-dropdown-multiselect="" options="option.listItem" selected-model="option.selectedItem" extra-settings="option.listsettings"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="option.multipleValues.allowMultipleValues">
+            <button class="btn btn-default add_field_button" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,$event,option.attributeId)">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+        </div>
+
+    </div>
+    <!-- YesNo Attribute start -->
+    <!-- Image Reference Attribute start -->
+    <div class="productimage-wrap marginbottom15" ng-switch-when="ImageReferenceAttribute">
+        <div class="row marginbottom5">
+            <div class="col-xs-12">
+                <div class="col-xs-5">
+                    <div class="row">
+                        <!--<div class="paddingTop5 font-bold">{{option.name}}<span class="mandatory" ng-if="option.mandatory==true">*</span></div>-->
+                        <div class="paddingTop5 font-bold" display-name label-name="option.name" mandatory="option.mandatory"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-7 clearfix">
+                    <div class="row">
+                        <div class="flat-right marginbottom5">
+                            <ul class="image-ref-link-dropdown marginTop10">
+
+                                <li class="dropdown pull-right button-width">
+                                    <button href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Link</button>
+
+                                    <ul class="dropdown-menu">
+                                        <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                        <li><a href="#">Product Image</a></li>
+                                        <li><a href="#">Logo</a></li>
+                                    </ul>
+
+                                </li>
+
+                                <li class="image-browse-inupt userinterface-upload image-nospace">
+                                    <label class="fileContainer">
+                                        Add
+                                        <input type="file" ng-model="option" media-preview accept="image/*" previewcontainer="itemContainer" doctype="ImageReferenceAttribute" />
+                                    </label>
+                                    <!--<input type="file" class="custom-file-input" ng-model="option" media-preview accept="image/*" previewcontainer="itemContainer" doctype="ImageReferenceAttribute">-->
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-bottom-devider clearfix"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="image-ref-links">
+                    <ul>
+                        <li ng-repeat="role in option.imageRoles"><a href="#" ng-class="(role.isDefault==true?'active':'')" ng-click="setSelectedItem(option.imageRoles,role)">{{role.roleName}}</a></li>
+                    </ul>
+                </div>
+                <!-- Subobject-image reference left menu -->
+                <script>
+                                                $('.image-ref-links ul li a').click(function (e) {
+                                                    e.preventDefault(); //prevent the link from being followed
+                                                    $('.image-ref-links ul li a').removeClass('active');
+                                                    $(this).addClass('active');
+                                                });
+                </script>
+            </div>
+
+            <div class="col-xs-9">
+                <div class="image-ref-imagewrap padding5 min-height150">
+                    <ul class="productimage">
+                        <li ng-repeat="imgItem in option.addedImages" ng-model="option.addedImages">
+                            <div class="product-image-wrap">
+
+                                <!-- settings icon -->
+                                <div class="product-image-settings-dropdown marginTop10">
+
+                                    <div class="dropdown">
+                                        <a href="#" class="settings-icon dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                            <li><a href="#" ng-click="downloadItem(imgItem)">Download</a></li>
+                                            <li><a href="#">Formats</a></li>
+                                            <li><a href="#">Properties</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#" ng-click="removeItem($index,option)">Remove</a></li>
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                                <!-- settings icon -->
+
+                                <div class="productimage-border">
+                                    <img src="{{imgItem.fileContent}}" class="media-preview resize_fit_center" />
+                                </div>
+                                <div class="product-code-text">RS124124</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Image Reference Attribute end -->
+    <!-- Document Reference Attribute start -->
+    <div class="productimage-wrap marginbottom15" ng-switch-when="DocumentReferenceAttribute">
+        <div class="row marginbottom5">
+            <div class="col-xs-12">
+                <div class="col-xs-5">
+                    <div class="row">
+                        <!--<div class="paddingTop5 font-bold">{{option.name}}<span class="mandatory" ng-if="option.mandatory==true">*</span></div>-->
+                        <div class="paddingTop5 font-bold" display-name label-name="option.name" mandatory="option.mandatory"></div>
+                    </div>
+                </div>
+                <div class="col-xs-7 clearfix">
+                    <div class="row">
+                        <div class="flat-right marginbottom5">
+                            <ul class="image-ref-link-dropdown marginTop10">
+
+                                <li class="dropdown pull-right button-width">
+                                    <button href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Link</button>
+
+                                    <ul class="dropdown-menu">
+                                        <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                        <li><a href="#">Product Image</a></li>
+                                        <li><a href="#">Logo</a></li>
+                                    </ul>
+
+                                </li>
+
+                                <li class="userinterface-upload image-nospace pull-right image-browse-inupt">
+                                    <label class="fileContainer">
+                                        Add
+                                        <input type="file" ng-model="option" media-preview accept="application/msword" previewcontainer="itemContainer" doctype="DocumentReferenceAttribute" />
+                                    </label>
+                                    <!--<input type="file" class="custom-file-input" ng-model="option" media-preview accept="application/msword" previewcontainer="itemContainer" doctype="DocumentReferenceAttribute">-->
+                                    <!--<button href="#"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" ng-model="option.addedDocuments" ng-click="addMediaAttr(option,'DocumentReferenceAttribute')"  media-preview accept="image/*">Upload</button>-->
+                                    <!--<ul class="dropdown-menu">
+                                        <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                        <li><a href="#">Product Image</a></li>
+                                        <li><a href="#">Logo</a></li>
+                                    </ul>-->
+
+                                </li>
+
+                                <li class="pull-right button-width">
+                                    <button href="#" class="btn btn-default" data-toggle="modal" data-target="#CreateFolder">Create Folder</button>
+
+                                </li>
+
+                                <li class="dropdown pull-right subobject-documentref-input">
+                                    <select class="form-control">
+                                        <option>Icons</option>
+                                        <option>Icons</option>
+                                        <option>Icons</option>
+                                    </select>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-bottom-devider clearfix"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="image-ref-links">
+                    <ul class="">
+                        <li ng-repeat="role in option.documentRoles"><a href="#" ng-class="(role.isDefault==true?'active':'')" ng-click="setSelectedItem(option.documentRoles,role)">{{role.roleName}}</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="col-xs-9">
+                <div class="image-ref-imagewrap padding5 min-height150">
+                    <ul class="productimage">
+                        <li ng-repeat="docItem in option.addedDocuments" ng-model="option.addedDocuments">
+                            <div class="product-image-wrap">
+
+                                <!-- settings icon -->
+                                <div class="product-image-settings-dropdown marginTop10">
+
+                                    <div class="dropdown">
+                                        <a href="#" class="settings-icon dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                            <li><a href="#">Download</a></li>
+                                            <li><a href="#">Formats</a></li>
+                                            <li><a href="#">Properties</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#" ng-click="removeItem($index,option)">Remove</a></li>
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                                <!-- settings icon -->
+
+                                <div class="productimage-border">
+                                    <img src="{{docItem.docIcon}}" class="media-preview" />
+                                </div>
+                                <div class="product-code-text">{{docItem.fileName}}</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  Document Reference Attribute end -->
+    <!-- Date Attribute start -->
+    <div class="content-object-trow marginbottom10" ng-switch-when="DateAttribute">
+        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+            <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+        </div>
+        <div class="content-object-tcell position-relative date-icon" ng-init="setDefaultDateTime(option.defaultDateTime,option.defaultDateTimeValues,option)">
+            <input type="text" id="{{option.attributeId}}" name="{{'dateAttr'+$index}}" ng-model="option.selectedDate" datepicker-options="option.dateOptions" class="input-medium form-control"
+                   uib-datepicker-popup="{{option.placeHolder}}"
+                   is-open="datePickerControl1.minOpened" close-text="Close"
+                   ng-focus="openDateCalendar1(0)"
+                   ng-click="openDateCalendar1(0)" ng-readonly="option.readOnly" alt-input-formats="option.placeHolder" placeholder="{{option.placeHolder}}" />
+            <i class="fa fa-calendar form-control-feedback" ng-click="openDateCalendar1(0)"></i>
+        </div>
+        <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="option.multipleValues.allowMultipleValues">
+            <button class="btn btn-default add_field_button" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,$event,option.attributeId)">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+        </div>
+
+    </div>
+    <!-- Date Attribute end -->
+    <!-- Time Attribute start -->
+    <div class="content-object-trow marginbottom10" ng-switch-when="TimeAttribute">
+        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+            <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+        </div>
+
+        <div class="content-object-tcell">
+            <input type="text" id="{{option.attributeId}}" ng-model="option.minDateTimeValues.time" ng-minlength="option.minimumValue" maxlength="{{option.maximumValue}}" ng-maxlength="option.maximumValue" class="input-medium form-control"
+                   ng-attr-placeholder="{{option.timeFormatDefaultValues[option.timeFormat].placeHolder}}" ng-readonly="option.readOnly" />
+        </div>
+
+        <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="option.multipleValues.allowMultipleValues">
+            <button class="btn btn-default add_field_button" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,$event,option.attributeId)">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+        </div>
+
+    </div>
+    <!-- Time Attribute end -->
+    <!-- DateTime Attribute start -->
+    <div class="content-object-trow marginbottom10" ng-switch-when="DateTimeAttribute">
+        <div>
+            <datetime-control control-model="option"></datetime-control>
+        </div>
+    </div>
+    <!-- DateTime Attribute end -->
+    <!-- Integer Attribute start -->
+    <div class="content-object-trow marginbottom10" ng-switch-when="IntegerAttribute">
+        <div class="content-object-tcell paddingRight20 width180 labels-bold" ng-init="setDefaultValue(option,option.defaultValue)">
+            <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+        </div>
+        <div ng-repeat="item in option.defaultValues track by $index" ng-model="option.defaultValues" ng-init="subForm='tags'+$index">
+            <ng-form name="{{subForm}}">
+                <div class="content-object-tcell position-relative">
+                    <input type="text" id="{{option.attributeId}}" name="intAttr" ng-model="item.value" ng-minlength="option.minimumValue" maxlength="{{option.maximumValue}}" ng-maxlength="option.maximumValue" class="input-medium form-control"
+                           ng-readonly="option.readOnly" only-number0999 />
+                </div>
+            </ng-form>
+            <div class="content-object-tcell paddingLeft5 listbox-wrap" style="float:right" ng-if="option.multipleValues.allowMultipleValues">
+                <a href="#"><i class="fa fa-caret-down" aria-hidden="true" ng-if="option.defaultValues.length>1" ng-click="moveDown($index,option)"></i></a>
+                <a href="#"><i class="fa fa-caret-up" aria-hidden="true" ng-if="option.defaultValues.length>1" ng-click="moveUp($index,option)"></i></a>
+                <button class="btn btn-default add_field_button" ng-if="$index==0" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,option)">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <button class="btn btn-red add_field_button" ng-if="$index>0" ng-click="removeItem($index,option)"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+    </div>
+    <!-- Integer Attribute end -->
+    <!-- Copy Attribute start -->
+    <div class="form-group" ng-switch-when="CopyAttribute">
+        <div class="row marginbottom5">
+            <div class="col-xs-12">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <!--<div class="paddingTop10 font-bold">{{option.name}}<span class="mandatory" ng-if="option.mandatory==true">*</span></div>-->
+                        <div class="paddingTop10 font-bold" display-name label-name="option.name" mandatory="option.mandatory"></div>
+                    </div>
+                </div>
+                <div class="col-xs-6 clearfix">
+                    <div class="row">
+                        <div class="flat-right marginbottom5 " ng-init="getAllContext(option)">
+                            <div ng-repeat="context in option.contextValues">
+                                <select class="form-control select-option width150" ng-model="option.selectedContextId" ng-change=""
+                                        data-ng-options="conItem.id as conItem.name for conItem in context.Values"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-bottom-devider clearfix"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="content-object-trow marginbottom10" data-ng-repeat="field in option.copyFieldDetails">
+
+                    <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                        <label class="control-label" for="">{{field.name}}<span class="mandatory require-star" ng-if="field.mandatory==true">*</span></label>
+                    </div>
+
+                    <div class="content-object-tcell" ng-if="field.format==0">
+                        <input type="text" id="{{field.attributeId}}" width="{{field.fieldWidth+'px'}}" ng-model="field.defaultValue" ng-minlength="field.minimumValue" maxlength="{{field.maximumValue}}" ng-maxlength="field.maximumValue" class="input-medium form-control" ng-required="{{field.mandatory}}"
+                               ng-readonly="field.readOnly" />
+                    </div>
+
+                    <div class="content-object-tcell" ng-if="field.format==1">
+                        <textarea id="{{field.attributeId}}" rows="4" width="{{field.fieldWidth+'px'}}" ng-model="field.defaultValue" ng-minlength="field.minimumValue" maxlength="{{field.maximumValue}}" ng-maxlength="field.maximumValue" class="input-medium form-control" ng-required="{{field.mandatory}}"
+                                  ng-readonly="field.readOnly" />
+                    </div>
+
+
+                    <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="field.multipleValues.allowMultipleValues">
+                        <button class="btn btn-default add_field_button" id="{{field.attributeId +'_btn'}}" targetId="{{field.attributeId}}" ng-click="addMultipleValues(field.multipleValues.minimumValue,field.multipleValues.maximumValue,$event,field.attributeId)">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Copy Attribute end -->
+    <!-- SubObject Attribute start -->
+    <div class="productimage-wrap marginbottom10 labels-bold" ng-switch-when="SubObjectAttribute">
+        <div class="row marginbottom10">
+            <div class="col-xs-12">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <!--<b class="paddingTop10 display-block">{{option.name}}<span class="mandatory" ng-if="option.mandatory==true">*</span></b>-->
+                        <div class="paddingTop10 display-block font-bold" display-name label-name="option.name" mandatory="option.mandatory"></div>
+                    </div>
+                </div>
+                <div class="col-xs-6 clearfix">
+                    <div class="row">
+                        <div class="flat-right marginbottom5 listbox-wrap" ng-if="option.multipleValues.allowMultipleValues">
+                            <button class="btn btn-default btn-xs add_field_button" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,option)">
+                                <i class="fa fa-plus"></i> Add {{option.name}}
+                            </button>
+                            <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-bottom-devider clearfix"></div>
+            </div>
+        </div>
+        <div class="add-styles-wrap clearfix">
+            <div ng-init="getSubObjects(option)">
+                <div class="marginbottom5">
+                    <div ng-switch="option.editSubObjectTypeUsing" ng-init="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,option)">
+                        <!--Table Interface-->
+                        <div ng-switch-when="1" style="border-bottom:1px solid #000;">
+                            <div class="editcontent-table">
+                                <table class="table table-bordered table-condensed">
+                                    <tr>
+                                        <th ng-repeat="header in option.initDefaultValue"><label class="control-label" for="">{{header.name}}<span class="mandatory require-star" ng-if="subObj.mandatory==true">*</span></label></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr ng-repeat="subObj in option.defaultValues track by $index" ng-model="option.defaultValues" ng-init="subForm='tags'+$index">
+                                        <td ng-repeat="header in option.initDefaultValue">
+                                            <div ng-switch="header.attributeType">
+                                                <!-- List attribute Start --------->
+                                                <div class="content-object-trow marginbottom10" ng-switch-when="ListAttribute">
+                                                    <div class="content-object-tcell list-attribute-button list-attribute-dropdown" ng-init="jsonListfromObject(subObj)" id="subObj.attributeId">
+                                                        <!--<select class="form-control" ng-model="selected" data-ng-options="opt for opt in subObj.listValues" required></select>-->
+                                                        <div ng-switch="subObj.displayInputType" ng-if="subObj.listType==0" ng-readonly="subObj.readOnly">
+                                                            <div ng-switch-when="2">
+                                                                <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" radiobuttons="true" extra-settings="subObj.listsettings"></div>
+                                                            </div>
+                                                            <div ng-switch-default>
+                                                                <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" extra-settings="subObj.listsettings"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div ng-switch="subObj.displayInputType" ng-if="subObj.listType==1" ng-readonly="subObj.readOnly">
+                                                            <div ng-switch-when="1">
+                                                                <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" checkboxes="true" extra-settings="subObj.listsettings"></div>
+                                                            </div>
+                                                            <div ng-switch-when="2">
+                                                                <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" radiobuttons="true" extra-settings="subObj.listsettings"></div>
+                                                            </div>
+                                                            <div ng-switch-default>
+                                                                <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" extra-settings="subObj.listsettings"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- List attribute End--------->
+                                                <!-- Decimal Attribute start -->
+                                                <div class="content-object-trow marginbottom10" ng-switch-when="DecimalAttribute">
+                                                    <div ng-repeat="item in subObj.defaultValues track by $index" ng-model="subObj.defaultValues" ng-init="subForm='tags'+$index">
+                                                        <ng-form name="{{subForm}}">
+                                                            <div class="content-object-tcell position-relative">
+                                                                <div class="dollar-symbol" ng-if="subObj.valueType!=0">{{decimalDisplaySymbol(subObj.valueType)}}</div>
+                                                            </div>
+                                                            <div class="content-object-tcell position-relative">
+                                                                <input type="text" id="{{subObj.attributeId}}" name="deciAttr" ng-model="item.value" class="form-control"
+                                                                       ng-readonly="subObj.readOnly" decimal-only />
+                                                            </div>
+                                                        </ng-form>
+                                                    </div>
+                                                </div>
+                                                <!-- Decimal Attribute End -->
+                                                <!-- YesNo Attribute start -->
+                                                <div class="content-object-trow marginbottom10" ng-switch-when="YesNoAttribute">
+                                                    <div class="content-object-tcell list-attribute-button list-attribute-dropdown">
+                                                        <div ng-switch="subObj.displayType" ng-init="jsonListfromObject(subObj)" id="subObj.attributeId" ng-readonly="subObj.readOnly">
+                                                            <div ng-switch-when="0">
+                                                                <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" checkboxes="true" extra-settings="subObj.listsettings"></div>
+                                                            </div>
+                                                            <div ng-switch-when="1">
+                                                                <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" radiobuttons="true" extra-settings="subObj.listsettings"></div>
+                                                            </div>
+                                                            <div ng-switch-default>
+                                                                <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" extra-settings="subObj.listsettings"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- YesNo Attribute start -->
+                                                <!-- Image Reference Attribute start -->
+                                                <div class="productimage-wrap marginbottom15" ng-switch-when="ImageReferenceAttribute">
+                                                    <div class="row marginbottom5">
+                                                        <div class="col-xs-7 clearfix">
+                                                            <div class="row">
+                                                                <div class="flat-right marginbottom5">
+                                                                    <ul class="image-ref-link-dropdown marginTop10">
+
+                                                                        <li class="dropdown pull-right button-width">
+                                                                            <button href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Link</button>
+
+                                                                            <ul class="dropdown-menu">
+                                                                                <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                                                                <li><a href="#">Product Image</a></li>
+                                                                                <li><a href="#">Logo</a></li>
+                                                                            </ul>
+
+                                                                        </li>
+
+                                                                        <li class="image-browse-inupt userinterface-upload image-nospace">
+                                                                            <label class="fileContainer">
+                                                                                Add
+                                                                                <input type="file" ng-model="subObj" media-preview accept="image/*" previewcontainer="itemContainer" doctype="ImageReferenceAttribute" />
+                                                                            </label>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="settings-bottom-devider clearfix"></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="image-ref-links">
+                                                                <ul>
+                                                                    <li ng-repeat="role in subObj.imageRoles"><a href="#" ng-class="(role.isDefault==true?'active':'')" ng-click="setSelectedItem(subObj.imageRoles,role)">{{role.roleName}}</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <!-- Subobject-image reference left menu -->
+                                                            <script>
+                                                                                            $('.image-ref-links ul li a').click(function (e) {
+                                                                                                e.preventDefault(); //prevent the link from being followed
+                                                                                                $('.image-ref-links ul li a').removeClass('active');
+                                                                                                $(this).addClass('active');
+                                                                                            });
+                                                            </script>
+                                                        </div>
+
+                                                        <div class="col-xs-9">
+                                                            <div class="image-ref-imagewrap padding5 min-height150">
+                                                                <ul class="productimage">
+                                                                    <li ng-repeat="imgItem in subObj.addedImages" ng-model="subObj.addedImages">
+                                                                        <div class="product-image-wrap">
+
+                                                                            <!-- settings icon -->
+                                                                            <div class="product-image-settings-dropdown marginTop10">
+
+                                                                                <div class="dropdown">
+                                                                                    <a href="#" class="settings-icon dropdown-toggle" data-toggle="dropdown">
+                                                                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                                                                    </a>
+
+                                                                                    <ul class="dropdown-menu">
+                                                                                        <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                                                                        <li><a href="#" ng-click="downloadItem(imgItem)">Download</a></li>
+                                                                                        <li><a href="#">Formats</a></li>
+                                                                                        <li><a href="#">Properties</a></li>
+                                                                                        <li class="divider"></li>
+                                                                                        <li><a href="#" ng-click="removeItem($index,subObj)">Remove</a></li>
+                                                                                    </ul>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <!-- settings icon -->
+
+                                                                            <div class="productimage-border">
+                                                                                <img src="{{imgItem.fileContent}}" class="media-preview resize_fit_center" />
+                                                                            </div>
+                                                                            <div class="product-code-text">RS124124</div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Image Reference Attribute end -->
+                                                <!-- Document Reference Attribute start -->
+                                                <div class="productimage-wrap marginbottom15" ng-switch-when="DocumentReferenceAttribute">
+                                                    <div class="row marginbottom5">
+                                                        <div class="col-xs-7 clearfix">
+                                                            <div class="row">
+                                                                <div class="flat-right marginbottom5">
+                                                                    <ul class="image-ref-link-dropdown marginTop10">
+
+                                                                        <li class="dropdown pull-right button-width">
+                                                                            <button href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Link</button>
+
+                                                                            <ul class="dropdown-menu">
+                                                                                <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                                                                <li><a href="#">Product Image</a></li>
+                                                                                <li><a href="#">Logo</a></li>
+                                                                            </ul>
+
+                                                                        </li>
+
+                                                                        <li class="userinterface-upload image-nospace pull-right image-browse-inupt">
+                                                                            <label class="fileContainer">
+                                                                                Add
+                                                                                <input type="file" ng-model="subObj" media-preview accept="application/msword" previewcontainer="itemContainer" doctype="DocumentReferenceAttribute" />
+                                                                            </label>
+                                                                            <!--<input type="file" class="custom-file-input" ng-model="option" media-preview accept="application/msword" previewcontainer="itemContainer" doctype="DocumentReferenceAttribute">-->
+                                                                            <!--<button href="#"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" ng-model="subObj.addedDocuments" ng-click="addMediaAttr(option,'DocumentReferenceAttribute')"  media-preview accept="image/*">Upload</button>-->
+                                                                            <!--<ul class="dropdown-menu">
+                                                                                <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                                                                <li><a href="#">Product Image</a></li>
+                                                                                <li><a href="#">Logo</a></li>
+                                                                            </ul>-->
+
+                                                                        </li>
+
+                                                                        <li class="pull-right button-width">
+                                                                            <button href="#" class="btn btn-default" data-toggle="modal" data-target="#CreateFolder">Create Folder</button>
+
+                                                                        </li>
+
+                                                                        <li class="dropdown pull-right subobject-documentref-input">
+                                                                            <select class="form-control">
+                                                                                <option>Icons</option>
+                                                                                <option>Icons</option>
+                                                                                <option>Icons</option>
+                                                                            </select>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="settings-bottom-devider clearfix"></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="image-ref-links">
+                                                                <ul class="">
+                                                                    <li ng-repeat="role in subObj.documentRoles"><a href="#" ng-class="(role.isDefault==true?'active':'')" ng-click="setSelectedItem(subObj.documentRoles,role)">{{role.roleName}}</a></li>
+                                                                </ul>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="col-xs-9">
+                                                            <div class="image-ref-imagewrap padding5 min-height150">
+                                                                <ul class="productimage">
+                                                                    <li ng-repeat="docItem in subObj.addedDocuments" ng-model="subObj.addedDocuments">
+                                                                        <div class="product-image-wrap">
+
+                                                                            <!-- settings icon -->
+                                                                            <div class="product-image-settings-dropdown marginTop10">
+
+                                                                                <div class="dropdown">
+                                                                                    <a href="#" class="settings-icon dropdown-toggle" data-toggle="dropdown">
+                                                                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                                                                    </a>
+
+                                                                                    <ul class="dropdown-menu">
+                                                                                        <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                                                                        <li><a href="#">Download</a></li>
+                                                                                        <li><a href="#">Formats</a></li>
+                                                                                        <li><a href="#">Properties</a></li>
+                                                                                        <li class="divider"></li>
+                                                                                        <li><a href="#" ng-click="removeItem($index,subObj)">Remove</a></li>
+                                                                                    </ul>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <!-- settings icon -->
+
+                                                                            <div class="productimage-border">
+                                                                                <img src="{{docItem.docIcon}}" class="media-preview" />
+                                                                            </div>
+                                                                            <div class="product-code-text">{{docItem.fileName}}</div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  Document Reference Attribute end -->
+                                                <!-- Date Attribute start -->
+                                                <div class="content-object-trow marginbottom10" ng-switch-when="DateAttribute">
+                                                    <div class="content-object-tcell position-relative date-icon">
+                                                        <input type="text" id="{{subObj.attributeId}}" name="{{'dateAttr'+$index}}" ng-model="subObj.selectedDate" datepicker-options="subObj.dateOptions" class="input-medium form-control"
+                                                               uib-datepicker-popup="{{subObj.placeHolder}}"
+                                                               is-open="datePickerControl1.minOpened" close-text="Close"
+                                                               ng-focus="openDateCalendar1(0)"
+                                                               ng-click="openDateCalendar1(0)" ng-readonly="subObj.readOnly" alt-input-formats="subObj.placeHolder" placeholder="{{subObj.placeHolder}}" />
+                                                        <i class="fa fa-calendar form-control-feedback" ng-click="openDateCalendar1(0)"></i>
+                                                    </div>
+                                                </div>
+                                                <!-- Date Attribute end -->
+                                                <!-- Time Attribute start -->
+                                                <div class="content-object-trow marginbottom10" ng-switch-when="TimeAttribute">
+                                                    <div class="content-object-tcell">
+                                                        <input type="text" id="{{subObj.attributeId}}" ng-model="subObj.minDateTimeValues.time" ng-minlength="subObj.minimumValue" maxlength="{{subObj.maximumValue}}" ng-maxlength="subObj.maximumValue" class="input-medium form-control"
+                                                               ng-attr-placeholder="{{subObj.timeFormatDefaultValues[subObj.timeFormat].placeHolder}}" ng-readonly="subObj.readOnly" />
+                                                    </div>
+
+                                                    <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="subObj.multipleValues.allowMultipleValues">
+                                                        <button class="btn btn-default add_field_button" id="{{subObj.attributeId +'_btn'}}" targetId="{{subObj.attributeId}}" ng-click="addMultipleValues(subObj.multipleValues.minimumValue,subObj.multipleValues.maximumValue,$event,subObj.attributeId)">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                        <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+                                                    </div>
+
+                                                </div>
+                                                <!-- Time Attribute end -->
+                                                <!-- DateTime Attribute start -->
+                                                <div class="content-object-trow marginbottom10" ng-switch-when="DateTimeAttribute">
+                                                    <div>
+                                                        <datetime-control control-model="subObj"></datetime-control>
+                                                    </div>
+                                                </div>
+                                                <!-- DateTime Attribute end -->
+                                                <!-- Integer Attribute start -->
+                                                <div class="content-object-trow marginbottom10" ng-switch-when="IntegerAttribute" ng-init="setDefaultValue(subObj,subObj.defaultValue)">
+
+                                                    <div ng-repeat="item in subObj.defaultValues track by $index" ng-model="subObj.defaultValues" ng-init="subForm='tags'+$index">
+                                                        <ng-form name="{{subForm}}">
+                                                            <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                                                                <div display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                                            </div>
+
+                                                            <div class="content-object-tcell position-relative">
+                                                                <input type="text" id="{{subObj.attributeId}}" name="intAttr" ng-model="item.value" ng-minlength="subObj.minimumValue" maxlength="{{subObj.maximumValue}}" ng-maxlength="subObj.maximumValue" class="input-medium form-control"
+                                                                       ng-readonly="subObj.readOnly" only-number0999 />
+                                                                <!--<span class="mandatory require-star" ng-show="this[subForm].intAttr.$error.required">
+                                                                    <span ng-show="this[subForm].intAttr.$error.required">*</span>
+                                                                </span>-->
+                                                            </div>
+                                                        </ng-form>
+                                                    </div>
+                                                </div>
+                                                <!-- Integer Attribute end -->
+                                                <!-- Copy Attribute start -->
+                                                <div class="form-group" ng-switch-when="CopyAttribute">
+                                                    <div class="row marginbottom5">
+                                                        <div class="col-xs-12">
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <!--<div class="paddingTop10 font-bold">{{subObj.name}}<span class="mandatory" ng-if="subObj.mandatory==true">*</span></div>-->
+                                                                    <div class="paddingTop10 font-bold" display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6 clearfix">
+                                                                <div class="row">
+                                                                    <div class="flat-right marginbottom5 ">
+                                                                        <select class="form-control select-option width150" ng-model="subObj.selectedContextId" ng-change=""
+                                                                                data-ng-options="option as option for option in subObj.contextId" required></select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="settings-bottom-devider clearfix"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+
+                                                            <div class="content-object-trow marginbottom10" data-ng-repeat="field in subObj.copyFieldDetails">
+
+                                                                <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                                                                    <label class="control-label" for="">{{field.name}}<span class="mandatory require-star" ng-if="field.mandatory==true">*</span></label>
+                                                                </div>
+
+                                                                <div class="content-object-tcell" ng-if="field.format==0">
+                                                                    <input type="text" id="{{field.attributeId}}" width="{{field.fieldWidth+'px'}}" ng-model="field.defaultValue" ng-minlength="field.minimumValue" maxlength="{{field.maximumValue}}" ng-maxlength="field.maximumValue" class="input-medium form-control" ng-required="{{field.mandatory}}"
+                                                                           ng-readonly="field.readOnly" />
+                                                                </div>
+
+                                                                <div class="content-object-tcell" ng-if="field.format==1">
+                                                                    <textarea id="{{field.attributeId}}" rows="4" width="{{field.fieldWidth+'px'}}" ng-model="field.defaultValue" ng-minlength="field.minimumValue" maxlength="{{field.maximumValue}}" ng-maxlength="field.maximumValue" class="input-medium form-control" ng-required="{{field.mandatory}}"
+                                                                              ng-readonly="field.readOnly" />
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Copy Attribute end -->
+                                                <!-- Text/Default Attribute start -->
+                                                <div class="content-object-trow marginbottom10" ng-switch-default>
+                                                    <div ng-init="setDefaultValue(subObj,subObj.defaultValue)">
+                                                        <div ng-switch="subObj.format" ng-repeat="item in subObj.defaultValues track by $index" ng-model="subObj.defaultValues" ng-init="subForm='tags'+$index">
+                                                            <ng-form name="{{subForm}}">
+                                                                <div class="content-object-tcell position-relative" ng-switch-when="1">
+                                                                    <textarea id="{{subObj.attributeId}}" rows="4" width="{{subObj.fieldWidth+'px'}}" name="textAttr" ng-model="item.value" ng-minlength="subObj.minimumValue" maxlength="{{subObj.maximumValue}}" ng-maxlength="subObj.maximumValue" class="input-medium form-control"
+                                                                              ng-readonly="subObj.readOnly" />
+                                                                </div>
+                                                                <div class="content-object-tcell" ng-switch-default>
+                                                                    <div class="content-object-trow">
+                                                                        <div class="content-object-tcell position-relative">
+                                                                            <input type="text" id="{{subObj.attributeId}}" width="{{subObj.fieldWidth+'px'}}" ng-model="item.value" name="textAttr" ng-minlength="subObj.minimumValue" maxlength="{{subObj.maximumValue}}" ng-maxlength="subObj.maximumValue" class="input-medium form-control marginbottom5" ng-readonly="{{subObj.readOnly}}" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Text/Default Attribute start -->
+                                            </div>
+                                        </td>
+                                        <td class="">
+
+                                            <div class="updownarrows-links">
+                                                <ul>
+                                                    <li><a href="#"><i class="fa fa-caret-down" aria-hidden="true" ng-click="moveDown($index,option)"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-caret-up" aria-hidden="true" ng-click="moveUp($index,option)"></i></a></li>
+                                                </ul>
+
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="content-object-tcell paddingLeft10">
+                                                <div data-delete label-name="Remove" ng-click="removeItem($index,option)"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                        <!--Custom Interface-->
+                        <div ng-switch-when="2"></div>
+
+                        <!--List Interface-->
+                        <div ng-switch-default class="containerSubObj" style="border-bottom:1px solid #000;">
+                            <div ng-repeat="subObj in option.defaultValues track by $index" ng-model="option.defaultValues" ng-init="subForm='tags'+$index">
+                                <div ng-switch="subObj.attributeType">
+                                    <!-- List attribute Start --------->
+                                    <div class="content-object-trow marginbottom10" ng-switch-when="ListAttribute">
+                                        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                                            <div display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                        </div>
+                                        <div class="content-object-tcell list-attribute-button list-attribute-dropdown" ng-init="jsonListfromObject(subObj)" id="subObj.attributeId">
+                                            <!--<select class="form-control" ng-model="selected" data-ng-options="opt for opt in subObj.listValues" required></select>-->
+                                            <div ng-switch="subObj.displayInputType" ng-if="subObj.listType==0">
+                                                <div ng-switch-when="2">
+                                                    <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" radiobuttons="true" extra-settings="subObj.listsettings"></div>
+                                                </div>
+                                                <!--autoComplete-->
+                                                <div ng-switch-when="3">
+                                                    <multiple-autocomplete ng-model="subObj.selectedItem" object-property="label" suggestions-arr="subObj.listItem">
+                                                    </multiple-autocomplete>
+                                                </div>
+                                                <div ng-switch-default>
+                                                    <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" extra-settings="subObj.listsettings"></div>
+                                                </div>
+                                            </div>
+
+
+                                            <div ng-switch="subObj.displayInputType" ng-if="subObj.listType==1">
+                                                <div ng-switch-when="0">
+                                                    <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" checkboxes="true" extra-settings="subObj.listsettings"></div>
+                                                </div>
+                                                <div ng-switch-when="2">
+                                                    <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" radiobuttons="true" extra-settings="subObj.listsettings"></div>
+                                                </div>
+                                                <!--autoComplete-->
+                                                <div ng-switch-when="3">
+                                                    <multiple-autocomplete ng-model="subObj.selectedItem" object-property="label" suggestions-arr="subObj.listItem">
+                                                    </multiple-autocomplete>
+                                                </div>
+                                                <div ng-switch-when="4">
+                                                    <select size="{{subObj.listItem.length}}" multiple ng-model="subObj.available" ng-options="litem as litem.label for litem in subObj.listItem" style="width: 400px"></select>
+                                                    <div class="center-align list-multiple-select-btnwrap">
+                                                        <button class="btn-default add_field_button" value="Down" ng-click="moveItem(subObj.available[0],subObj.listItem,subObj.selectedItem);"><i class="fa fa-arrow-down"></i></button>
+                                                        <button class="btn-default add_field_button" value="Up" ng-click="moveItem(subObj.selectedlistItem[0],subObj.selectedItem,subObj.listItem);"><i class="fa fa-arrow-up"></i></button>
+                                                    </div>
+                                                    <label class="pull-right" for="selected">Selected</label>
+                                                    <select size="{{subObj.selectedItem.length}}" multiple ng-model="subObj.selectedlistItem" ng-options="litem as litem.label for litem in subObj.selectedItem" style="width: 400px"></select>
+                                                </div>
+                                                <div ng-switch-default>
+                                                    <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" extra-settings="subObj.listsettings"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- List attribute End--------->
+                                    <!-- Decimal Attribute start -->
+                                    <div class="content-object-trow marginbottom10" ng-switch-when="DecimalAttribute">
+                                        <div class="content-object-tcell paddingRight20 width180 labels-bold" ng-init="setDefaultValue(subObj,subObj.defaultValue,true)">
+                                            <div display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                        </div>
+
+                                        <div ng-repeat="item in subObj.defaultValues track by $index" ng-model="subObj.defaultValues" ng-init="subForm='tags'+$index">
+                                            <ng-form name="{{subForm}}">
+                                                <div class="content-object-tcell position-relative">
+                                                    <div class="dollar-symbol" ng-if="subObj.valueType!=0">{{decimalDisplaySymbol(subObj.valueType)}}</div>
+                                                </div>
+                                                <div class="content-object-tcell position-relative">
+                                                    <input type="text" id="{{subObj.attributeId}}" name="deciAttr" ng-model="item.value" precision="subObj.decimalPlaces" class="form-control"
+                                                           ng-readonly="subObj.readOnly" decimal-only />
+                                                </div>
+                                            </ng-form>
+                                            <div class="content-object-tcell paddingLeft5 listbox-wrap" style="float:right" ng-if="subObj.multipleValues.allowMultipleValues">
+                                                <a href="#"><i class="fa fa-caret-down" aria-hidden="true" ng-if="subObj.defaultValues.length>1" ng-click="moveDown($index,subObj)"></i></a>
+                                                <a href="#"><i class="fa fa-caret-up" aria-hidden="true" ng-if="subObj.defaultValues.length>1" ng-click="moveUp($index,subObj)"></i></a>
+                                                <button class="btn btn-default add_field_button" ng-if="$index==0" id="{{subObj.attributeId +'_btn'}}" targetId="{{subObj.attributeId}}" ng-click="addMultipleValues(subObj.multipleValues.minimumValue,subObj.multipleValues.maximumValue,subObj)">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                                <button class="btn btn-red add_field_button" ng-if="$index>0" ng-click="removeItem($index,subObj)"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Decimal Attribute End -->
+                                    <!-- YesNo Attribute start -->
+                                    <div class="content-object-trow marginbottom10" ng-switch-when="YesNoAttribute">
+                                        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                                            <div display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                        </div>
+
+                                        <div class="content-object-tcell list-attribute-button list-attribute-dropdown">
+                                            <div ng-switch="subObj.displayType" ng-init="jsonListfromObject(subObj)" id="subObj.attributeId" ng-readonly="subObj.readOnly">
+                                                <div ng-switch-when="0">
+                                                    <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" checkboxes="true" extra-settings="subObj.listsettings"></div>
+                                                </div>
+                                                <div ng-switch-when="1">
+                                                    <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" radiobuttons="true" extra-settings="subObj.listsettings"></div>
+                                                </div>
+                                                <div ng-switch-default>
+                                                    <div ng-dropdown-multiselect="" options="subObj.listItem" selected-model="subObj.selectedItem" extra-settings="subObj.listsettings"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="subObj.multipleValues.allowMultipleValues">
+                                            <button class="btn btn-default add_field_button" id="{{subObj.attributeId +'_btn'}}" targetId="{{subObj.attributeId}}" ng-click="addMultipleValues(subObj.multipleValues.minimumValue,subObj.multipleValues.maximumValue,$event,subObj.attributeId)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+                                        </div>
+
+                                    </div>
+                                    <!-- YesNo Attribute start -->
+                                    <!-- Image Reference Attribute start -->
+                                    <div class="productimage-wrap marginbottom15" ng-switch-when="ImageReferenceAttribute">
+                                        <div class="row marginbottom5">
+                                            <div class="col-xs-12">
+                                                <div class="col-xs-5">
+                                                    <div class="row">
+
+                                                        <!--<div class="paddingTop5 font-bold">{{subObj.name}}<span class="mandatory" ng-if="subObj.mandatory==true">*</span></div>-->
+                                                        <div class="paddingTop5 font-bold" display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-xs-7 clearfix">
+                                                    <div class="row">
+                                                        <div class="flat-right marginbottom5">
+                                                            <ul class="image-ref-link-dropdown marginTop10">
+
+                                                                <li class="dropdown pull-right button-width">
+                                                                    <button href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Link</button>
+
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                                                        <li><a href="#">Product Image</a></li>
+                                                                        <li><a href="#">Logo</a></li>
+                                                                    </ul>
+
+                                                                </li>
+
+                                                                <li class="image-browse-inupt userinterface-upload image-nospace">
+                                                                    <label class="fileContainer">
+                                                                        Add
+                                                                        <input type="file" ng-model="subObj" media-preview accept="image/*" previewcontainer="itemContainer" doctype="ImageReferenceAttribute" />
+                                                                    </label>
+                                                                    <!--<input type="file" class="custom-file-input" ng-model="option" media-preview accept="image/*" previewcontainer="itemContainer" doctype="ImageReferenceAttribute">-->
+
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="settings-bottom-devider clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <div class="image-ref-links">
+                                                    <ul>
+                                                        <li ng-repeat="role in subObj.imageRoles"><a href="#" ng-class="(role.isDefault==true?'active':'')" ng-click="setSelectedItem(subObj.imageRoles,role)">{{role.roleName}}</a></li>
+                                                    </ul>
+                                                </div>
+                                                <!-- Subobject-image reference left menu -->
+                                                <script>
+                                                                                $('.image-ref-links ul li a').click(function (e) {
+                                                                                    e.preventDefault(); //prevent the link from being followed
+                                                                                    $('.image-ref-links ul li a').removeClass('active');
+                                                                                    $(this).addClass('active');
+                                                                                });
+                                                </script>
+                                            </div>
+
+                                            <div class="col-xs-9">
+                                                <div class="image-ref-imagewrap padding5 min-height150">
+                                                    <ul class="productimage">
+                                                        <li ng-repeat="imgItem in subObj.addedImages" ng-model="subObj.addedImages">
+                                                            <div class="product-image-wrap">
+
+                                                                <!-- settings icon -->
+                                                                <div class="product-image-settings-dropdown marginTop10">
+
+                                                                    <div class="dropdown">
+                                                                        <a href="#" class="settings-icon dropdown-toggle" data-toggle="dropdown">
+                                                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                                                        </a>
+
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                                                            <li><a href="#" ng-click="downloadItem(imgItem)">Download</a></li>
+                                                                            <li><a href="#">Formats</a></li>
+                                                                            <li><a href="#">Properties</a></li>
+                                                                            <li class="divider"></li>
+                                                                            <li><a href="#" ng-click="removeItem($index,subObj)">Remove</a></li>
+                                                                        </ul>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <!-- settings icon -->
+
+                                                                <div class="productimage-border">
+                                                                    <img src="{{imgItem.fileContent}}" class="media-preview resize_fit_center" />
+                                                                </div>
+                                                                <div class="product-code-text">RS124124</div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Image Reference Attribute end -->
+                                    <!-- Document Reference Attribute start -->
+                                    <div class="productimage-wrap marginbottom15" ng-switch-when="DocumentReferenceAttribute">
+                                        <div class="row marginbottom5">
+                                            <div class="col-xs-12">
+                                                <div class="col-xs-5">
+                                                    <div class="row">
+
+
+
+                                                        <!--<div class="paddingTop5 font-bold">{{subObj.name}}<span class="mandatory" ng-if="subObj.mandatory==true">*</span></div>-->
+                                                        <div class="paddingTop5 font-bold" display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-7 clearfix">
+                                                    <div class="row">
+                                                        <div class="flat-right marginbottom5">
+                                                            <ul class="image-ref-link-dropdown marginTop10">
+
+                                                                <li class="dropdown pull-right button-width">
+                                                                    <button href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Link</button>
+
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                                                        <li><a href="#">Product Image</a></li>
+                                                                        <li><a href="#">Logo</a></li>
+                                                                    </ul>
+
+                                                                </li>
+
+                                                                <li class="userinterface-upload image-nospace pull-right image-browse-inupt">
+                                                                    <label class="fileContainer">
+                                                                        Add
+                                                                        <input type="file" ng-model="subObj" media-preview accept="application/msword" previewcontainer="itemContainer" doctype="DocumentReferenceAttribute" />
+                                                                    </label>
+                                                                    <!--<input type="file" class="custom-file-input" ng-model="option" media-preview accept="application/msword" previewcontainer="itemContainer" doctype="DocumentReferenceAttribute">-->
+                                                                    <!--<button href="#"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" ng-model="subObj.addedDocuments" ng-click="addMediaAttr(option,'DocumentReferenceAttribute')"  media-preview accept="image/*">Upload</button>-->
+                                                                    <!--<ul class="dropdown-menu">
+                                                                        <li><span class="color-grey font-bold padding-left4">Link</span></li>
+                                                                        <li><a href="#">Product Image</a></li>
+                                                                        <li><a href="#">Logo</a></li>
+                                                                    </ul>-->
+
+                                                                </li>
+
+                                                                <li class="pull-right button-width">
+                                                                    <button href="#" class="btn btn-default" data-toggle="modal" data-target="#CreateFolder">Create Folder</button>
+
+                                                                </li>
+
+                                                                <li class="dropdown pull-right subobject-documentref-input">
+                                                                    <select class="form-control">
+                                                                        <option>Icons</option>
+                                                                        <option>Icons</option>
+                                                                        <option>Icons</option>
+                                                                    </select>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="settings-bottom-devider clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <div class="image-ref-links">
+                                                    <ul class="">
+                                                        <li ng-repeat="role in subObj.documentRoles"><a href="#" ng-class="(role.isDefault==true?'active':'')" ng-click="setSelectedItem(subObj.documentRoles,role)">{{role.roleName}}</a></li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-xs-9">
+                                                <div class="image-ref-imagewrap padding5 min-height150">
+                                                    <ul class="productimage">
+                                                        <li ng-repeat="docItem in subObj.addedDocuments" ng-model="subObj.addedDocuments">
+                                                            <div class="product-image-wrap">
+
+                                                                <!-- settings icon -->
+                                                                <div class="product-image-settings-dropdown marginTop10">
+
+                                                                    <div class="dropdown">
+                                                                        <a href="#" class="settings-icon dropdown-toggle" data-toggle="dropdown">
+                                                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                                                        </a>
+
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                                                            <li><a href="#">Download</a></li>
+                                                                            <li><a href="#">Formats</a></li>
+                                                                            <li><a href="#">Properties</a></li>
+                                                                            <li class="divider"></li>
+                                                                            <li><a href="#" ng-click="removeItem($index,subObj)">Remove</a></li>
+                                                                        </ul>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <!-- settings icon -->
+
+                                                                <div class="productimage-border">
+                                                                    <img src="{{docItem.docIcon}}" class="media-preview" />
+                                                                </div>
+                                                                <div class="product-code-text">{{docItem.fileName}}</div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  Document Reference Attribute end -->
+                                    <!-- Date Attribute start -->
+                                    <div class="content-object-trow marginbottom10" ng-switch-when="DateAttribute">
+                                        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                                            <div display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                        </div>
+                                        <div class="content-object-tcell position-relative date-icon" ng-init="setDefaultDateTime(subObj.defaultDateTime,subObj.defaultDateTimeValues,subObj)">
+                                            <input type="text" id="{{subObj.attributeId}}" name="{{'dateAttr'+$index}}" ng-model="subObj.selectedDate" datepicker-options="subObj.dateOptions" class="input-medium form-control"
+                                                   uib-datepicker-popup="{{subObj.placeHolder}}"
+                                                   is-open="datePickerControl1.minOpened" close-text="Close"
+                                                   ng-focus="openDateCalendar1(0)"
+                                                   ng-click="openDateCalendar1(0)" ng-readonly="subObj.readOnly" alt-input-formats="subObj.placeHolder" placeholder="{{subObj.placeHolder}}" />
+                                            <i class="fa fa-calendar form-control-feedback" ng-click="openDateCalendar1(0)"></i>
+                                        </div>
+                                        <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="subObj.multipleValues.allowMultipleValues">
+                                            <button class="btn btn-default add_field_button" id="{{subObj.attributeId +'_btn'}}" targetId="{{subObj.attributeId}}" ng-click="addMultipleValues(subObj.multipleValues.minimumValue,subObj.multipleValues.maximumValue,$event,subObj.attributeId)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+                                        </div>
+
+                                    </div>
+                                    <!-- Date Attribute end -->
+                                    <!-- Time Attribute start -->
+                                    <div class="content-object-trow marginbottom10" ng-switch-when="TimeAttribute">
+                                        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                                            <div display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                        </div>
+
+                                        <div class="content-object-tcell">
+                                            <input type="text" id="{{subObj.attributeId}}" ng-model="subObj.minDateTimeValues.time" ng-minlength="subObj.minimumValue" maxlength="{{subObj.maximumValue}}" ng-maxlength="subObj.maximumValue" class="input-medium form-control"
+                                                   ng-attr-placeholder="{{subObj.timeFormatDefaultValues[subObj.timeFormat].placeHolder}}" ng-readonly="subObj.readOnly" />
+                                        </div>
+
+                                        <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="subObj.multipleValues.allowMultipleValues">
+                                            <button class="btn btn-default add_field_button" id="{{subObj.attributeId +'_btn'}}" targetId="{{subObj.attributeId}}" ng-click="addMultipleValues(subObj.multipleValues.minimumValue,subObj.multipleValues.maximumValue,$event,subObj.attributeId)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+                                        </div>
+
+                                    </div>
+                                    <!-- Time Attribute end -->
+                                    <!-- DateTime Attribute start -->
+                                    <div class="content-object-trow marginbottom10" ng-switch-when="DateTimeAttribute">
+                                        <div>
+                                            <datetime-control control-model="subObj"></datetime-control>
+                                        </div>
+                                    </div>
+                                    <!-- DateTime Attribute end -->
+                                    <!-- Integer Attribute start -->
+                                    <div class="content-object-trow marginbottom10" ng-switch-when="IntegerAttribute">
+                                        <div class="content-object-tcell paddingRight20 width180 labels-bold" ng-init="setDefaultValue(subObj,subObj.defaultValue,true)">
+                                            <div display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                        </div>
+                                        <div ng-repeat="item in subObj.defaultValues track by $index" ng-model="subObj.defaultValues" ng-init="subForm='tags'+$index">
+                                            <ng-form name="{{subForm}}">
+                                                <div class="content-object-tcell position-relative">
+                                                    <input type="text" id="{{subObj.attributeId}}" name="intAttr" ng-model="item.value" ng-minlength="subObj.minimumValue" maxlength="{{subObj.maximumValue}}" ng-maxlength="subObj.maximumValue" class="input-medium form-control"
+                                                           ng-readonly="subObj.readOnly" only-number0999 />
+                                                </div>
+                                            </ng-form>
+                                            <div class="content-object-tcell paddingLeft5 listbox-wrap" style="float:right" ng-if="subObj.multipleValues.allowMultipleValues">
+                                                <a href="#"><i class="fa fa-caret-down" aria-hidden="true" ng-if="subObj.defaultValues.length>1" ng-click="moveDown($index,subObj)"></i></a>
+                                                <a href="#"><i class="fa fa-caret-up" aria-hidden="true" ng-if="subObj.defaultValues.length>1" ng-click="moveUp($index,subObj)"></i></a>
+                                                <button class="btn btn-default add_field_button" ng-if="$index==0" id="{{subObj.attributeId +'_btn'}}" targetId="{{subObj.attributeId}}" ng-click="addMultipleValues(subObj.multipleValues.minimumValue,subObj.multipleValues.maximumValue,subObj)">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                                <button class="btn btn-red add_field_button" ng-if="$index>0" ng-click="removeItem($index,subObj)"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Integer Attribute end -->
+                                    <!-- Copy Attribute start -->
+                                    <div class="form-group" ng-switch-when="CopyAttribute">
+                                        <div class="row marginbottom5">
+                                            <div class="col-xs-12">
+                                                <div class="col-xs-6">
+                                                    <div class="row">
+                                                        <!--<div class="paddingTop10 font-bold">{{subObj.name}}<span class="mandatory" ng-if="subObj.mandatory==true">*</span></div>-->
+                                                        <div class="paddingTop10 font-bold" display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 clearfix">
+                                                    <div class="row">
+                                                        <div class="flat-right marginbottom5 " ng-init="getAllContext(subObj)">
+                                                            <div ng-repeat="context in subObj.contextValues">
+                                                                <select class="form-control select-option width150" ng-model="subObj.selectedContextId" ng-change=""
+                                                                        data-ng-options="conItem.id as conItem.name for conItem in context.Values"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="settings-bottom-devider clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-12">
+
+                                                <div class="content-object-trow marginbottom10" data-ng-repeat="field in subObj.copyFieldDetails">
+
+                                                    <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                                                        <label class="control-label" for="">{{field.name}}<span class="mandatory require-star" ng-if="field.mandatory==true">*</span></label>
+                                                    </div>
+
+                                                    <div class="content-object-tcell" ng-if="field.format==0">
+                                                        <input type="text" id="{{field.attributeId}}" width="{{field.fieldWidth+'px'}}" ng-model="field.defaultValue" ng-minlength="field.minimumValue" maxlength="{{field.maximumValue}}" ng-maxlength="field.maximumValue" class="input-medium form-control" ng-required="{{field.mandatory}}"
+                                                               ng-readonly="field.readOnly" />
+                                                    </div>
+
+                                                    <div class="content-object-tcell" ng-if="field.format==1">
+                                                        <textarea id="{{field.attributeId}}" rows="4" width="{{field.fieldWidth+'px'}}" ng-model="field.defaultValue" ng-minlength="field.minimumValue" maxlength="{{field.maximumValue}}" ng-maxlength="field.maximumValue" class="input-medium form-control" ng-required="{{field.mandatory}}"
+                                                                  ng-readonly="field.readOnly" />
+                                                    </div>
+
+
+                                                    <div class="content-object-tcell paddingLeft5 listbox-wrap" ng-if="field.multipleValues.allowMultipleValues">
+                                                        <button class="btn btn-default add_field_button" id="{{field.attributeId +'_btn'}}" targetId="{{field.attributeId}}" ng-click="addMultipleValues(field.multipleValues.minimumValue,field.multipleValues.maximumValue,$event,field.attributeId)">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                        <button class="btn btn-red add_field_button"><i class="fa fa-times"></i></button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Copy Attribute end -->
+                                    <!-- SubObject Attribute start -->
+                                    <!-- SubObject Attribute end -->
+                                    <!-- Object Reference start -->
+                                    <div class="productimage-wrap marginbottom10 labels-bold" ng-switch-when="ObjectReferenceAttribute">
+                                        <div class="row marginbottom10">
+
+
+
+                                            <!--<pre>{{subObj.objectReferenceCollection}}</pre>-->
+
+                                            <div class="row marginbottom10">
+
+                                                <!-- Object Reference List-->
+
+                                                <div ng-switch-when="1">
+                                                    Icon
+                                                </div>
+
+                                                <div class="productimage-wrap marginbottom15" ng-show="subObj.searchDisplay==2 || subObj.selectDisplay==2">
+
+
+                                                    <div class="row marginbottom5">
+                                                        <div class="col-xs-12">
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <div class="paddingTop5 font-bold">{{subObj.name}}<span class="mandatory">*</span></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6 clearfix">
+                                                                <div class="row">
+                                                                    <div class="flat-right marginbottom5">
+                                                                        <ul class="image-ref-link-dropdown marginTop10">
+                                                                            <li class="image-browse-inupt userinterface-upload image-nospace">
+                                                                                <label class="fileContainer">
+                                                                                    Add
+                                                                                    <input type="file" />
+                                                                                </label>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="settings-bottom-devider clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="image-ref-imagewrap padding5 min-height150">
+                                                                <ul class="objectRef-list">
+                                                                    <li>
+                                                                        <div class="table-row">
+                                                                            <div ng-repeat="ora in subObj.objectReferenceCollection">
+                                                                                <div ng-repeat="dAttr in ora.attributeCollection">
+                                                                                    <div ng-if="'Name'==dAttr.name">
+                                                                                        <div class="table-cell table-cel-padding"><input type="checkbox" ng-show="subObj.selectDisplay==2" /> {{dAttr.value[0]}}</div>
+
+                                                                                        <div class="table-cell table-cel-padding">
+                                                                                            <div class="objectRef-dropdown margin-left10">
+                                                                                                <div class="dropdown">
+                                                                                                    <a href="#" class="objectRef-settings-icon dropdown-toggle" data-toggle="dropdown">
+                                                                                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                                                                                    </a>
+
+                                                                                                    <ul class="dropdown-menu">
+                                                                                                        <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                                                                                        <li><a href="#">Download</a></li>
+                                                                                                        <li><a href="#">Formats</a></li>
+                                                                                                        <li><a href="#">Properties</a></li>
+                                                                                                        <li class="divider"></li>
+                                                                                                        <li><a href="#">Remove</a></li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Object Reference Details-->
+                                                <div class="productimage-wrap marginbottom15" ng-show="subObj.searchDisplay==3 || subObj.selectDisplay==3 ">
+                                                    <div class="row marginbottom5">
+                                                        <div class="col-xs-12">
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <div class="paddingTop5 font-bold">{{subObj.name}}<span class="mandatory">*</span></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6 clearfix">
+                                                                <div class="row">
+                                                                    <div class="flat-right marginbottom5">
+                                                                        <ul class="image-ref-link-dropdown marginTop10">
+                                                                            <li class="image-browse-inupt userinterface-upload image-nospace">
+                                                                                <label class="fileContainer">
+                                                                                    Add
+                                                                                    <input type="file" />
+                                                                                </label>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="settings-bottom-devider clearfix"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="editcontent-table">
+                                                        <div>
+                                                            <div>
+                                                                <table class="table table-bordered table-condensed">
+
+                                                                    <tr>
+                                                                        <th ng-repeat="dAttr in subObj.objectReferenceCollection[0].attributeCollection"><label class="control-label" for="">{{dAttr.name}}</label></th>
+                                                                        <!--<th><label class="control-label" for="">Brand</label></th>
+                                                                        <th><label class="control-label" for="">Code</label></th>-->
+                                                                        <th></th>
+                                                                    </tr>
+
+                                                                    <tr ng-repeat="ora in subObj.objectReferenceCollection">
+
+                                                                        <td><input type="checkbox" ng-show="subObj.selectDisplay==3"></td>
+                                                                        <td ng-repeat="dAttr in ora.attributeCollection">
+
+
+
+                                                                            {{dAttr.value[0]}}
+                                                                        </td>
+                                                                        <!--<td>Adidas</td>
+                                                                        <td>235214</td>-->
+                                                                        <td>
+                                                                            <div class="objectRef-dropdown">
+                                                                                <div class="dropdown">
+                                                                                    <a href="#" class="objectRef-settings-icon dropdown-toggle" data-toggle="dropdown">
+                                                                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                                                                    </a>
+
+                                                                                    <ul class="dropdown-menu">
+                                                                                        <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                                                                        <li><a href="#">Download</a></li>
+                                                                                        <li><a href="#">Formats</a></li>
+                                                                                        <li><a href="#">Properties</a></li>
+                                                                                        <li class="divider"></li>
+                                                                                        <li><a href="#">Remove</a></li>
+                                                                                    </ul>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+
+
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Object Reference end -->
+                                    <!-- Text/Default Attribute start -->
+                                    <div class="content-object-trow marginbottom10" ng-switch-default>
+                                        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+                                            <div display-name label-name="subObj.name" mandatory="subObj.mandatory"></div>
+                                        </div>
+
+                                        <div ng-init="setDefaultValue(subObj,subObj.defaultValue)">
+
+                                            <div ng-switch="subObj.format" ng-repeat="item in subObj.defaultValues track by $index" ng-model="subObj.defaultValues" ng-init="subForm='tags'+$index">
+                                                <ng-form name="{{subForm}}">
+                                                    <div class="content-object-tcell position-relative" ng-switch-when="1">
+                                                        <textarea id="{{subObj.attributeId}}" rows="4" style="width:{{subObj.fieldWidth+'px'}}" name="textAttr" ng-model="item.value" ng-minlength="subObj.minimumValue" maxlength="{{subObj.maximumValue}}" ng-maxlength="subObj.maximumValue" class="input-medium form-control"
+                                                                  ng-readonly="subObj.readOnly" />
+                                                        <!--<span class="mandatory require-star" ng-show="this[subForm].textAttr.$error.required">
+                                                            <span ng-show="this[subForm].textAttr.$error.required">*</span>
+                                                        </span>-->
+                                                    </div>
+                                                    <div class="content-object-tcell" ng-switch-default>
+                                                        <div class="content-object-trow">
+                                                            <div class="content-object-tcell position-relative">
+                                                                <input type="text" id="{{subObj.attributeId}}" style="width:{{subObj.fieldWidth+'px'}}" ng-model="item.value" name="textAttr" content-filter ng-minlength="subObj.minimumValue" maxlength="{{subObj.maximumValue}}" ng-maxlength="subObj.maximumValue" class="input-medium form-control marginbottom5" ng-readonly="{{subObj.readOnly}}" />
+                                                                <!--<span class="mandatory require-star" ng-show="this[subForm].textAttr.$error.required">
+                                                                    <span ng-show="this[subForm].textAttr.$error.required">*</span>
+                                                                </span>-->
+                                                            </div>
+
+                                                            <!--<div class="content-object-tcell listbox-wrap paddingLeft5 ">
+                                                                <button class="btn btn-red">
+                                                                    <i class="fa fa-times"></i>
+                                                                </button>
+                                                            </div>-->
+                                                        </div>
+                                                    </div>
+                                                </ng-form>
+                                                <div class="content-object-tcell paddingLeft5 listbox-wrap" style="float:right" ng-if="subObj.multipleValues.allowMultipleValues">
+                                                    <button class="btn btn-default add_field_button" ng-if="$index==0" id="{{subObj.attributeId +'_btn'}}" targetId="{{subObj.attributeId}}" ng-click="addMultipleValues(subObj.multipleValues.minimumValue,subObj.multipleValues.maximumValue,subObj)">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-red add_field_button" ng-if="$index>0" ng-click="removeItem($index,subObj)"><i class="fa fa-times"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- Text/Default Attribute start -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SubObject Attribute end -->
+    <!-- Object Reference start -->
+    <div class="productimage-wrap marginbottom10 labels-bold" ng-switch-when="ObjectReferenceAttribute">
+        <div class="row marginbottom10">
+
+
+
+            <!--<pre>{{option.objectReferenceCollection}}</pre>-->
+
+            <div class="marginbottom10">
+                <!-- Object Reference List-->
+
+                <div ng-switch-when="1">
+                    Icon
+                </div>
+
+
+                <div class="productimage-wrap marginbottom15" ng-show="option.searchDisplay==2 || option.selectDisplay==2">
+
+
+                    <div class="row marginbottom5">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <div class="paddingTop5 font-bold">{{option.name}}<span class="mandatory">*</span></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 clearfix">
+                                <div class="row">
+                                    <div class="flat-right marginbottom5">
+                                        <ul class="image-ref-link-dropdown marginTop10">
+                                            <li class="image-browse-inupt userinterface-upload image-nospace">
+                                                <label class="fileContainer">
+                                                    Add
+                                                    <input type="file" />
+                                                </label>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-bottom-devider clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="image-ref-imagewrap padding5 min-height150">
+                                <ul class="objectRef-list">
+                                    <li>
+                                        <div class="table-row">
+                                            <div ng-repeat="ora in option.objectReferenceCollection">
+                                                <div ng-repeat="dAttr in ora.attributeCollection">
+                                                    <div ng-if="'Name'==dAttr.name">
+                                                        <div class="table-cell table-cel-padding"><input type="checkbox" ng-show="option.selectDisplay==2" /> {{dAttr.value[0]}}</div>
+
+                                                        <div class="table-cell table-cel-padding">
+                                                            <div class="objectRef-dropdown margin-left10">
+                                                                <div class="dropdown">
+                                                                    <a href="#" class="objectRef-settings-icon dropdown-toggle" data-toggle="dropdown">
+                                                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                                                    </a>
+
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                                                        <li><a href="#">Download</a></li>
+                                                                        <li><a href="#">Formats</a></li>
+                                                                        <li><a href="#">Properties</a></li>
+                                                                        <li class="divider"></li>
+                                                                        <li><a href="#">Remove</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Object Reference Details-->
+                <div class="productimage-wrap marginbottom15" ng-show="option.searchDisplay==3 || option.selectDisplay==3 ">
+                    <div class="row marginbottom5">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <div class="paddingTop5 font-bold">{{option.name}}<span class="mandatory">*</span></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 clearfix">
+                                <div class="row">
+                                    <div class="flat-right marginbottom5">
+                                        <ul class="image-ref-link-dropdown marginTop10">
+                                            <li class="image-browse-inupt userinterface-upload image-nospace">
+                                                <label class="fileContainer">
+                                                    Add
+                                                    <input type="file" />
+                                                </label>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-bottom-devider clearfix"></div>
+                        </div>
+                    </div>
+
+                    <div class="editcontent-table">
+                        <div>
+                            <div>
+                                <table class="table table-bordered table-condensed">
+
+                                    <tr>
+                                        <th ng-repeat="dAttr in option.objectReferenceCollection[0].attributeCollection"><label class="control-label" for="">{{dAttr.name}}</label></th>
+                                        <!--<th><label class="control-label" for="">Brand</label></th>
+                                        <th><label class="control-label" for="">Code</label></th>-->
+                                        <th></th>
+                                    </tr>
+
+                                    <tr ng-repeat="ora in option.objectReferenceCollection">
+
+                                        <td><input type="checkbox" ng-show="option.selectDisplay==3"></td>
+                                        <td ng-repeat="dAttr in ora.attributeCollection">
+
+
+
+                                            {{dAttr.value[0]}}
+                                        </td>
+                                        <!--<td>Adidas</td>
+                                        <td>235214</td>-->
+                                        <td>
+                                            <div class="objectRef-dropdown">
+                                                <div class="dropdown">
+                                                    <a href="#" class="objectRef-settings-icon dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                                    </a>
+
+                                                    <ul class="dropdown-menu">
+                                                        <li><span class="color-grey font-bold padding-left4">Configure</span></li>
+                                                        <li><a href="#">Download</a></li>
+                                                        <li><a href="#">Formats</a></li>
+                                                        <li><a href="#">Properties</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="#">Remove</a></li>
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Object Reference end -->
+    <!-- Sequence Attribute start -->
+    <div class="content-object-trow marginbottom10" ng-switch-when="SequenceAttribute">
+        <div class="content-object-tcell paddingRight20 width180 labels-bold" ng-init="setDefaultValue(option,option.defaultValue)">
+            <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+        </div>
+        <div ng-repeat="item in option.defaultValues track by $index" ng-model="option.defaultValues" ng-init="subForm='tags'+$index">
+            <ng-form name="{{subForm}}">
+                <div class="content-object-tcell position-relative">
+                    <div>{{option.sequenceMaster.sequencePrefix}}</div>
+                </div>
+                <div class="content-object-tcell position-relative">
+                    <input type="number" id="{{option.attributeId}}" name="intAttr" ng-model="item.value" min="option.sequenceMaster.firstNumber" max="1000" class="input-medium form-control"
+                           ng-readonly="option.readOnly" />
+                </div>
+            </ng-form>
+            <div class="content-object-tcell paddingLeft5 listbox-wrap" style="float:right" ng-if="option.multipleValues.allowMultipleValues">
+                <a href="#"><i class="fa fa-caret-down" aria-hidden="true" ng-if="option.defaultValues.length>1" ng-click="moveDown($index,option)"></i></a>
+                <a href="#"><i class="fa fa-caret-up" aria-hidden="true" ng-if="option.defaultValues.length>1" ng-click="moveUp($index,option)"></i></a>
+                <button class="btn btn-default add_field_button" ng-if="$index==0" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,option)">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <button class="btn btn-red add_field_button" ng-if="$index>0" ng-click="removeItem($index,option)"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+    </div>
+    <!-- Sequence Attribute end -->
+    <!-- Text/Default Attribute start -->
+    <div class="content-object-trow marginbottom10" ng-switch-default>
+        <div class="content-object-tcell paddingRight20 width180 labels-bold">
+            <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+        </div>
+
+        <div ng-init="setDefaultValue(option,option.defaultValue)">
+            <pre>{{option.defaultValues}}</pre>
+            <div ng-switch="option.format" ng-repeat="item in option.defaultValues track by $index" ng-model="option.defaultValues" ng-init="subForm='tags'+$index">
+                <ng-form name="{{subForm}}">
+                    <div class="content-object-tcell position-relative" ng-switch-when="1">
+                        <textarea id="{{option.attributeId}}" rows="4" style="width:{{option.fieldWidth+'px'}}" name="textAttr" ng-model="item.value" ng-minlength="option.minimumValue" maxlength="{{option.maximumValue}}" ng-maxlength="option.maximumValue" class="input-medium form-control"
+                                  ng-readonly="option.readOnly" />
+                        <!--<span class="mandatory require-star" ng-show="this[subForm].textAttr.$error.required">
+                            <span ng-show="this[subForm].textAttr.$error.required">*</span>
+                        </span>-->
+                    </div>
+                    <div class="content-object-tcell" ng-switch-default>
+                        <div class="content-object-trow">
+                            <div class="content-object-tcell position-relative">
+                                <input type="text" id="{{option.attributeId}}" style="width:{{option.fieldWidth+'px'}}" ng-model="item.value" name="textAttr" content-filter ng-minlength="option.minimumValue" maxlength="{{option.maximumValue}}" ng-maxlength="option.maximumValue" class="input-medium form-control marginbottom5" ng-readonly="{{option.readOnly}}" />
+                                <!--<span class="mandatory require-star" ng-show="this[subForm].textAttr.$error.required">
+                                    <span ng-show="this[subForm].textAttr.$error.required">*</span>
+                                </span>-->
+                            </div>
+
+                            <!--<div class="content-object-tcell listbox-wrap paddingLeft5 ">
+                                <button class="btn btn-red">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>-->
+                        </div>
+                    </div>
+                </ng-form>
+                <div class="content-object-tcell paddingLeft5 listbox-wrap" style="float:right" ng-if="option.multipleValues.allowMultipleValues">
+                    <button class="btn btn-default add_field_button" ng-if="$index==0" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,option)">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="btn btn-red add_field_button" ng-if="$index>0" ng-click="removeItem($index,option)"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Text/Default Attribute start -->
+
+</div>

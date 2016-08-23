@@ -1,0 +1,38 @@
+<div id="defineUniqueGroupAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">    
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content marginTop50 attributes-wrap">
+            <form class="form-horizontal" name="defineUniqueGroupAttributeForm" role="form" ng-init="setFormScope(this,'defineUniqueGroupAttributeForm');clearUniqueGroupValues()" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(defineUniqueGroupAttributeForm.$dirty,'defineUniqueGroup');">&times;</button>
+                    <h4><b>Define Unique Group</b></h4>
+                    <!--Place the error directive here-->
+                    <uib-alert ng-repeat="error in errorsUniqueGroup" type="danger" close="closeAlert($index)">{{error}}</uib-alert>
+                    </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Unique Group Name</label>
+                                <input type="text" class="form-control" ng-model="uniqGroup.name">
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--<div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group color-red" ng-show="errorsUniqueGroup.length > 0" ng-repeat="error in errorsUniqueGroup">{{error}}</div>
+                    </div>-->
+                </div>
+
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(defineUniqueGroupAttributeForm.$dirty,'defineUniqueGroup');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveDefineUniqueGroup(uniqGroup)" class="btn btn-primary" type="button"><i class="fa fa-pencil"></i> Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end popup modal window -->

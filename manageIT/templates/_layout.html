@@ -1,0 +1,72 @@
+﻿
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>Advertising Production System</title>
+
+    <environment names="Staging,Production">
+        <script src="/js/site.min.js"></script>
+        <link rel="stylesheet" href="/css/site.min.css" asp-append-version="true" />
+        <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap-theme.min.css">
+    </environment>
+
+    <environment names="Development">
+        <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/site.css">
+        <link rel="stylesheet" href="/css/custom.css">
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/lib/jquery-tree/jquery.tree-multiselect.min.css" />
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+
+        <script src="/lib/angular/angular.js"></script>
+        <script src="/lib/angular-resource/angular-resource.min.js"></script>
+        <script src="/lib/angular-route/angular-route.min.js"></script>
+        <!-- jQuery -->
+        <script src="/lib/jquery/dist/jquery.min.js"></script>
+        <!-- jQuery UI -->
+        <script src="/js/jquery.ui.mouse.min.js"></script>
+        <script src="/js/jquery.ui.sortable.min.js"></script>
+        <script src="/js/jquery.ui.widget.min.js"></script>
+        <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <!-- JQuery Tree MultiSelect -->
+        <script type="text/javascript" src="/lib/jquery-tree/jquery.tree-multiselect.min.js"></script>
+        <script src="/js/dualMultiSelect.js"></script>
+        <script src="/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <!-- ManageIT scripts -->
+        <script src="/manageIT/common/manageit-module.js"></script>
+        <script src="/manageIT/common/manageit-service.js"></script>
+        <script src="/manageIT/common/manageit-config.js"></script>
+        <script src="/manageIT/common/manageit-filter.js"></script>
+        <script src="/manageIT/common/manageit-directive.js"></script>
+        <script src="/framework/framework.js"></script>
+        <script src="/manageIT/common/manageit.js"></script>
+        <script src="/manageIT/domain/domain-service.js"></script>
+        <script src="/manageIT/domain/domain-controller.js"></script>
+        <script src="/manageIT/sequence/sequence-service.js"></script>
+        <script src="/manageIT/sequence/sequence-controller.js"></script>
+        <script src="/manageIT/contentType/contentType-service.js"></script>
+        <script src="/manageIT/contentType/contentType-controller.js"></script>
+        <script src="/manageIT/attribute/attribute-service.js"></script>
+        <script src="/manageIT/attribute/attribute-controller.js"></script>
+        <script src="/manageIT/classification/classification-service.js"></script>
+        <script src="/manageIT/classification/classification-controller.js"></script>
+        <script src="/manageIT/attributeSet/attributeset-service.js"></script>
+        <script src="/manageIT/attributeSet/attributeset-controller.js"></script>
+        <script src="/manageIT/classificationexpressionbuilder/classificationexpressionbuilder-controller.js"></script>
+        <script src="/manageIT/classificationexpressionbuilder/classificationexpressionbuilder-controller2.js"></script>
+        <script src="/manageIT/classificationexpressionbuilder/classificationexpressionbuilder-service.js"></script>
+        <script src="/manageIT/subObject/subObject-service.js"></script>
+        <script src="/manageIT/subObject/subObject-controller.js"></script>  
+    </environment>
+</head>
+
+<body class='sidebar-right' ng-controller="commonController">
+    <div ng-include="'/framework/partials/topmenu.html'"></div>
+    <div ng-include="'/manageIT/common/partials/manageit-settings.html'"></div>
+    <div ng-include="'/framework/partials/itmodules-menu.html'"></div>
+    <div ng-include="'/framework/partials/itmodules.html'"></div>
+</body>
+</html>

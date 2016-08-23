@@ -1,0 +1,80 @@
+﻿<div class="col-xs-12">
+    <div>
+        <h6 class="font-bold">Basic Properties</h6>
+        <error-control attribute-scope="errorContentTypedetails"></error-control>
+        <form name="documentLibraryUpdateForm" role="form" novalidate>
+
+            <div class="form-horizontal">
+                <div ng-show="true">
+
+
+                    <div class="form-group" ng-hide="true">
+                        <div class="row">
+                            <label for="" class="col-xs-3 control-label">Document Library Id<i class="mandatory">*</i></label>
+                            <div class="col-xs-5">
+                                <input type="text" name="domainId" maxlength="32" ng-model="docLibrary.documentLibraryId" ng-init="loadDocumentLibraries()" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                     
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="" class="col-xs-3 control-label">Singular Name<i class="mandatory">*</i></label>
+                            <div class="col-xs-5">
+                                <input type="text" name="singularName" maxlength="32" ng-model="docLibrary.singularName" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="" class="col-xs-3 control-label">Plural Name<i class="mandatory">*</i></label>
+                            <div class="col-xs-5">
+                                <input type="text" name="pluralName" maxlength="32" ng-model="docLibrary.pluralName" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="" class="col-xs-3 control-label">Identifier<i class="mandatory">*</i></label>
+                            <div class="col-xs-5">
+                                <input type="text" ng-disabled="true" name="identifier" ng-model="docLibrary.identifier" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <!--<div class="form-group mandatory">
+                        <div class="text-danger color-red col-xs-5 col-sm-offset-3" ng-show="contentTypeUpdateForm.singularName.$error.required && contentTypeUpdateForm.singularName.$dirty">Please enter Singular Name</div>
+                        <div class="text-danger color-red col-xs-5 col-sm-offset-3" ng-show="contentTypeUpdateForm.pluralName.$error.required && contentTypeUpdateForm.pluralName.$dirty">Please enter Plural Name</div>
+                        <div class="text-danger color-red col-xs-5 col-sm-offset-3" ng-show="contentTypeUpdateForm.identifier.$error.required && contentTypeUpdateForm.identifier.$dirty">Please enter Identifier</div>
+                        <div class="text-danger color-red col-xs-5 col-sm-offset-3" ng-show="errContentType.length > 0" ng-repeat="error in errContentType">{{error}}</div>
+                    </div>-->
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<div class="col-xs-12 marginTop20 update-btnbg">
+    <button class="btn btn-update pull-right" ng-disabled="documentLibraryUpdateForm.$invalid" ng-click="updateDocumentLibrary(docLibrary)"> <i class="fa fa-pencil"></i> Update</button>
+
+</div>
+
+

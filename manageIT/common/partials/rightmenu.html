@@ -1,0 +1,79 @@
+﻿<!--<div class="select-style">
+    <select ng-options="item.domainName for item in domains track by item.domainId"
+            ng-model="selectedContentTypeDomain"
+            ng-init="loadDomains('domain')"
+            ng-change="loadContentTypes(selectedContentTypeDomain)" class="right_content_select">
+        <option value="">--Select--</option>
+    </select>
+</div>-->
+<div class="right-menu-dropdown" ng-init="loadDomains('domain')">
+    <button type="button" class="btn btn-rightdropdown dropdown-toggle form-control" data-toggle="dropdown">
+        <span data-bind="label">{{selectedItem }}</span>&nbsp;<i class="caret"></i>
+    </button>
+   
+    <ul class="dropdown-menu" role="menu" >
+        <li ng-click="dropboxitemselected(item)" ng-if="item.isUserDefinedDomain == true" ng-repeat="item in domains">{{item.domainName}}</li>
+        <li class="divider"></li>
+        <li ng-click="listimagelibrary('first');" ng-if="item.isUserDefinedDomain == false && item.domainName == 'Image Libraries'" ng-repeat="item in domains">{{item.domainName}}</li>
+        <li ng-click="listdocumentlibrary('first');" ng-if="item.isUserDefinedDomain == false && item.domainName == 'Document Libraries'" ng-repeat="item in domains">{{item.domainName}}</li>
+    </ul>
+</div>
+
+<div class="sub-links-sidebar-right" ng-init="loadDomains('domain')">
+    <ul class="" >
+        <li ng-repeat="item in contentTypes" ng-model="contentTypeModel" ng-show="showContentTypeList">
+            <a href="#" ng-click="showContentType(item,'Contenttype')" ng-class="{'active-menu': contentTypeMenu == item.identifier}">
+                {{item.pluralName}}
+            </a>
+        </li>
+        <li ng-repeat="item in imageLibraries" ng-show="showImageTypeList">
+            <a href="#" ng-click="listimagelibrary(item.imageLibraryId)" ng-class="{'active-menu': contentTypeMenu == item.identifier}">
+                {{item.pluralName}}
+            </a>
+        </li>
+        <li ng-repeat="item in docLibraries" ng-show="showDocTypeList">
+            <a href="#" ng-click="listdocumentlibrary(item.documentLibraryId)" ng-class="{'active-menu': contentTypeMenu == item.identifier}">
+                {{item.pluralName}}
+            </a>
+        </li>   
+        <li ng-repeat="item in campaigns" ng-model="campaignBaseTypeModel">
+            <a href="#" ng-click="showCampaignsContentType(item)" ng-class="{'active-menu': contentTypeMenu == item.identifier}">
+                {{item.pluralName}}
+            </a>
+        </li>
+
+    </ul>
+    <ul class="" >
+       
+    </ul>
+    <ul class="" ng-show="showImageTypeList">
+        
+    </ul>
+</div>
+<button type="button" ng-show="isDomainSelected && showContentTypeList && isAdmin" data-toggle="modal" class="btn addcontent-btn-sidebar-right" ng-click="clearContentTypeMessages('Content Type')">
+    Add Content Type
+</button>
+<button type="button" ng-show="showImageTypeList && isAdmin" data-toggle="modal" data-target="#imageLibrary" class="btn addcontent-btn-sidebar-right">
+    Add Image Libraries
+</button>
+<button type="button" ng-show="showDocTypeList && isAdmin" data-toggle="modal" data-target="#docLibrary" class="btn addcontent-btn-sidebar-right">
+    Add Document Libraries
+</button>
+<!-- Right Menu -->
+
+<div ng-include="'/manageIT/libraries/partials/image-library.html'"></div>
+<div ng-include="'/manageIT/libraries/partials/doc-library.html'"></div>
+<script>
+    $(document.body).on('click', '.dropdown-menu li', function (event) {
+
+        var $target = $(event.currentTarget);
+
+        $target.closest('.right-menu-dropdown')
+           .find('[data-bind="label"]').text($target.text())
+              .end()
+           .children('.dropdown-toggle').dropdown('toggle');
+
+        return false;
+
+    });
+</script>

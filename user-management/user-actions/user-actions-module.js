@@ -1,0 +1,1 @@
+﻿var userActionsModule = angular.module('userActions', []);

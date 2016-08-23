@@ -1,0 +1,84 @@
+﻿<div ng-controller="domainController" ng-init="form={};">
+    <ng-form name="form.domainForm" novalidate="novalidate">
+        <div class="settings-contentbody-row">
+            <div class="settings-contentbody-cell settings-left-pannel">
+                <span class="settings-panel-heading">Content Type Domains</span>
+                <div id="custom-search-input">
+
+                    <div class="table-row search-warap">
+                        <div class="table-cell">
+                            <div class="settings-search">
+                                <input type="text" class="search-query form-control icon-search " ng-model="filter.domainName" placeholder="Search">
+                                <a class="searchclear" ng-click="filter.domainName = ''"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                
+                            </div>
+                            </div>
+
+                            <div class="table-cell">
+                                <button class="btn btn-default margin-left5" ng-click="clearDomainFields();focusInput=true">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                           
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        
+                        <div class="settings-multipleSelect-wrap">
+                            <select class="settings-multipleSelect" ng-model="selectedDomains" multiple="multiple" size=13>
+                                <option ng-repeat="dmn in getDetails.domains | orderBy: 'domainName' | filter:{isUserDefinedDomain:true} | filter:filter" ng-click="selectedDomain(dmn)" value="{{dmn.domainId}}">{{dmn.domainName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-contentbody-cell settings-right-pannel">
+                <span class="settings-panel-heading">Modify Domains</span>
+                <div class="settings-rightpannel-body">
+                    <div class="form-horizontal settings">
+                        <!--Place the error directive here-->
+                        <!--<error-control attribute-scope="domain"></error-control>-->
+                        <div ng-show="true">
+                            <div class="form-group" ng-hide="true">
+                                <label for="" class="col-sm-5 text-right control-label">Domain Version <span class="mandatory">*</span></label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="version" ng-model="domain.version" class="input-sm textbox-customstyle">
+                                </div>
+                            </div>
+                            <div class="form-group" ng-hide="true">
+                                <label for="" class="col-sm-5 text-right control-label">Domain Id <i class="mandatory">*</i></label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="domainId" ng-model="domain.domainId" class="input-sm textbox-customstyle">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-5 text-right control-label">Domain Name <i class="mandatory">*</i></label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="domainName" onblur="this.value = this.value.trim();" ng-model="domain.domainName"
+                                           ng-change="deriveDomainIdentifier()" class="form-control input-sm textbox-customstyle"
+                                           required="required" focus="changeFocus" focus-me="focusInput"/>
+                                </div>                                
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-5 text-right control-label">Domain Identifier<i class="mandatory">*</i></label>
+                                <div class="col-sm-7">
+                                    <input type="text" ng-disabled="(domain.domainId != '')" ng-change="deriveDomainIdentifierFromId()"
+                                           onblur="this.value = this.value.replace(/\s/g,'');" name="domainIdentifier" ng-model="domain.domainIdentifier"
+                                           class="form-control input-sm textbox-customstyle" required="required" allow-pattern="(\d|[a-z ])">
+                                </div>                                
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-bottom-devider clearfix"></div>
+        <div class="settings-bottom-btngroup">
+            <div class="btn-left"><button class="btn btn-danger" ng-disabled="isDeleteClicked" ng-click="confirmClick('Are you sure you want to delete?','Confirm','Delete','Cancel') && delete(selectedDomains)" confirm-click> <i class="fa fa-times"></i> Delete</button></div>
+            <div class="btn-right"><button class="btn btn-primary" ng-click="save(domain)"> <i class="fa fa-pencil"></i> Save</button></div>
+        </div>
+    </ng-form>
+</div>

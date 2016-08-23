@@ -1,0 +1,875 @@
+﻿<div class="box left-container">
+    <div class="left-content-wrap main-content" ng-controller="leftMenuController">
+        <div ng-show="isShowContent">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs position-relative" role="tablist">              
+                <li ng-if="searchPermissionCO && searchtypeinterfacesval.length > 0" role="presentation" class="searchClassCheck {{enableSearchTab}}"><a href="#" data-target="#search" aria-controls="search" role="tab" data-toggle="tab" ng-click="getlistsearchinterface(contentTypeId,subobjid,'search');enableLeftMenu()"><i class="fa fa-search"></i> Search</a></li>
+                <li ng-if="searchPermissionCO && listtypeinterfacesval.length > 0" role="presentation" class="listClassCheck {{enableListTab}}"><a href="#" data-target="#list" aria-controls="list" role="tab" data-toggle="tab" ng-click="getlistsearchinterface(contentTypeId,subobjid,'list');enableLeftMenu()"> <i class="fa fa-list"></i> List </a></li>
+                <li ng-if="searchPermissionCO && browsetypeinterfacesval.length > 0" role="presentation" class="browseClassCheck {{initTab}} {{enableBrowseTab}}"><a href="#" data-target="#browse" aria-controls="browse" role="tab" data-toggle="tab" ng-click="getlistsearchinterface(contentTypeId,subobjid,'browse');enableLeftMenu()"><i class="fa fa-refresh"></i> Browse</a></li>
+                <li ng-if="isAdmin" role="presentation" class="{{enableConfigTab}} configClassCheck"><a ng-href="/ManageIT/Properties/{{contentTypeModel.identifier}}" data-target="#configure" ng-click="enableLeftMenu()" aria-controls="configure" role="tab" data-toggle="tab"><i class="fa fa-cog"></i> Configure</a></li>
+
+                <li ng-if="addPermissionCO" class="pull-right {{addTab}} addTab" role="presentation"><a ng-href="/ManageIT/ContentObject/Default/{{selectedType}}/{{contentTypeId}}/SubObject/{{subobjid}}/ContentObject/0" ng-click="addNewProduct(contentTypeId,subobjid); enableTabAction('addTab')" aria-controls="addproduct" role="tab" data-toggle="tab"><i class="fa fa-plus"></i> Add {{contentTypeName}}</a></li>
+                <li ng-if="saveFlag && isAdmin" class="pull-right usageClassCheck" role="presentation"><a href="#" data-target="#usage" aria-controls="usage" role="tab" data-toggle="tab"><i class="fa fa-sitemap"></i> Usage</a></li>
+                <li ng-if="saveFlag && isAdmin" class="pull-right changelogClassCheck" role="presentation"><a href="#" data-target="#changelog" aria-controls="changelog" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Change Log</a></li>
+                <li ng-if="saveFlag && viewPermissionCO" class="pull-right {{viewTab}} viewTab" role="presentation"><a ng-href="/ManageIT/ContentObject/Default/ContentType/{{contentTypeId}}/SubObject/{{subobjid}}/ContentObject/{{singleContentObjectId}}/view"  ng-click="enableTabAction('viewTab')" aria-controls="viewproduct" role="tab" data-toggle="tab"><i class="fa fa-file-o"></i> View {{contentTypeName}} </a></li>
+                <li ng-if="checkinFlag && editPermissionCO" class="pull-right {{editTab}} editTab" role="presentation"><a ng-href="/ManageIT/ContentObject/Default/ContentType/{{contentTypeId}}/SubObject/{{subobjid}}/ContentObject/{{singleContentObjectId}}" ng-click="enableTabAction('editTab')" aria-controls="editproduct" role="tab" data-toggle="tab"><i class="fa fa-file-o"></i> Edit {{contentTypeName}} </a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane {{enableSearchTab}}" id="search">
+                    <!--Search content -->
+                    <div class="box-square-light padding10 view-object-forms">
+                        <div class="box-square-light padding8 marginbotTop5">
+                            <div class="row">
+                                <form>
+                                    <div class="col-xs-3">
+                                        <div class="form-group input-square">
+                                            <label for="">Search </label>                                   
+                                     
+                                            <select class="form-control" ng-model="searchinterfacetype" ng-change="getsearresult(searchinterfacetype,'','search')">
+                                                <option value="">value</option>
+                                                <option ng-selected="searchinterfacetype == data.searchInterfaceId" ng-repeat="data in searchtypeinterfaces | orderBy :'-orderNo'"
+                                                        value="{{data.searchInterfaceId}}">
+                                                    {{data.name}}
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 pull-right">
+                                        <div class="form-group input-square">
+                                            <label class="control-label" for="inputGroup">Keywords</label>
+                                            <div class="input-group input-group-unstyled">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Search" auto-complete  name="search_keyword" id="search_keyword" ng-change="autocomplete()" ng-model="search_keyword" />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" ng-click="getsearresult(searchinterfacetype,search_keyword, 'search')">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                             <div ng-show="!standardview">
+                                
+                                 <div >
+                                     <div id="{{data.contentObjectId}}" class="defaultTarget" ng-repeat="data in searchresults | filter:paginate">
+                                     </div>
+                                 </div>
+                                 <uib-pagination ng-model="currentPage"
+                                                 total-items="searchresults.length"
+                                                 max-size="2"
+                                                 boundary-links="true" items-per-page="numPerPage">
+                                 </uib-pagination>
+
+
+                             </div>                                             
+                        <div ng-show="standardview">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-xs-6 marginbotTop5" ng-repeat="data in searchresults | filter:paginate">
+                                    <div class="box-round-light padding8 position-relative">
+                                        <div class="brand-obj-img-wrap">
+                                            <span ng-init="displayImage(data.presentation.defaultImage.id,data.contentObjectId)" id="{{data.presentation.defaultImage.id}}" class="defaultImage"><img ng-if="defaultimageid" class="" src="{{defaultimageid}}" /></span>
+                                            <a href="#">
+                                                <img ng-if="!data.presentation.defaultImage.id" class="" src="{{data.presentation.defaultIcon.fileData}}" />
+                                            </a>
+                                        </div>
+                                        <div class="brand-obj-content-wrap">
+                                            <div class="brand-title marginbottom5"><a href="#"> {{data.presentation.namingExpression}}</a></div>
+                                            <a class="icon-clipboard" href="#" ng-click="viewcontent(data.contentObjectId)"></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <uib-pagination ng-model="currentPage"
+                                            total-items="searchresults.length"
+                                            max-size="2"
+                                            boundary-links="true" items-per-page="numPerPage">
+                            </uib-pagination>
+                        </div>    
+                        <div ng-if="searchresults.length == 0 || searchresults.length == ''">No Results found</div>                            
+                        </div>  
+                </div>
+
+                <div role="tabpanel" class="tab-pane {{enableListTab}}" id="list" ng-model="searchinterfaces" searchlistiteamresult>
+                    <!--List content -->
+                    <div class="box-square-light padding10 view-object-forms">
+                        <div class="box-square-light padding8 marginbotTop5">
+                            <div class="row">
+                                <form>
+                                    <div class="col-xs-3">
+                                        <div class="form-group input-square">
+                                            <label for="">List</label> 
+                                            <select class="form-control" ng-model="test" ng-change="getsearresult(test,'','list')">
+                                                <option value="">value</option>
+                                                <option ng-selected="listinterfacetype == data.searchInterfaceId" ng-repeat="data in listtypeinterfaces | orderBy :'-orderNo'"
+                                                        value="{{data.searchInterfaceId}}">
+                                                    {{data.name}}
+                                                </option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="viwedit-table-wrap marginTop10">
+                            <div class="table-responsive"  ng-if="searchresults.length > 0">
+                                <table id="example-table" class="table table-hover table-striped table-condensed">                                  
+                                    <thead>
+                                        <tr>
+                                            <th  ng-repeat="data in listinterfacedata.columns ">{{data.name}}<i ng-if="data.sortable" class="fa fa-fw fa-sort"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="(key, value) in searchresults | filter:listpaginate">
+                                            <td ng-repeat="(key1,value1) in value"> {{value1}}  </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <uib-pagination ng-model="currentPage"
+                                                total-items="searchresults.length"
+                                                max-size="5"
+                                                boundary-links="true" items-per-page="listPerPage">
+                                </uib-pagination>
+                            </div>
+                            <div ng-if="searchresults.length == 0 || searchresults.length == ''">No Results found</div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane {{enableBrowseTab}}" id="browse">
+                    <!--Browse content -->
+                    <div class="box-square-light padding10 view-object-forms">
+                        <div class="box-square-light padding8 marginbotTop5">
+                            <div class="row">
+                                <form>
+                                    <div class="col-xs-3">
+                                        <div class="form-group input-square">
+                                            <label for="">Browse</label>
+                                            <select class="form-control" ng-model="test" ng-change="getsearresult(test,'','browse')">
+                                                <option value="">Select Search Interface</option>
+                                                <option ng-selected="browseinterfacetype == data.searchInterfaceId" ng-repeat="data in browsetypeinterfaces | orderBy :'-orderNo'" value="{{data.searchInterfaceId}}">
+                                                    {{data.name}} 
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--<div class="row no-gutter">
+                            <div class="col-lg-4 col-md-6 col-xs-6 marginbotTop5" ng-repeat="data in browsetypeinterfaces  | filter:browsepaginate| filter:search">
+                                <div class="box-round-light padding8 position-relative">
+                                    <div class="brand-obj-img-wrap">
+                                        <a href="#"><img class="" src="http://s7d5.scene7.com/is/image/NB/w1080ps6_nb_14_i?$dw_pgp_hd$" /></a>
+                                    </div>
+                                    <div class="brand-obj-content-wrap">
+                                        <div class="brand-title marginbottom5"><a href="#">{{data.name}}</a></div>
+                                        <div class="brand-id marginbottom10">{{data.orderNo}}</div>
+                                        <div class="brand-disc">
+                                            <div class="brand-table_row">
+                                                <div class="brand-table_cell"><span class="font-bold">Status</span></div>
+                                                <div class="brand-table_celll">Active</div>
+                                            </div>
+
+                                            <div class="brand-table_row">
+                                                <div class="brand-table_cell"><span class="font-bold">Brand</span></div>
+                                                <div class="brand-table_cell">New Balance</div>
+                                            </div>
+
+                                            <div class="brand-table_row">
+                                                <div class="brand-table_cell"><span class="font-bold">Department</span></div>
+                                                <div class="brand-table_cell">Footwear</div>
+                                            </div>
+                                            <a class="icon-clipboard" href="#"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <uib-pagination ng-model="currentPage"
+                                        total-items="browsetypeinterfaces.length"
+                                        max-size="2"
+                                        boundary-links="true" items-per-page="browsePerPage">
+                        </uib-pagination>-->
+
+
+
+                        <div ng-show="!standardview">                          
+                           
+                                <div ng-if="searchresults.length > 0" search-results><div class="defaultBrowseTargets"></div> </div>
+                         
+                            <uib-pagination ng-model="currentPage"
+                                            total-items="searchresults.length"
+                                            max-size="2"
+                                            boundary-links="true" items-per-page="numPerPage">
+                            </uib-pagination>
+                        </div>
+                        <div  ng-show="standardview">
+                            <div class="row" >
+                                <div class="col-lg-4 col-md-6 col-xs-6 marginbotTop5" ng-repeat="data in searchresults | filter:browsepaginate">
+                                    <div class="box-round-light padding8 position-relative">
+                                        <div class="brand-obj-img-wrap">
+                                            <span ng-init="displayImage(data.presentation.defaultImage.id,data.contentObjectId)" id="{{data.presentation.defaultImage.id}}" class="defaultImage"><img ng-if="defaultimageid" class="" src="{{defaultimageid}}" /></span>
+                                            <a href="#">
+                                                <img ng-if="!data.presentation.defaultImage.id" class="" src="{{data.presentation.defaultIcon.fileData}}" />
+                                            </a>
+                                        </div>
+                                        <div class="brand-obj-content-wrap">
+                                            <div class="brand-title marginbottom5"><a href="#"> {{data.presentation.namingExpression}}</a></div>
+                                            <a class="icon-clipboard" href="#" ng-click="viewcontent(data.contentObjectId)"></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <uib-pagination ng-model="currentPage"
+                                            total-items="searchresults.length"
+                                            max-size="2"
+                                            boundary-links="true" items-per-page="browsePerPage">
+                            </uib-pagination>  
+                        </div>
+                        <div ng-if="searchresults.length == 0 || searchresults.length == ''">No Results found</div>
+                        
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane {{enableConfigTab}}" id="configure" ng-if="addPermissionCO">
+
+                    <div class="tablerow row tab-inner-content tab-inner-content-table">
+                        <!-- Main left Menu Start---------------------------------------->
+                        <div class="tablecol left-menu no-padding">
+                            <div id="acdnmenu" ng-include="'/manageit/common/partials/manageit-leftmenu.html'">
+                            </div>
+                        </div>
+                        <!-- Main left Menu End---------------------------------------->
+                        <!-- Main left Content Start---------------------------------------->
+                        <div class="tablecol main-area-wrap" ng-view>
+
+                        </div>
+                        <!-- Main left Content End---------------------------------------->
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="viewproduct">
+
+                    <!-- view content object start -->
+                    <div class="padding10 box-square-light">
+                        <div class="row marginbottom15">
+                            <div class="col-xs-8">
+                                <div class="page-title">Free 5.0 Girls Running Shoes</div>
+                            </div>
+                            <div class="col-xs-4 viwbuttons">
+                                <button class="btn btn-update pull-right">Delete</button>
+                                <button class="btn btn-update pull-right marginRight5">Check Out</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold"><label>Product Code</label></div>
+                                            <div class="content-object-tcell"><label>235214</label></div>
+                                        </div>
+
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold"><label>Status</label></div>
+                                            <div class="content-object-tcell"><label>Active</label></div>
+                                        </div>
+
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold"><label>Brand</label></div>
+                                            <div class="content-object-tcell"><label>Nike</label></div>
+                                        </div>
+
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold"><label>Department</label></div>
+                                            <div class="content-object-tcell"><label>Footware</label></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold"><label>Catagory</label></div>
+                                            <div class="content-object-tcell"><label>Girl's</label></div>
+                                        </div>
+
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold"><label>Product Type</label></div>
+                                            <div class="content-object-tcell"><label>Footware</label></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <!--copy-->
+                                <div class="marginbottom10 clearfix">
+                                    <div class="marginbottom5">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="paddingTop10 labels-bold"><label>Advertising Copy</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 clearfix">
+                                            <div class="row">
+                                                <div class="flat-right marginbottom5 ">
+                                                    <select class="form-control select-option width150">
+                                                        <option selected="selected">Rebel</option>
+                                                        <option>Brand</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="settings-bottom-devider clearfix"></div>
+                                    </div>
+
+                                    <div class="col-xs-12 box-round-light padding5">
+
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                <label class="control-label" for="">Copy</label>
+                                            </div>
+
+                                            <div class="content-object-tcell">
+                                                <label class="control-label" for="">Nike Free 5.0 Girls Running Shoes</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                <label class="control-label" for="">Body</label>
+                                            </div>
+
+                                            <div class="content-object-tcell">
+                                                <label class="control-label" for="">The Nike Free 5.0 Girl's Running Shoe features a flexible outside and a mesh upper with Flywire technology for lightweight, breathable comfort and freedom to move wherever you go.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="content-object-trow">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                <label class="control-label" for="">Callout</label>
+                                            </div>
+
+                                            <div class="content-object-tcell">
+                                                <label class="control-label" for="">Stylish Footwere</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--copy end-->
+                                <!--styles-list-->
+                                <div class="marginbottom10 clearfix">
+                                    <div class="marginbottom5">
+                                        <div class="col-xs-12">
+                                            <div class="row">
+                                                <div class="labels-bold"><label>Styles</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="settings-bottom-devider clearfix"></div>
+                                    </div>
+
+
+                                    <div class="col-xs-12">
+
+                                        <div class="row">
+                                            <div class="content-object-trow">
+                                                <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                    <label class="control-label" for="">Style Code</label>
+                                                </div>
+
+                                                <div class="content-object-tcell">
+                                                    <label class="control-label" for="">23521410</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="content-object-trow">
+                                                <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                    <label class="control-label" for="">Color</label>
+                                                </div>
+
+                                                <div class="content-object-tcell">
+                                                    <label class="control-label" for="">Red</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="content-object-trow">
+                                                <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                    <label class="control-label" for="">UK Sizing</label>
+                                                </div>
+
+                                                <div class="content-object-tcell">
+                                                    <label class="control-label" for="">10</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="content-object-trow">
+                                                <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                    <label class="control-label" for="">US Sizing</label>
+                                                </div>
+
+                                                <div class="content-object-tcell">
+                                                    <label class="control-label" for="">9.5</label>
+                                                </div>
+                                            </div>
+                                            <div class="settings-bottom-devider clearfix marginbottom5"></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="content-object-trow">
+                                                <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                    <label class="control-label" for="">Style Code</label>
+                                                </div>
+
+                                                <div class="content-object-tcell">
+                                                    <label class="control-label" for="">23521410</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="content-object-trow">
+                                                <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                    <label class="control-label" for="">Color</label>
+                                                </div>
+
+                                                <div class="content-object-tcell">
+                                                    <label class="control-label" for="">Red</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="content-object-trow">
+                                                <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                    <label class="control-label" for="">UK Sizing</label>
+                                                </div>
+
+                                                <div class="content-object-tcell">
+                                                    <label class="control-label" for="">10</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="content-object-trow">
+                                                <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                    <label class="control-label" for="">US Sizing</label>
+                                                </div>
+
+                                                <div class="content-object-tcell">
+                                                    <label class="control-label" for="">9.5</label>
+                                                </div>
+                                            </div>
+                                            <div class="settings-bottom-devider clearfix marginbottom5"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--styles-list end-->
+
+                                <!--styles-table-->
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                    <div class="editcontent-table">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-condensed">
+
+                                                <tr>
+                                                    <th class="labels-bold"><label class="control-label" for="">Style Code</label></th>
+                                                    <th class="labels-bold"><label class="control-label" for="">Color</label></th>
+                                                    <th class="labels-bold"><label class="control-label" for="">UK Sizing</label></th>
+                                                    <th class="labels-bold"><label class="control-label" for="">US Sizing</label></th>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>23521401</td>
+                                                    <td>Fuschia</td>
+                                                    <td>10</td>
+                                                    <td>9.5</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>23521401</td>
+                                                    <td>Fuschia</td>
+                                                    <td>10</td>
+                                                    <td>9.5</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>23521401</td>
+                                                    <td>Fuschia</td>
+                                                    <td>10</td>
+                                                    <td>9.5</td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                    </div>
+                                <!--styles-table End-->
+
+
+
+
+                            </div>
+                            <div class="col-xs-5">
+                                <div class="row marginbottom5">
+                                    <div class="col-xs-12"><span class="font-bold">Product Images</span></div>
+                                </div>
+
+                                <div class="row marginbottom5">
+                                    <div class="col-xs-12">
+                                        <div class="viewcontent-imagewrap bg-white padding5 min-height300" id="itemContainer">
+                                            <ul class="productimage bg-white">
+                                                <li>
+                                                    <div class="product-image-wrap">
+                                                        <div class="productimage-border">
+                                                            <img src="../../../images/icon-box.png" />
+                                                        </div>
+                                                        <div class="product-code-text">RS124124</div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- view content object End -->
+
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="changelog">
+                    <div class="box-square-light padding10">
+                        <div class="row">
+                            <div class="col-xs-12 marginbottom15">
+                                <div class="page-title">Free 5.0 Girls Running Shoes - Chnage Log</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="fold-table table">
+                                    <tbody>
+                                        <!-- Row 1 -->
+                                        <tr class="view open">
+                                            <td width="170"><b>20/03/2015 9:15am</b></td>
+                                            <td><b>Sam Smith</b></td>
+                                        </tr>
+                                        <tr class="fold open">
+                                            <td colspan="2">
+                                                <div class="fold-content">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Action</th>
+                                                                <th>Item</th>
+                                                                <th>Attribute</th>
+                                                                <th>Original Value</th>
+                                                                <th>Value</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><span class="green-color font-bold">Added</span></td>
+                                                                <td>Sub-Object (Style)</td>
+                                                                <td>Style Code</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>2012142</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>Colour</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>Black</td>
+                                                            </tr>
+                                                            <tr class="bottom-border-empty">
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>Size</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>10.5</td>
+                                                            </tr>
+                                                            <tr class="bottom-border-empty">
+                                                                <td><span class="orange-color font-bold">Changed</span></td>
+                                                                <td>Attribute</td>
+                                                                <td>Price</td>
+                                                                <td>$22.50</td>
+                                                                <td>$20.00</td>
+                                                            </tr>
+
+                                                            <tr class="bottom-border-empty">
+                                                                <td><span class="orange-color font-bold">Changed</span></td>
+                                                                <td>Attribute</td>
+                                                                <td>Discription</td>
+                                                                <td>Free 5.0 Girls Runner</td>
+                                                                <td>Free 5.0 Girl's Running Shoe</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Row 2 -->
+                                        <tr class="view">
+                                            <td width="170"><b>20/03/2015 2:15am</b></td>
+                                            <td><b>Tom Thompson</b></td>
+                                        </tr>
+                                        <tr class="fold">
+                                            <td colspan="2">
+                                                <div class="fold-content">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Action</th>
+                                                                <th>Item</th>
+                                                                <th>Attribute</th>
+                                                                <th>Original Value</th>
+                                                                <th>Value</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><span class="green-color font-bold">Added</span></td>
+                                                                <td>Sub-Object (Style)</td>
+                                                                <td>Style Code</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>2012142</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>Colour</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>Black</td>
+                                                            </tr>
+                                                            <tr class="bottom-border-empty">
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>Size</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>10.5</td>
+                                                            </tr>
+                                                            <tr class="bottom-border-empty">
+                                                                <td><span class="orange-color font-bold">Changed</span></td>
+                                                                <td>Attribute</td>
+                                                                <td>Price</td>
+                                                                <td>$22.50</td>
+                                                                <td>$20.00</td>
+                                                            </tr>
+
+                                                            <tr class="bottom-border-empty">
+                                                                <td><span class="orange-color font-bold">Changed</span></td>
+                                                                <td>Attribute</td>
+                                                                <td>Discription</td>
+                                                                <td>Free 5.0 Girls Runner</td>
+                                                                <td>Free 5.0 Girl's Running Shoe</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Row 3 -->
+                                        <tr class="view">
+                                            <td width="170"><b>20/03/2015 4:15am</b></td>
+                                            <td><b>Sam Smith</b></td>
+                                        </tr>
+                                        <tr class="fold">
+                                            <td colspan="2">
+                                                <div class="fold-content">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Action</th>
+                                                                <th>Item</th>
+                                                                <th>Attribute</th>
+                                                                <th>Original Value</th>
+                                                                <th>Value</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><span class="green-color font-bold">Added</span></td>
+                                                                <td>Sub-Object (Style)</td>
+                                                                <td>Style Code</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>2012142</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>Colour</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>Black</td>
+                                                            </tr>
+                                                            <tr class="bottom-border-empty">
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>Size</td>
+                                                                <td><span class="gray-light-color">(Not Specified)</span></td>
+                                                                <td>10.5</td>
+                                                            </tr>
+                                                            <tr class="bottom-border-empty">
+                                                                <td><span class="orange-color font-bold">Changed</span></td>
+                                                                <td>Attribute</td>
+                                                                <td>Price</td>
+                                                                <td>$22.50</td>
+                                                                <td>$20.00</td>
+                                                            </tr>
+
+                                                            <tr class="bottom-border-empty">
+                                                                <td><span class="orange-color font-bold">Changed</span></td>
+                                                                <td>Attribute</td>
+                                                                <td>Discription</td>
+                                                                <td>Free 5.0 Girls Runner</td>
+                                                                <td>Free 5.0 Girl's Running Shoe</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="usage">
+
+                    <div class="box-square-light padding10 noborder-table">
+                        <div class="row">
+                            <div class="col-xs-12 marginbottom15">
+                                <div class="page-title">Free 5.0 Girls Running Shoes - Usage</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <ul id="demo1" class="multi-collapse">
+                                <li>
+                                    <a href="#"><strong>Offer (Primary Product)</strong> $20 off the Free Runner 5.0 Running Shoe</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#"><strong>Page</strong> Page 12 - Save on Footware</a>
+                                            <ul>
+                                                <li>
+                                                    <a href="#"><strong>Job</strong> 25124 November 2014 Savings</a>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#"><strong>Campagin</strong> Pre-Christmas Promotions</a>
+                                                            <ul> </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><strong>Offer (Secondary Product)</strong> $20 off the Free Runner 5.0 Running Shoe</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#"><strong>Page</strong> Page 12 - Save on Footware</a>
+                                            <ul>
+                                                <li>
+                                                    <a href="#"><strong>Job</strong> 25124 November 2014 Savings</a>
+
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#"><strong>Campagin</strong> Pre-Christmas Promotions</a>
+                                                            <ul> </ul>
+                                                        </li>
+                                                    </ul>
+
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><strong>Offer (Primary Product)</strong> $20 off the Free Runner 5.0 Running Shoe</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#"><strong>Page</strong> Page 12 - Save on Footware</a>
+                                            <ul>
+                                                <li>
+                                                    <a href="#"><strong>Job</strong> 25124 November 2014 Savings</a>
+
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#"><strong>Campagin</strong> Pre-Christmas Promotions</a>
+                                                            <ul> </ul>
+                                                        </li>
+                                                    </ul>
+
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="addproduct">
+                    <div class="box-square-light padding10">
+                        Under Development
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="box right-menu" ng-include="'/manageit/common/partials/rightmenu.html'"></div>
+
+
+
+
+<!--Chnage log screen js-->
+<script>
+    $(function () {
+        $(".fold-table tr.view").on("click", function () {
+            if ($(this).hasClass("open")) {
+                $(this).removeClass("open").next(".fold").removeClass("open");
+            } else {
+                $(".fold-table tr.view").removeClass("open").next(".fold").removeClass("open");
+                $(this).addClass("open").next(".fold").addClass("open");
+            }
+        });
+    });
+</script>
+
+
+
+<!--multiple collapse js for usage screen-->
+<script>
+    $(document).ready(function () {
+        $("#demo1").navgoco({
+            slide: {
+                duration: 100,
+                easing: 'swing'
+            }
+        });
+    });
+</script>
+
+

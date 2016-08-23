@@ -1,0 +1,96 @@
+﻿<div id="DecimalAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="decimalAttributeForm" role="form" ng-init="setFormScope(this,'decimalAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(decimalAttributeForm.$dirty,'Decimal');" >&times;</button>
+                    <h4><b>{{ action }} {{formName}} Attribute</b></h4>                    
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+
+                        <basic-properties attribute-scope="decimalAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"
+                                          clear-unique-group-values="clearUniqueGroupValues"></basic-properties>
+                        <div class="row">
+                            <div class="col-xs-12 marginTop20">
+                                <div class="attribute-model-title">{{formName}} Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="row">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-7 control-label align-left">Minimum value</label>
+                                            <div class="col-xs-5" ng-class="{'has-error': showErrorRangeMessage==true}">
+                                                <input type="number" class="form-control" max="9999999999999" min="-9999999999999" name="minimumvalue"  ng-model="decimalAttribute.minimumvalue"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-7 control-label align-left">Maximum value</label>
+                                            <div class="col-xs-5">
+                                                <input class="form-control" max="9999999999999" min="-9999999999999" name="maximumvalue" type="number" ng-model="decimalAttribute.maximumvalue" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="row">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-7 control-label align-left">Default value</label>
+                                            <div class="col-xs-5">
+                                                <input type="number" class="form-control" max="9999999999999" min="-9999999999999" ng-model="decimalAttribute.defaultvalue" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-7 control-label align-left" ng-show="formName == 'Decimal'">Decimal places</label>
+                                            <div class="col-xs-5">
+                                                <input type="number" class="form-control" max="9999999999999" min="-9999999999999" ng-show="formName == 'Decimal'" ng-model="decimalAttribute.decimalplaces" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="cor-border padding10">
+                                    <div class="form-group display-flex">
+                                        <select data-ng-model="decimalAttribute.displayaspriceorpercentage" data-ng-options="option.key as option.value for option in decimalDisplayAsPrice" class="form-control"
+                                                ng-disabled="displayaspriceorpercentageDisabled"></select>
+                                        <input ng-if="decimalAttribute.displayaspriceorpercentage==1" ng-init="decimalAttribute.currencyPrefix='$'" type="text" ng-pattern='/^[€ £ $]+$/'
+                                               class="form-control formwidth35 align-center margin-left5" name="currencyPrefix" ng-model="decimalAttribute.currencyPrefix" />
+                                    </div>                                    
+                                    <span class="color-red" ng-show="decimalAttributeForm.currencyPrefix.$error.pattern">Incorrect Currency.</span>
+                                    <div class="checkbox checkbox-radio-space marginbottom0" ng-if="decimalAttribute.displayaspriceorpercentage==1">
+                                        <label>
+                                            <input type="checkbox" name="isInheritfromcontext" ng-model="decimalAttribute.inheritfromcontext" class=""> <span>Inherit symbol from context</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>                
+
+                </div>
+
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(decimalAttributeForm.$dirty,'Decimal');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveDecimalAttribute(decimalAttribute)" ng-disabled="decimalAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

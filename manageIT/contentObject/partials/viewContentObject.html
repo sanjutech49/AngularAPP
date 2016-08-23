@@ -1,0 +1,237 @@
+﻿<viewparent>
+    <div class="col-xs-12 padding20" ng-controller="contentObjectController">
+        <error-control attribute-scope="errorContentObjectdetails" ng-show="!errorContentObjectdetails.isHide"></error-control>
+        <div class="row">
+            <div>
+
+               
+
+                <!--br /><br /><br /><br /><br /><br />
+                <div ng-include="'/manageIT/contentObject/partials/product-list.html'"></div-->
+               
+                <div class="padding10 box-square-light">
+                    <div class="row marginbottom15">
+                        <div class="col-xs-8">
+                            <div class="page-title" default-name>
+                                
+                            </div>
+                            <div testme ></div>
+
+                        </div>
+                        <div class="col-xs-4 viwbuttons">
+                            <button ng-if="deletePermissionCO || isAdmin" class="btn btn-update pull-right" href="#" rel="tooltip" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deleteContentObject()" confirm-click="" title="Delete">Delete</button>
+                            <button ng-if="editPermissionCO || isAdmin" class="btn btn-update pull-right marginRight5" ng-click="editContentObject()">Check Out</button>
+                        </div>
+                    </div>
+                    <span style="cursor:pointer; display:none;" default-action="view" default-target="viewProduct" show-view="true"></span>
+                    <div class="containers viewProduct" data-container="viewProduct"></div>
+                    <div class="row"  id="viewUserInterfaceId">
+                        <div class="col-xs-7">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="content-object-trow" data-ng-repeat="option in contentObjectRecords.attributeCollection | filter:{ type: '!CopyAttribute'}">
+                                        <div conditional-attribute="{{option.name}}">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold"><label>{{option.name}}</label></div>
+                                            <div class="content-object-tcell"><label data-ng-repeat="opt in option.value track by $index">{{opt}}{{$last ? '' : ', '}}</label></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <!--copy-->
+                            <div class="marginbottom10 clearfix" conditional-attribute="{{option.name}}" data-ng-repeat="option in contentObjectRecords.copyAttributeCollection | filter:{ type: 'CopyAttribute'}">
+                                <div class="marginbottom5">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="paddingTop10 labels-bold"><label>{{option.name}}</label></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 clearfix">
+                                        <div class="row">
+                                            <div class="flat-right marginbottom5 ">
+                                                <select class="form-control select-option width150">
+                                                    <option selected="selected">Rebel</option>
+                                                    <option>Brand</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="settings-bottom-devider clearfix"></div>
+                                </div>
+
+                                <div class="col-xs-12 box-round-light padding5" data-ng-repeat="opt in option.value track by $index">
+
+                                    <div class="content-object-trow">
+                                        <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                            <label class="control-label" for="">{{opt.name}}</label>
+                                        </div>
+
+                                        <div class="content-object-tcell">
+                                            <label class="control-label"  for="">{{opt.value}}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--copy end-->
+                            <!--styles-list-->
+
+                            <div class="marginbottom10 clearfix" ng-show="sublen != 0">
+                                <div class="marginbottom5">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="labels-bold"><label>Styles</label></div>
+                                        </div>
+                                    </div>
+                                    <div class="settings-bottom-devider clearfix"></div>
+                                </div>
+
+
+                                <div class="col-xs-12">
+
+                                    <!-- <div class="row">
+                                         <div class="content-object-trow" data-ng-repeat="option in contentObjectRecords.subObjAttrCollection">
+                                             <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                 <label class="control-label" for="">{{option.name}}</label>
+                                             </div>
+
+                                             <div class="content-object-tcell">
+                                                 <label class="control-label" for="">{{option.value}}</label>
+                                             </div>
+                                         </div>
+
+
+                                         <div class="settings-bottom-devider clearfix marginbottom5"></div>
+                                     </div>-->
+
+                                    <div class="row">
+                                        <div class="content-object-trow" data-ng-repeat="option in contentObjectRecords.subObjAttrCollection">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                                <label class="control-label" for="">{{option.name}}</label>
+                                            </div>
+
+
+                                            <div class="content-object-tcell">
+                                                <label class="control-label" for="">{{option.value[0]}}</label>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="settings-bottom-devider clearfix marginbottom5"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--styles-list end-->
+                            <!--styles-table-->
+                            <div class="col-xs-12" ng-show="sublen != 0">
+                                <div class="row">
+                                    <div class="editcontent-table">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-condensed">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="labels-bold" data-ng-repeat="option in contentObjectRecords.subObjAttrCollection"><label class="control-label" for="">{{option.name}}</label></th>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td data-ng-repeat="option in contentObjectRecords.subObjAttrCollection">{{option.value[0]}}</td>
+
+                                                    </tr>
+                                                </tbody>
+
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--styles-table End-->
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="content-object-trow" data-ng-repeat="option in contentObjectRecords.attributeSetCollection | filter:{ type: '!CopyAttribute'}">
+                                        <div conditional-attribute="{{option.name}}">
+                                            <div class="content-object-tcell paddingRight20 width150 labels-bold"><label>{{option.name}}</label></div>
+                                            <div class="content-object-tcell"><label data-ng-repeat="opt in option.value track by $index">{{opt}}{{$last ? '' : ', '}}</label></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="marginbottom10 clearfix" data-ng-repeat="option in contentObjectRecords.attributeSetCollection | filter:{ type: 'CopyAttribute'}">
+                                <div class="marginbottom5">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="paddingTop10 labels-bold"><label>{{option.name}}</label></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 clearfix">
+                                        <div class="row">
+                                            <div class="flat-right marginbottom5 ">
+                                                <select class="form-control select-option width150">
+                                                    <option selected="selected">Rebel</option>
+                                                    <option>Brand</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="settings-bottom-devider clearfix"></div>
+                                </div>
+
+                                <div class="col-xs-12 box-round-light padding5" data-ng-repeat="opt in option.value track by $index">
+
+                                    <div class="content-object-trow">
+                                        <div class="content-object-tcell paddingRight20 width150 labels-bold">
+                                            <label class="control-label" for="">{{opt}}{{$last ? '' : ', '}}</label>
+                                        </div>
+
+                                        <div class="content-object-tcell">
+                                            <label class="control-label" for="">{{opt}}{{$last ? '' : ', '}}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-xs-5" ng-repeat="option in contentObjectRecords.attributeCollection | filter:{ type: 'ImageAttribute'}">
+                            <div class="row marginbottom5">
+                                <div class="col-xs-12"><span class="font-bold">Product Images</span></div>
+                            </div>
+
+                            <div class="row marginbottom5">
+                                <div class="col-xs-12">
+                                    <div class="viewcontent-imagewrap bg-white padding5 min-height300" id="itemContainer">
+                                        <ul class="productimage bg-white">
+                                            <li>
+                                                <div class="product-image-wrap">
+                                                    <div class="productimage-border">
+                                                        <img src="../../../images/icon-box.png" />
+                                                    </div>
+                                                    <div class="product-code-text">RS124124</div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- view content object End -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</viewparent>

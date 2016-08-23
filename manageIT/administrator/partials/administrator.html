@@ -1,0 +1,65 @@
+﻿<div   ng-controller="administratorController" ng-init="form={};">
+    <ng-form name="scope.domainForm" novalidate="novalidate">
+
+        <div class="filter-table-row marginTop5">
+            <div class="filter-table-cell filter-table-cel-padding width-45-percent">
+                <span class="settings-panel-heading">Available Roles</span>
+                <div id="custom-search-input">
+                    <div class="search-warap">
+                        <div class="settings-search">
+                            <input type="text" class="search-query form-control icon-search " ng-model="filter.Name" placeholder="Search">
+                            <a class="searchclear" ng-click="filter.Name = ''"><i class="fa fa-times" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="settings-multipleSelect-wrap">
+                            <select class="settings-multipleSelect" ng-model="selectedUserRoles" multiple="multiple" size=13>
+                                <option ng-repeat="role in getDetails.admin | orderBy: 'Name' |  filter:filter | filter: {IsContentAdmin:'false', IsImplicitRole:'false'}" ng-click="selectedRole(role)" value="{{role.Id}}">{{role.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="filter-table-cell filter-table-cel-padding width-10-percent">
+                <div class="jobit-multi-select-list-buttons">
+                    <button ng-click="moveRight()" type="button" class="btn btn-default marginbottom10"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    <button ng-click="moveLeft()" type="button" class="btn btn-default marginbottom10"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                </div>
+            </div>
+
+            <div class="filter-table-cell filter-table-cel-padding width-45-percent">
+                <span class="settings-panel-heading">ManageIT Content Administrators</span>
+                <div id="custom-search-inputs">
+
+                    <div class="search-warap">
+                        <div class="settings-search">
+                            <input type="text" class="search-query form-control icon-search " ng-model="selectedfilter.Name" placeholder="Search">
+                            <a class="searchclear" ng-click="selectedfilter.Name = ''"><i class="fa fa-times" aria-hidden="true"></i></a>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="settings-multipleSelect-wrap">
+                            <select class="settings-multipleSelect" multiple="multiple" size=13>
+                                <option ng-repeat="selrole in getDetails.contentAdmin | orderBy: 'Name' | filter:selectedfilter" ng-click="unselectedRole(selrole)" value="{{selrole.Id}}">{{selrole.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        
+        <div class="settings-bottom-devider clearfix"></div>
+        <div class="settings-bottom-btngroup">
+            <div class="btn-right"><button class="btn btn-primary" ng-click="UpdateContentAdminRoles()"> <i class="fa fa-pencil"></i> Save</button></div>
+        </div>
+    </ng-form>
+</div>

@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<base href="/" />
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>Advertising Production System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="IPP Technologies Pty Ltd">
+
+    <environment names="Development">        
+        <!-- Bootstrap Core CSS -->
+        <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- Custom CSS -->
+        <link href="/css/custom.css" rel="stylesheet" /> 
+        <!-- Custom Fonts -->
+        <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+        
+
+        <link href="lib/tree-multiselect/dist/jquery.tree-multiselect.min.css" rel="stylesheet" />
+        <!-- jQuery UI -->
+        <script src="/lib/jquery/dist/jquery.min.js"></script>
+
+        <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <link href="/lib/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet" />
+        <link href="/lib/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+        <!-- JQuery Tree MultiSelect -->
+        <script src="lib/tree-multiselect/dist/jquery.tree-multiselect.min.js"></script>
+       
+        
+        <!-- usage screen js-->
+        <script src="/js/usage-screen-js.js"></script>
+        <script src="/js/jquery.navgoco.min.js"></script>
+
+        <!-- Angular framework -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-resource.min.js"></script>
+        <script src="/lib/angular-route/angular-route.min.js"></script>
+        <script src="../lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+       
+        <script src="/js/angular-jwt.js"></script>
+        <link href="/lib/angular-ui/build/angular-ui.css" rel="stylesheet" />
+        <script src="/lib/angular-ui/build/angular-ui.js"></script>
+
+        <!-- AngularJS UI -->
+        <!--<script src="/lib/angular-ui/build/angular-ui.js"></script>-->
+        <script src="/lib/angular-ui/build/angular-ui.min.js"></script>        
+        <script src="/js/sortable.js"></script>
+
+        <!--Don't change the  Ui.Bootstrap Files position, date&time attributs may effect-->
+        <!--Ui.Bootstrap related Files-->
+        <link href="/lib/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet" />
+        <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="/js/bootstrap-dialog.min.js"></script>
+        <link href="/css/bootstrap-dialog.min.css" rel="stylesheet" />
+        <script src="/js/angular-sanitize.min.js"></script>
+        <script src="/js/angular-translate.min.js"></script>
+        <!--<script src="/js/ui-bootstrap-tpls-0.11.0.min.js"></script>-->
+        <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="/js/dialogs.min.js"></script>
+        <link href="/css/dialogs.min.css" rel="stylesheet" />
+
+       <!--Multiselect dropdown-->
+        <script src="/js/underscore-min.js"></script>
+
+        <!-- ManageIT scripts -->
+        <script src="lib/angular-animate/angular-animate.min.js"></script>
+        <script src="lib/angular-aria/angular-aria.min.js"></script>
+        <link href="lib/angular-material/angular-material.css" rel="stylesheet" />
+
+        <script src="lib/angular-material/angular-material.js"></script>
+        <script src="/app/app.js"></script>
+        <script src="/manageit/system-settings/systemsettings-module.js"></script>
+        <script src="/manageit/system-settings/systemsettings-model.js"></script>
+        <script src="/manageit/system-settings/systemsettings-controller.js"></script>
+        <script src="/manageit/system-settings/systemsettings-services.js"></script>
+        <script src="/manageIT/common/manageit-module.js"></script>
+        <script src="/manageIT/common/manageit-service.js"></script>
+        <script src="/manageIT/common/manageit-config.js"></script>
+        <script src="/manageIT/common/manageit-filter.js"></script>
+        <script src="/manageIT/common/manageit-directive.js"></script>
+        <script src="/manageIT/common/manageit-controller.js"></script>
+        <script src="/manageIT/common/instance-info.js"></script>
+        <script src="/manageit/common/directive/dialogboxdirective.js"></script>
+        <script src="/framework/framework.js"></script>
+        <script src="/framework/framework-config.js"></script>
+        <script src="/framework/config-url-model.js"></script>
+        <script src="/framework/environment.js"></script>
+        <script src="/manageIT/common/manageit.js"></script>
+        <script src="/manageIT/domain/domain-service.js"></script>
+        <script src="/manageIT/domain/domain-controller.js"></script>
+        <script src="/manageIT/administrator/administrator-service.js"></script>
+        <script src="/manageIT/administrator/administrator-controller.js"></script>
+        <script src="/manageIT/sequence/sequence-service.js"></script>
+        <script src="/manageIT/sequence/sequence-controller.js"></script>
+        <script src="/manageIT/contentType/contentType-service.js"></script>
+        <script src="/manageIT/contentType/contentType-controller.js"></script>
+      
+        <script src="/manageIT/contentType/seect-base-type-controller.js"></script>
+        <script src="/manageIT/contentType/seect-base-type-model.js"></script>
+        <script src="/manageIT/attribute/attribute-service.js"></script>
+        <script src="/manageIT/attribute/attribute-controller.js"></script>
+        <script src="/manageIT/classification/classification-service.js"></script>
+        <script src="/manageIT/classification/classification-controller.js"></script>
+        <script src="/manageIT/attributeSet/attributeset-service.js"></script>
+        <script src="/manageIT/attributeSet/attributeset-controller.js"></script>
+        <script src="/manageIT/classificationexpressionbuilder/classificationexpressionbuilder-controller.js"></script>
+        <script src="/manageIT/classificationexpressionbuilder/classificationexpressionbuilder-controller2.js"></script>
+        <script src="/manageIT/classificationexpressionbuilder/classificationexpressionbuilderEdituser-controller.js"></script>
+        <script src="/manageIT/classificationexpressionbuilder/classificationexpressionbuilder-service.js"></script>
+        <script src="/manageIT/compositions/composition-service.js"></script>
+        <script src="/manageIT/compositions/composition-controller.js"></script>
+        <script src="/manageIT/presentation/presentation-controller.js"></script> 
+        <script src="/manageIT/presentation/presentation-service.js"></script> 
+        <script src="/manageIT/userInterfaces/userinterface-controller.js"></script>       
+        <script src="/manageIT/userInterfaces/userinterface-service.js"></script>
+        <script src="/manageIT/searchInterfaces/searchinterface-controller.js"></script>
+        <script src="/manageIT/searchInterfaces/searchinterface-service.js"></script>
+        <script src="/manageIT/subObject/subObject-service.js"></script>
+        <script src="/manageIT/subObject/subObject-controller.js"></script>
+        <script src="/js/angular-local-storage.min.js"></script>
+        <script src="/js/angular-storage.js"></script>
+        <script src="/manageIT/layouts/layouts-service.js"></script>
+        <script src="/manageIT/layouts/layouts-controller.js"></script>
+        <script src="/manageIT/contentobject/contentobject-service.js"></script>
+        <script src="/manageIT/contentobject/contentobject-controller.js"></script>
+        <script src="/manageIT/contentObject/contentobject-directive.js"></script>
+
+        <script src="/user-management/user-actions/user-actions-module.js"></script>
+        <script src="/user-management/user-actions/user-actions-controller.js"></script>
+        <script src="/user-management/user-actions/user-actions-service.js"></script>
+        <script src="/user-management/user-actions/user-actions-model.js"></script>
+        <script src="/user-management/roles/roles-module.js"></script>
+        <script src="/user-management/roles/roles-controller.js"></script>
+        <script src="/user-management/roles/roles-model.js"></script>
+         <script src="/user-management/roles/roles-service.js"></script>
+        <script src="/user-management/users-profile/user-profile-module.js"></script>
+         <script src="/user-management/users-profile/user-profile-controller.js"></script>
+         <script src="/user-management/users-profile/user-profile-service.js"></script>
+         <script src="/user-management/change-password/change-password-module.js"></script>
+         <script src="/user-management/change-password/change-password-controller.js"></script>
+         <script src="/user-management/change-password/change-password-service.js"></script>
+        <script src="/manageit/permissions/permissions-controller.js"></script>
+        <script src="/manageit/permissions/permissions-service.js"></script>
+        <script src="/manageit/libraries/libraries-controller.js"></script>
+        <script src="/manageit/libraries/libraries-service.js"></script>
+        <script src="/manageit/common/sso-service.js"></script>
+        <script src="/manageIT/common/sso-service.js"></script>
+        <script src="/js/authentication-interceptor-service.js"></script>
+        <!--Campaign script files-->
+        <script src="/jobIT/app/app.js"></script>
+        <script src="/jobIT/app/app-config.js"></script>
+        <script src="/jobIT/common/constants.js"></script>
+        <script src="/jobIT/campaigns/campaigns.js"></script>
+        <script src="/jobIT/campaigns/modal-controller.js"></script>
+        <script src="/jobIT/campaigns/campaign-base-type-service.js"></script> 
+        <script src="/jobIT/campaigns/campaigns-base-type-model.js"></script>      
+        <script src="/jobIT/campaigns/campaigns-base-type-controller.js"></script>
+        <script src="/jobIT/campaigns/campaign-attributes-controller.js"></script>
+        <script src="/jobIT/campaigns/campaign-attributes-model.js"></script>
+        <script src="/jobIT/campaigns/campaign-attribute-service.js"></script>
+        
+        <script src="/jobIT/flat-plans/flat-plan.js"></script>
+        <script src="/jobIT/flat-plans/add-flat-plan-controller.js"></script>
+        <script src="/jobIT/flat-plans/add-flat-plan-model.js"></script>
+        <script src="/jobIT/flat-plans/add-flat-plan-service.js"></script>
+        <script src="/jobIT/flat-plans/flat-plan-base-type-controller.js"></script>
+        <script src="/jobIT/flat-plans/flat-plan-base-type-model.js"></script>
+        <script src="/jobIT/flat-plans/flat-plan-behaviour-settings-controller.js"></script>
+        <script src="/jobIT/flat-plans/flat-plan-behaviour-settings-model.js"></script>
+        <script src="/jobIT/flat-plans/flat-plan-setup-permission-controller.js"></script>
+        <script src="/jobIT/flat-plans/flat-plan-setup-permission-model.js"></script>
+        <script src="/jobIT/flat-plans/flat-plan-base-type-service.js"></script>
+        <script src="/jobIT/flat-plans/flat-plan-behaviour-settings-service.js"></script>
+       
+
+        <script src="/jobIT/jobs/jobs.js"></script>
+        <script src="/jobIT/jobs/job-base-type-controller.js"></script>
+        <script src="/jobIT/jobs/job-base-type-model.js"></script>
+        <script src="/jobIT/jobs/job-base-type-service.js"></script>
+
+        <script src="jobIT/jobit-configuration/jobit-configuration.js"></script>
+        <script src="jobIT/jobit-configuration/jobit-configuration-editpagepreset-controller.js"></script>
+        <script src="jobIT/jobit-configuration/jobit-configuration-controller.js"></script>
+        <script src="jobIT/jobit-configuration/jobit-configuration-addproductionhierarchy-controller.js"></script>
+
+        <script src="jobIT/jobit-configuration/jobit-configuration-model.js"></script>
+        <script src="jobIT/jobit-configuration/jobit-configuration-service.js"></script>
+
+        <script src="/jobIT/pages/pages.js"></script>
+        <script src="/jobIT/pages/page-base-types-controller.js"></script>
+        <script src="/jobIT/pages/page-base-types-model.js"></script>
+        <script src="/jobIT/pages/page-base-type-service.js"></script>
+
+        <!--WorkFlow Configuration script files-->
+        <script src="workflowIT/app/app.js"></script>
+        <script src="workflowIT/workflowit-configuration/workflowit-configuration.js"></script>
+        <script src="workflowIT/workflowit-configuration/workflowit-configuration-controller.js"></script>
+
+        <!--Shashank Rai :10/08/2016 : WorkFlow Defination script files-->
+        <script src="workflowIT/definition/jobit-workflowdefination-module.js"></script>
+        <script src="workflowIT/definition/jobit-workflowdefination-controller.js"></script>
+        <script src="workflowIT/definition/jobit-addworkflow-controller.js"></script>
+        <script src="workflowIT/definition/jobit-workflowdefination-model.js"></script>
+    </environment>
+</head>
+
+
+
+<body ng-controller="commonController" ng-cloak ng-init="IsAuthenticatedUser()">
+    <div class="wrapper" ng-if="isauthenticated">
+        <!-- logo and APS navigation menu-->
+        <div class="header" ng-include="'/framework/partials/topmenu.html'"></div>
+        <!-- Add the module specific settings (popup view/html) file here-->
+        <!--<div ng-if="isManageIT" ng-include="'/manageIT/common/partials/manageit-settings.html'"></div>-->
+        <!--<div ng-if="isJobIT" ng-include="'/jobIT/common/partials/jobit-settings.html'"></div>
+        <div ng-if="isWokflowIT" ng-include="'/workflowit/configuration/partials/configuration.html'"></div>-->
+        <!-- Modules menu is auto populated based on the configuration settings-->
+        <div class="aps-modulesmenu-wrap clear-fix" ng-include="'/framework/partials/apsModuleMenu.html'"></div>
+        <!-- Content page starts here. Add the new modules views/html here-->
+        <div class="main-container" ng-if="moduleName == 'manageit'" ng-include="'/manageIT/common/partials/manageit-content.html'" ng-controller="rightMenuController"></div>
+        <div class="main-container" ng-if="moduleName == 'admin'" ng-include="'/framework/partials/main-page.html'"></div>
+        <div class="main-container" ng-if="moduleName == 'jobit'" ng-include="'/jobIT/app/templates/app.html'"></div>
+        
+         <!--<div class="main-container" ng-if="moduleName == 'profile'" ng-include="'/user-management/users-profile/partials/editprofile.html'" ng-controller="UserProfileController"></div>
+        <div class="main-container" ng-if="moduleName == 'password'" ng-include="'/user-management/change-password/partials/change-password.html'" ng-controller="ChangePasswordController"></div>-->
+        <!-- Campaign Html-->
+      
+    </div>
+
+</body>
+</html>

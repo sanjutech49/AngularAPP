@@ -1,0 +1,1 @@
+﻿var systemsettingsModule = angular.module('settings', ['ngResource', 'ngAnimate', 'ngRoute', 'angular-jwt', 'angular-storage', 'ngMaterial', 'ui.bootstrap', 'settings']);

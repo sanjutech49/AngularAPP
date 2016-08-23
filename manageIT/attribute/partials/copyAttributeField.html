@@ -1,0 +1,26 @@
+<div id="CopyAttributeField" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width700">
+        <div class="modal-content add-sub-object-main">
+            <form name="copyAttributeFieldForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'copyAttributeFieldForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><b>{{ action }} Copy Field</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <basic-properties attribute-scope="copyAttributeField" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck" derive-identifier-from-id="deriveIdentifierFromId"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged" clear-unique-group-values="clearUniqueGroupValues"></basic-properties>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="clearCopyAttributeFieldValues()" data-dismiss="modal" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveCopyAttributeField(copyAttributeField)" ng-disabled="copyAttributeFieldForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

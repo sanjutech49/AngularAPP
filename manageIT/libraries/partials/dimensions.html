@@ -1,0 +1,125 @@
+﻿<div class="row marginTop20" ng-init="getlibrary('dimension');">
+    <div class="col-xs-12 marginbottom10">
+        <div class="row">
+            <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+            <error-control attribute-scope="messageModel" ng-show="!messageModel.isHide"></error-control>            
+        </div>
+    </div>   
+    <div class="col-xs-12">
+        <form name="updatedimension" novalidate>
+            <div class="object-head-wrap clearfix">
+                <div class="object-head">Select the Dimensions which apply to this image library</div>
+                <div class="sub-object-btn">
+                    <a href="#" data-toggle="modal" data-target="#addImageDimension" ng-click="clearMessage()"><i class="fa fa-plus"></i> Add Image Dimension</a>
+                </div>
+            </div>
+            <div class="box-square">
+                <div class="box-square-head font-bold">Dimension</div>
+                <div class="box-img-dimension">
+                    <div class="col-xs-12" ng-repeat="dimension in imageDimensions">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="{{dimension.dimensionUnit}}" value="{{dimension.id}}" ng-model="dimension.selected" ng-checked="dimension.selected">
+                                {{dimension.dimensionUnit}} {{dimension.width}} <span ng-if="dimension.dimensionUnit == 'Millimeters'">mm </span> <span ng-if="dimension.dimensionUnit == 'Pixels'">px </span>  
+                                 <span ng-if="dimension.height"> x </span> {{dimension.height}} 
+                                <span ng-if="dimension.dimensionUnit == 'Millimeters'">mm </span> <span ng-if="dimension.dimensionUnit == 'Pixels'">px</span>
+                                <span ng-if="dimension.dpi"> @ </span> {{dimension.dpi}} <span ng-if="dimension.dpi"> dpi</span>
+</label>
+                        </div>
+                    </div>
+                    <div class="marginTop20 update-btnbg align-right padding10">
+                        <button class="btn btn-grey" type="button" aria-hidden="true" ng-click="showConfirm(updatedimension.$dirty)"><i class="fa fa-times"></i> Discard </button>
+                        <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="updateimageDimensions()"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Add Image Dimension modal -->
+    <div id="addImageDimension" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+        <div class="modal-dialog model-width700">
+            <div class="modal-content add-sub-object-main">
+                <form name="addImageDimensionForm" role="form" novalidate>
+                    <div class="modal-header">                        
+                        <button type="button" class="close" ng-click="openErrorScreen(addImageDimensionForm.$dirty,'addImageDimension');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>Add Image Dimension</b></h4>
+                    </div>
+                    <div class="modal-body">                       
+                        <div class="row">
+                            <div class="col-xs-12 marginbottom10">
+                                <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                            </div>
+                        </div>  
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute-model-title">Image Dimension Properties</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="" class="col-xs-3 col-xs-offset-2 control-label">Dimension Units<span class="mandatory">*</span></label>
+                                        <div class="col-xs-4">
+                                            <select class="form-control" ng-model="dimensions.DimensionUnit" ng-change="displayunits(dimensions.DimensionUnit)">
+                                                <option value="Millimeters">Millimeters</option> 
+                                                <option value="Pixels">Pixels</option> 
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 marginTop20">
+                                <div class="attribute-model-title">Minimum Dimension</div>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell table-cel-padding paddingLeft35">Width</div>
+                            <div class="table-cell table-cel-padding"><input type="text" class="form-control width60" id="" ng-model="dimensions.Height" placeholder=""></div>
+                            <div class="table-cell table-cel-padding" ng-if="dimensions.DimensionUnit == 'Millimeters'">mm</div>
+                            <div class="table-cell table-cel-padding" ng-if="dimensions.DimensionUnit == 'Pixels'">px</div>
+
+
+
+                            <div class="table-cell table-cel-padding paddingLeft35 ">Height<span class="mandatory">*</span></div>
+                            <div class="table-cell table-cel-padding"><input type="text" class="form-control width60" id="" ng-model="dimensions.Height" placeholder=""></div>
+                            <div class="table-cell table-cel-padding" ng-if="dimensions.DimensionUnit == 'Millimeters'">mm</div>
+                            <div class="table-cell table-cel-padding" ng-if="dimensions.DimensionUnit == 'Pixels'">px</div>
+
+                            <div class="table-cell table-cel-padding paddingLeft35 ">Minimum DPI<span class="mandatory">*</span></div>
+                            <div class="table-cell table-cel-padding"><input type="text" class="form-control width60" id="" ng-model="dimensions.Dpi" placeholder=""></div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button class="btn btn-grey" type="button" aria-hidden="true" ng-click="openErrorScreen(addImageDimensionForm.$dirty,'addImageDimension');" data-toggle="modal" data-target="#ErrorScreen"><i class="fa fa-times"></i> Discard</button>
+                            <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="savedimensions(dimensions)"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="closeModel" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirm Discard</h4>
+                </div>
+                <div class="modal-body">
+                    <p> {{ message }} </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-show="formstatus" class="btn btn-default" data-dismiss="modal" ng-click="confirmdiscard('dimension')">Yes</button>
+                    <button type="button" ng-show="formstatus" class="btn btn-default" data-dismiss="modal" ng-click="canceldiscard()">No</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div> 
+</div>

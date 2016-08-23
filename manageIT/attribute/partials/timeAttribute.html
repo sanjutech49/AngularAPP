@@ -1,0 +1,174 @@
+﻿<div id="TimeAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="timeAttributeForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'timeAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(timeAttributeForm.$dirty,'Time');" >&times;</button>
+                    <h4><b>{{ action }} Time Attribute</b></h4>
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+
+                    <div class="attribute-scroll-wrap">
+
+                        <basic-properties attribute-scope="timeAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"></basic-properties>
+                        <div class="row">
+                            <div class="col-xs-12 marginTop20">
+                                <div class="attribute-model-title">Time Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2 align-left" for="">Time Format<span class="mandatory">*</span></label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="timeAttribute.timeFormat"
+                                                        data-ng-options="option.key as option.value for option in timeFormatDefaultValues"
+                                                        ng-change="timeFormatChange(timeAttribute.timeFormat)"
+                                                        required></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2 align-left" for="">Minimum Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="timeAttribute.minimumDateTime"
+                                                        data-ng-options="option.key as option.value for option in minMaxTimeDefaultValues"></select>
+                                            </div>
+
+                                            <div class="min-wrap" ng-show="timeAttribute.minimumDateTime == 0 || timeAttribute.minimumDateTime == 2">
+                                                <div class="" ng-show="timeAttribute.minimumDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Time<span class="mandatory">*</span></label>
+                                                    <div class="" ng-show="timeAttribute.minimumDateTime == 0">
+                                                        <div class="col-xs-2" ng-class="{'has-error': timeAttributeForm.minTime.$error.required}">
+                                                            <input class="form-control" type="text" ng-attr-placeholder="{{timeFormatDefaultValues[timeAttribute.timeFormat].placeHolder}}" name="minTime"
+                                                                   ng-model="timeAttribute.minDateTimeValues.time"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="" ng-show="timeAttribute.minimumDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+                                                    <div class="" ng-show="timeAttribute.minimumDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+                                                        <div class="col-xs-1 no-padding" ng-class="{'has-error': timeAttributeForm.minTimeOffSetValue.$error.required || timeAttribute.minDateTimeValues.timeOffset>99999 || timeAttribute.minDateTimeValues.timeOffset<0}">
+                                                            <input type="number" name="minTimeOffSetValue" ng-model="timeAttribute.minDateTimeValues.timeOffset"
+                                                                   class="form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select class="form-control" ng-model="timeAttribute.minDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in timeOffSetDefaultValues"
+                                                                    name="minTimeOffSetType"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2 align-left" for="">Maximum Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="timeAttribute.maximumDateTime"
+                                                        data-ng-options="option.key as option.value for option in minMaxTimeDefaultValues"></select>
+                                            </div>
+
+                                            <div class="max-wrap" ng-show="timeAttribute.maximumDateTime == 0 || timeAttribute.maximumDateTime == 2">
+                                                <div ng-show="timeAttribute.maximumDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Time<span class="mandatory">*</span></label>
+                                                    <div class="" ng-show="timeAttribute.maximumDateTime == 0">
+                                                        <div class="col-xs-2" ng-class="{'has-error': timeAttributeForm.maxTime.$error.required}">
+                                                            <input type="text" ng-attr-placeholder="{{timeFormatDefaultValues[timeAttribute.timeFormat].placeHolder}}" name="maxTime" ng-model="timeAttribute.maxDateTimeValues.time"
+                                                                   class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div ng-show="timeAttribute.maximumDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+                                                    <div class="" ng-show="timeAttribute.maximumDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+                                                        <div class="col-xs-1 no-padding" ng-class="{'has-error': timeAttributeForm.maxTimeOffSetValue.$error.required || timeAttribute.maxDateTimeValues.timeOffset>99999 || timeAttribute.maxDateTimeValues.timeOffset<0}">
+                                                            <input type="number" name="maxTimeOffSetValue"
+                                                                   ng-model="timeAttribute.maxDateTimeValues.timeOffset" class="input-medium form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select class="form-control" ng-model="timeAttribute.maxDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in timeOffSetDefaultValues"
+                                                                    name="maxTimeOffSetType"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2 align-left" for="">Default Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="timeAttribute.defaultDateTime"
+                                                        data-ng-options="option.key as option.value for option in minMaxTimeDefaultValues"></select>
+                                            </div>
+                                            <div class="default-wrap" ng-show="timeAttribute.defaultDateTime == 0 || timeAttribute.defaultDateTime == 2">
+                                                <div ng-show="timeAttribute.defaultDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Time<span class="mandatory">*</span></label>
+                                                    <div class="" ng-show="timeAttribute.defaultDateTime == 0">
+                                                        <div class="col-xs-2" ng-class="{'has-error': timeAttributeForm.defaultTime.$error.required}">
+                                                            <input type="text" ng-attr-placeholder="{{timeFormatDefaultValues[timeAttribute.timeFormat].placeHolder}}" name="defaultTime"
+                                                                   ng-model="timeAttribute.defaultDateTimeValues.time"
+                                                                   class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div ng-show="timeAttribute.defaultDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+                                                    <div class="" ng-show="timeAttribute.defaultDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+                                                        <div class="col-xs-1 no-padding" ng-class="{'has-error': timeAttributeForm.defaultTimeOffSetValue.$error.required || timeAttribute.defaultDateTimeValues.timeOffset>99999 || timeAttribute.defaultDateTimeValues.timeOffset<0}">
+                                                            <input type="number" name="defaultTimeOffSetValue"
+                                                                   ng-model="timeAttribute.defaultDateTimeValues.timeOffset" class="form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select class="form-control" ng-model="timeAttribute.defaultDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in timeOffSetDefaultValues"
+                                                                    name="defaultTimeOffSetType"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div>
+                </div>                
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(timeAttributeForm.$dirty,'Time');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveTimeAttribute(timeAttribute)" ng-disabled="timeAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

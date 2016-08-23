@@ -1,0 +1,25 @@
+﻿<div class="content-object-tcell paddingRight20 width180 labels-bold" ng-init="setDefaultDateTime(option.defaultDateTime,option.defaultDateTimeValues,option)">
+    <div display-name label-name="option.name" mandatory="option.mandatory"></div>
+</div>
+<div ng-repeat="item in option.defaultValues track by $index" ng-model="option.defaultValues" ng-init="subForm='tags'+$index">
+    <ng-form name="{{subForm}}">
+        <div class="content-object-tcell position-relative">
+            <input type="text" name="{{'dateAttr'+$index}}" ng-model="item.value.selectedDate" datepicker-options="item.value.dateOptions" class="input-medium form-control"
+                   uib-datepicker-popup="{{item.value.placeHolder}}" readonly="readonly"
+                   is-open="item.value.datePickerControl1.minOpened" close-text="Close"
+                   ng-focus="openDateCalendar1(item.value,0)"
+                   ng-click="openDateCalendar1(item.value,0)" ng-readonly="item.value.readOnly" alt-input-formats="item.value.placeHolder" placeholder="{{item.value.placeHolder}}" />
+            <i class="fa fa-calendar form-control-feedback" ng-click="openDateCalendar1(item.value,0)"></i>
+            <input type="text" id="{{option.attributeId}}" name="fieldWidth" ng-model="item.value.selectedTime" class="input-medium form-control"
+                   ng-attr-placeholder="{{option.timeFormatDefaultValues[option.timeFormat].placeHolder}}" ng-readonly="option.readOnly" />
+        </div>
+    </ng-form>
+    <div class="content-object-tcell paddingLeft5 listbox-wrap" style="float:right" ng-if="option.multipleValues.allowMultipleValues">
+        <a href="#"><i class="fa fa-caret-down" aria-hidden="true" ng-if="option.defaultValues.length>1 && option.multipleValues.isReArranged==true" ng-click="moveDown($index,option)"></i></a>
+        <a href="#"><i class="fa fa-caret-up" aria-hidden="true" ng-if="option.defaultValues.length>1 && option.multipleValues.isReArranged==true" ng-click="moveUp($index,option)"></i></a>
+        <button class="btn btn-default add_field_button" ng-if="$index==0" id="{{option.attributeId +'_btn'}}" targetId="{{option.attributeId}}" ng-click="addMultipleValues(option.multipleValues.minimumValue,option.multipleValues.maximumValue,option)">
+            <i class="fa fa-plus"></i>
+        </button>
+        <button class="btn btn-red add_field_button" ng-if="$index>0" ng-click="removeItem($index,option)"><i class="fa fa-times"></i></button>
+    </div>
+</div>

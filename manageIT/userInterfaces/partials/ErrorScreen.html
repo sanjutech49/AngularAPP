@@ -1,0 +1,23 @@
+<div id="ErrorScreen" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <form name="ErrorScreen" class="form-horizontal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <!--<h4 class="modal-title">{{attributeForm}} Attribute Data Lost Notification</h4>-->
+                    <h4 class="modal-title"><b>Confirm</b></h4>
+                </div>
+                <div class="modal-body marginTop15">
+                    <p ng-if="attributeFormDirty==true">There are unsaved changes, Are you sure you want to discard the changes?</p>
+                    <p ng-if="attributeFormDirty==false">Are you sure you want to close the screen?</p>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-grey" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="confirmErrorScreenClose(attributeForm)"><i class="fa fa-check"></i> Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,143 @@
+<div id="SubObjectAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="subObjectAttributeForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'subObjectAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(subObjectAttributeForm.$dirty,'SubObject');">&times;</button>
+                    <h4><b>{{ action }} Sub-Object Attribute</b></h4>                    
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+
+                    <div class="attribute-scroll-wrap">
+
+                        <basic-properties attribute-scope="subObjectAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"
+                                          clear-unique-group-values="clearUniqueGroupValues"></basic-properties>
+                        <div class="row">
+                            <div class="col-xs-12 marginTop20">
+                                <div class="attribute-model-title">Sub-Object Attribute Properties</div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-12">
+                            <div class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label for="" class="col-xs-3 col-xs-offset-2 control-label">Sub-Object Type<span class="mandatory">*</span></label>
+                                    <div class="col-xs-4">
+                                        <select ng-change="defaultviewUserinterfaces();defaulteditUserinterfaces()" data-ng-model="subObjectAttribute.subObjectType" class="form-control"
+                                                data-ng-options="option.subObjectId as option.singularName for option in subObjects" required></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+
+                            <div class="form-group">
+                                <label for="" class="control-label text-left marginbottom10">View Sub-Object using<span class="mandatory">*</span></label>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-xs-3" data-ng-repeat="option in InterfaceTypes">
+                                    <div class="yesno-displaybox">
+                                        <div class="yesno-box-header">
+                                            <div class="form-horizontal">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="list_view_radio_{{option.key}}" id="list_view_radio_{{option.key}}" ng-model="subObjectAttribute.viewSubObjectTypeUsing"
+                                                               ng-checked="subObjectAttribute.viewSubObjectTypeUsing==option.key;" value="{{option.key}}" required>  {{option.value}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="yesno-img-wrap">
+                                            <div class="sub-object-img-List-interface" ng-show="option.key==0"></div>
+                                            <div class="sub-object-img-table-interface" ng-show="option.key==1"></div>
+                                            <div class="sub-object-img-custominterface" ng-show="option.key==2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div ng-show="subObjectAttribute.viewSubObjectTypeUsing==2">
+                                        <div class="form-group">
+                                            <label for="minvalue" class="control-label paddding-top0 marginbottom5 align-left">Custom View Interface <span class="mandatory">*</span></label>                                           
+                                            <select data-ng-model="subObjectAttribute.customViewInterface" class="form-control" name="customViewInterface"
+                                                    data-ng-options="option.name as option.name for option in viewuserinterfaces" required>
+                                                <option value="" ></option>
+                                            </select>
+                                            <span class="marginTop5 display-block font-size10">Custom Interfaces must be defined within the sub-object definition</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="" class="control-label text-left marginbottom10">Edit Sub-Object using<span class="mandatory">*</span></label>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-xs-3" data-ng-repeat="option in InterfaceTypes">
+                                    <div class="yesno-displaybox">
+                                        <div class="yesno-box-header">
+                                            <div class="form-horizontal">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="list_edit_radio_{{option.key}}" id="list_view_radio_{{option.key}}" ng-model="subObjectAttribute.editSubObjectTypeUsing"
+                                                               ng-checked="subObjectAttribute.editSubObjectTypeUsing==option.key" value="{{option.key}}" required>
+                                                        {{option.value}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="yesno-img-wrap">
+                                            <div class="sub-object-img-List-interface" ng-show="option.key==0"></div>
+                                            <div class="sub-object-img-table-interface" ng-show="option.key==1"></div>
+                                            <div class="sub-object-img-custominterface" ng-show="option.key==2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div ng-show="subObjectAttribute.editSubObjectTypeUsing==2">
+                                        <div class="form-group">
+                                            <label for="minvalue" class="control-label paddding-top0 marginbottom5 align-left">Custom Edit Interface<span class="mandatory">*</span></label>
+                                            <select data-ng-model="subObjectAttribute.customEditInterface" class="form-control" name="customEditInterface"
+                                                    data-ng-options="option.name as option.name for option in edituserinterfaces" required>
+                                                <!--<option value="">Style List</option>-->
+                                            </select>
+                                            <span class="marginTop5 display-block font-size10">Custom Interfaces must be defined within the sub-object definition</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="font-bold color-red" ng-show="errorsSubObject.length > 0" ng-repeat="error in errorsSubObject">{{error}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="resetErrorDirective(errorAttribute);clearsubObjectAttributeFields();openErrorScreen(subObjectAttributeForm.$dirty,'SubObject');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveSubObject(subObjectAttribute)" ng-disabled="subObjectAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

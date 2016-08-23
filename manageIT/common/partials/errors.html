@@ -1,0 +1,54 @@
+﻿<!-- Alert Error -->
+<div class="alertWrap attribute-container">
+    <div class="alert alert-danger alert-dismissable close-small alert-wrap" ng-show="currentScope.isError">
+        <button type="button" class="close"  aria-hidden="true">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+        <div ng-repeat="msgs in currentScope.messages track by $index">
+            {{msgs}}
+        </div>
+        <div class="ex-details-wrap" ng-if="currentScope.moreDetails != null">
+            <a href="#" class="font-bold" ng-model="errorModel" ng-click="errorModel = !errorModel">Show Details</a>
+            <div ng-show="errorModel">
+                {{currentScope.moreDetails}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alert Success -->
+<div class="alertWrap attribute-container">
+    <div class="alert alert-success alert-dismissable close-small alert-wrap" ng-show="currentScope.isSuccess">
+        <button type="button" class="close" aria-hidden="true" >
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+        <div ng-repeat="msgs in currentScope.messages track by $index">
+            {{msgs}}
+        </div>
+    </div>
+</div>
+
+<!-- Alert Warning -->
+<div class="alertWrap attribute-container">
+    <div class="alert alert-warning alert-dismissable close-small alert-wrap" ng-show="currentScope.isWarning">
+        <button type="button" class="close"  aria-hidden="true">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+        <div ng-repeat="msgs in currentScope.messages track by $index">
+            {{msgs}}
+        </div>
+    </div>
+</div>
+
+<!-- Alert Info -->
+<div class="alertWrap attribute-container">
+    <div class="alert alert-info alert-dismissable close-small alert-wrap" ng-show="currentScope.isInfo">
+        <button type="button" class="close"  aria-hidden="true">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+        <div class="alerts-title"><i class="fa fa-info-circle" aria-hidden="true"></i> Info!</div>
+        <div ng-repeat="msgs in currentScope.messages track by $index">
+            {{msgs}}
+        </div>
+    </div>
+</div>

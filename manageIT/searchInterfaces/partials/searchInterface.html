@@ -1,0 +1,1454 @@
+﻿<div ng-controller="searchInterfaceController" dynamicsearchinterfacebutton>
+    <div class="col-xs-12 padding20">
+        <div class="col-xs-12 marginbottom10">
+            <div class="row">
+                <error-control attribute-scope="messageModel" ng-show="!messageModel.isHide"></error-control>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="font-bold marginbottom20 clearfix">Search Interface</p>
+            </div>
+        </div>
+        <div dynamicsearchinterfacebutton>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs position-relative" role="tablist" ng-init="enablebuttonvalue='search'">
+                <li role="presentation" class="active"><a href="#" ng-click="enablebutton('search')" data-target="#search-interface-search" role="tab" data-toggle="tab"><i class="fa fa-search"></i> Search</a></li>
+                <li role="presentation"><a href="#" ng-click="enablebutton('list');listvalue();" data-target="#search-interface-list" role="tab" data-toggle="tab"> <i class="fa fa-list"></i> List</a></li>
+                <li role="presentation"><a href="#" ng-click="enablebutton('browse')" data-target="#search-interface-browse" role="tab" data-toggle="tab"><i class="fa fa-refresh"></i> Browse</a></li>
+                <li class="pull-right position-absolute-tabs-btn">
+                    <div class="tabs-right-btn">
+                        <a href="#" data-toggle="modal" data-target="#add{{enablebuttonvalue}}interface" ng-click="enablesearchinput();addactiveclass();"><i class="fa fa-plus"></i> Add {{enablebuttonvalue}}</a>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="search-interface-search">
+                    <div class="objects-table">
+                        <table class="table table-hover table-condensed bg-white">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>List User Interface</th>
+                                    <th class="text-center">Enabled</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody ui-sortable="sortableOptionsA" ng-model="searchinterfaces">
+                                <tr ng-repeat="data in searchinterfaces | orderBy :'orderNo'| filter:{ searchInterfaceType : 0 }"  class="ui-state-default" style="cursor: move;">
+                                    <td width="180" class="grey">
+                                        <ul class="dragging-table">
+                                            <li>{{data.name}}</li>
+                                            <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>
+                                        </ul>                                    
+                                    </td>
+                                    <td>{{data.listItemInterface[0]['name']}}</td>
+                                    <td class="text-center"><input type="checkbox" value="" ng-checked="{{data.isEnabled}}" name="isEnabled" ng-disabled="true"></td>
+                                    <td class="align-right table-links">
+                                        <a href="#" rel="tooltip" title="Edit" ng-click="editSearchInterface('addsearchinterface','Edit',data);addactiveclass();"><i class="fa fa-pencil"></i></a>
+                                        <a href="#" rel="tooltip" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deleteInterface(data)" confirm-click="" title="Delete"><i class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+</table>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="search-interface-list">
+                    <div class="objects-table">
+                        <table class="table table-hover table-condensed bg-white">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>List Columns</th>
+                                    <th class="text-center">Enabled</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <!--<tr ng-repeat="data in searchinterfaces | filter:{ searchInterfaceType : 1 }">
+            <td width="180" class="grey">{{data.name}}</td>-->
+
+                            <tbody ui-sortable="sortableOptionsA" ng-model="searchinterfaces">
+                                <tr ng-repeat="data in searchinterfaces | orderBy :'orderNo'| filter:{ searchInterfaceType : 1 }" class="ui-state-default" style="cursor: move;">
+                                    <td width="180" class="grey">
+                                        <ul class="dragging-table">
+                                            <li>{{data.name}}</li>
+                                            <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>
+                                        </ul>
+                                    </td>
+                                    <td>{{data.columnListName}}</td>
+                                    <td class="text-center"><input type="checkbox" value="" ng-checked="{{data.isEnabled}}" name="isEnabled" ng-disabled="true"></td>
+                                    <td class="align-right table-links">
+                                        <a href="#" rel="tooltip" title="Edit" ng-click="editListInterface('addlistinterface','Edit',data);addactiveclass()"><i class="fa fa-pencil"></i></a>
+                                        <a href="#" rel="tooltip" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deleteInterface(data)" confirm-click="" title="Delete"><i class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="search-interface-browse">
+                    <div class="objects-table">
+                        <table class="table table-hover table-condensed bg-white">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>List User Interface</th>
+                                    <th class="text-center">Enabled</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody ui-sortable="sortableOptionsA" ng-model="searchinterfaces">
+                                <tr ng-repeat="data in searchinterfaces | orderBy :'orderNo'| filter:{ searchInterfaceType : 2 }" class="ui-state-default" style="cursor: move;">
+                                    <td width="180" class="grey">
+                                        <ul class="dragging-table">
+                                            <li>{{data.name}}</li>
+                                            <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>
+                                        </ul>
+                                    </td>
+                                    <!--<tr ng-repeat="data in searchinterfaces | filter:{ searchInterfaceType : 2 }">
+                    <td width="180" class="grey">{{data.name}}</td>-->
+                                    <td>{{data.listItemInterface[0]['name']}}</td>
+                                    <td class="text-center"><input type="checkbox" value="" ng-checked="{{data.isEnabled}}" name="isEnabled" ng-disabled="true"></td>
+                                    <td class="align-right table-links">
+                                        <a href="#" rel="tooltip" title="Edit" ng-click="editBrowseInterface('addbrowseinterface','Edit',data);addactiveclass()"><i class="fa fa-pencil"></i></a>
+                                        <a href="#" rel="tooltip" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deleteInterface(data)" confirm-click="" title="Delete"><i class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add search interface model -->
+    <div id="addsearchinterface" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addsearchinterface" data-backdrop="static">
+        <div class="modal-dialog model-width850">
+            <div class="modal-content add-sub-object-main">
+                <form name="addsearchinterfaceAttributeForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(addsearchinterfaceAttributeForm.$dirty,'addsearchinterface');closeAllBackdrop();" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{action}} Search Interface</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="attribute-scroll-wrap">
+                            <div class="col-xs-12 marginbottom10">
+                                <div class="row">
+                                    <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                                </div>
+                            </div>                       
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="attribute-model-title">Search Properties</div>
+                                    <input type="hidden" ng-model="searchinterface.searchInterfaceId" name="searchInterfaceId" value="" />
+                                    <input type="hidden" ng-model="searchinterface.orderNo" name="orderNo" value="" />
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="" class="col-xs-2 control-label">Name<span class="mandatory">*</span></label>
+                                        <div class="col-xs-3">
+                                            <input type="text" class="form-control" required id="searchinterfacename" ng-model="searchinterface.name" name="searchinterfacename" >
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="" name="isEnabled"
+                                                           ng-model="searchinterface.isEnabled">
+                                                    Enabled
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <label for="" class="col-xs-3 control-label">Results Per Page<span class="mandatory">*</span></label>
+                                        <div class="col-xs-2">
+                                            <input type="text" required class="form-control" id="noperpage" name="noperpage" ng-model="searchinterface.noperpage">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-xs-3 control-label">List Item Interface<span class="mandatory">*</span></label>
+                                        <div class="col-xs-3"> 
+                                            <select class="form-control" ng-model="searchinterface.listItemInterfaceName" >
+                                                <option value="">Auto Detect</option>
+                                                <option ng-selected="listItemInterfaceName == userinterface.listInterfaceId" ng-repeat="userinterface in  userinterfaces track by $index" value="{{userinterface.listInterfaceId}}" >{{userinterface.name}}</option>
+                                            </select>
+                                        </div>
+                                        <label for="inputEmail3" class="col-xs-3 control-label">Default Action<span class="mandatory">*</span></label>
+                                        <div class="col-xs-3" required>
+                                            <select class="form-control" name="default_action" ng-model="searchinterface.defaultAction" ng-init="searchinterface.defaultAction">
+                                                <option value="ViewContentObject" ng-selected="searchinterface.defaultAction == '0' || defaultactionselect">View Content Object</option>
+                                                <option value="EditContentObject" ng-selected="searchinterface.defaultAction == '1'">Edit Content Object</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">Search Parameters</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 white-bg">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs position-relative testclass" role="tablist" ng-init="tabvalue = add_search">
+                                        <li class="active"><a href="#" data-target="#tab1" ng-click="enablesearchtab('add_search')" role="tab" data-toggle="tab">Search Inputs</a></li>
+                                        <li><a href="#" data-target="#tab2" role="tab" data-toggle="tab" ng-click="enablesearchtab('sorting')">Resulting Sorting</a></li>
+                                        <li><a href="#" data-target="#tab3" role="tab" data-toggle="tab" ng-click="enablesearchtab('conditions')">Search Conditions</a></li>
+                                        <li class="pull-right position-absolute-tabs-btn2 list-options-button-wrap" ng-init="tabvalue = 'add_search'">
+                                            <button class="btn btn-default btn-sm" type="button" data-toggle="modal" data-target="#addSearchinput" ng-show="tabvalue == 'add_search'">Add Search Input</button>
+                                            <div class="table-row" ng-show="tabvalue == 'sorting'">
+                                                <div class="table-cell table-cel-padding labelmargin0">
+                                                    <label class="control-label" for="timeFormat">Add Sort Attribute<span class="mandatory">*</span></label>
+                                                </div>
+                                                <div class="table-cell table-cel-padding">
+                                                    <select class="form-control width100" ng-model="attr">
+                                                        {{attributes}}
+                                                        <option ng-repeat="attr in attributes" value="{{attr.name}}/ {{attr.attributeId}}">
+                                                            {{attr.name}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="table-cell table-cel-padding button-padding">
+                                                    <button class="btn btn-default ng-scope" type="button" ng-click="addsortingattr()"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <!-- Tab1 -->
+                                        <div role="tabpanel" class="tab-pane active" id="tab1">
+                                            <div class="objects-table">
+                                                <table class="table table-hover table-condensed bg-white">                                            
+                                                    <tr ng-repeat="searchdata in TextAttribute track by $index">
+                                                        <td width="150" class="grey">{{searchdata.name}}</td>
+                                                        <td>{{searchdata.attributeType}} </td>
+                                                        <td class="align-right table-links">
+                                                            <a href="#" rel="tooltip" title="Edit" ng-click="opensearchinputadd(searchdata,$index);"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#" rel="tooltip" title="Delete" ng-click="deletesearchinput(searchdata);"><i class="fa fa-times"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                
+                                                    <tr ng-repeat="searchdata in ListAttribute track by $index">
+                                                        <td width="150" class="grey">{{searchdata.name}}</td>
+                                                        <td>{{searchdata.attributeType}} </td>
+                                                        <td class="align-right table-links">
+                                                            <a href="#" rel="tooltip" title="Edit" ng-click="opensearchinputadd(searchdata,$index);"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#" rel="tooltip" title="Delete" ng-click="deletesearchinput(searchdata);"><i class="fa fa-times"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-repeat="searchdata in DateAttribute track by $index">
+                                                        <td width="150" class="grey">{{searchdata.name}}</td>
+                                                        <td>{{searchdata.attributeType}} </td>
+                                                        <td class="align-right table-links">
+                                                            <a href="#" rel="tooltip" title="Edit" ng-click="opensearchinputadd(searchdata,$index);"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#" rel="tooltip" title="Delete" ng-click="deletesearchinput(searchdata);"><i class="fa fa-times"></i></a>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr ng-repeat="searchdata in DateTimeAttribute track by $index">
+                                                        <td width="150" class="grey">{{searchdata.name}}</td>
+                                                        <td>{{searchdata.attributeType}} </td>
+                                                        <td class="align-right table-links">
+                                                            <a href="#" rel="tooltip" title="Edit" ng-click="opensearchinputadd(searchdata,$index);"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#" rel="tooltip" title="Delete" ng-click="deletesearchinput(searchdata);"><i class="fa fa-times"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-repeat="searchdata in TimeAttribute track by $index">
+                                                        <td width="150" class="grey">{{searchdata.name}}</td>
+                                                        <td>{{searchdata.attributeType}} </td>
+                                                        <td class="align-right table-links">
+                                                            <a href="#" rel="tooltip" title="Edit" ng-click="opensearchinputadd(searchdata,$index);"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#" rel="tooltip" title="Delete" ng-click="deletesearchinput(searchdata);"><i class="fa fa-times"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-repeat="searchdata in YesNoAttribute track by $index">
+                                                        <td width="150" class="grey">{{searchdata.name}}</td>
+                                                        <td>{{searchdata.attributeType}} </td>
+                                                        <td class="align-right table-links">
+                                                            <a href="#" rel="tooltip" title="Edit" ng-click="opensearchinputadd(searchdata,$index);"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#" rel="tooltip" title="Delete" ng-click="deletesearchinput(searchdata);"><i class="fa fa-times"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-repeat="searchdata in DecimalAttribute track by $index">
+                                                        <td width="150" class="grey">{{searchdata.name}}</td>
+                                                        <td>{{searchdata.attributeType}} </td>
+                                                        <td class="align-right table-links">
+                                                            <a href="#" rel="tooltip" title="Edit" ng-click="opensearchinputadd(searchdata,$index);"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#" rel="tooltip" title="Delete" ng-click="deletesearchinput(searchdata);"><i class="fa fa-times"></i></a>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr ng-repeat="searchdata in IntegerAttribute1 track by $index">
+                                                        <td width="150" class="grey">{{searchdata.name}}</td>
+                                                        <td>{{searchdata.attributeType}} </td>
+                                                        <td class="align-right table-links">
+                                                            <a href="#" rel="tooltip" title="Edit" ng-click="opensearchinputadd(searchdata,$index);"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#" rel="tooltip" title="Delete" ng-click="deletesearchinput(searchdata);"><i class="fa fa-times"></i></a>
+                                                        </td>
+                                                    </tr>                                                    
+                                                                                                   
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tab2 -->
+                                        <div role="tabpanel" class="tab-pane" id="tab2">           
+                                            <div class="objects-table">
+                                                <table class="table table-hover table-condensed bg-white">
+                                                    <tbody ui-sortable="sortableOptionsB" ng-model="SortingResults">
+                                                        <tr ng-repeat="data in SortingResults" class="ui-state-default" style="cursor: move;">
+                                                            <td width="150" class="grey">
+                                                                <ul class="dragging-table">
+                                                                    <li>{{data.name}}</li>
+                                                                    <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td width="150">
+                                                                <select class="form-control" ng-model="sortordervalue" ng-change="chageorder(data,sortordervalue)">
+                                                                    <option value="0" ng-selected="data.sortType == 0">Ascending  order </option>
+                                                                    <option value="1" ng-selected="data.sortType == 1"> Descending order </option>
+                                                                </select>
+                                                            </td>
+                                                            <td class="align-right table-links">
+                                                                <a href="#" rel="tooltip" title="Delete" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deletesorting(data)" confirm-click=""><i class="fa fa-times"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                        </div>
+
+                                        <!-- Tab3 -->
+                                        <div role="tabpanel" class="tab-pane" id="tab3">                                               
+
+                                            <div class="row marginTop15">
+                                                <div class="col-xs-12">
+                                                    <div class="checkbox">
+                                                        <span class="classification-expl marginRight4">!</span><label>
+                                                            <input type="checkbox" value="" ng-checked="searchinterface.classificationNegationOperator" ng-model="searchinterface.classificationNegationOperator">
+                                                            <b>Negate whole expression.</b>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="box-radius classification-bdr-pading clearfix classification-bdr-height">
+                                                        <div ng-include="'/manageit/conditionalExpressionBuilder/partials/conditionalExpressionBuilder.html'"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(addsearchinterfaceAttributeForm.$dirty,'addsearchinterface');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveSearchInterface()" ng-disabled="addsearchinterfaceAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add list interface model -->
+    <div id="addlistinterface" class="modal fade attribute-container" ng-init="defaultAttributes()" tabindex="-1" role="dialog" aria-labelledby="addlistinterface" data-backdrop="static" >
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="addlistinterfaceAttributeForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(addlistinterfaceAttributeForm.$dirty,'addlistinterface');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{type}} List Interface</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="attribute-scroll-wrap">
+                            <div class="col-xs-12 marginbottom10">
+                                <div class="row">
+                                    <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="attribute-model-title">Search Properties</div>
+                                    <input type="hidden" ng-model="searchinterface.searchInterfaceId" name="searchInterfaceId" value="" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-5 control-label">Name<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" class="form-control" id="name" ng-model="searchinterface.name" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5 row">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="" ng-model="searchinterface.isEnabled" name="isEnabled">
+                                                Enabled
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-xs-5 control-label">Default Action<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7" required>
+                                                <select class="form-control" name="default_action" ng-model="searchinterface.defaultAction" ng-init="searchinterface.defaultAction">
+                                                     <option value="ViewContentObject" ng-selected="searchinterface.defaultAction == '0' || defaultactionselect">View Content Object</option>
+                                                    <option value="EditContentObject" ng-selected="searchinterface.defaultAction == '1'">Edit Content Object</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-7 control-label">Results Per Page<span class="mandatory">*</span></label>
+                                            <div class="col-xs-5">
+                                                <input type="text" required class="form-control" id="noperpage" name="noperpage" ng-model="searchinterface.noperpage">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">Search Parameters</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 white-bg">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs position-relative testclass" role="tablist">
+                                        <li class="active"><a href="#" data-target="#columns" role="tab" data-toggle="tab">Columns</a></li>
+                                        <li><a href="#" data-target="#conditions" role="tab" data-toggle="tab">Conditions</a></li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <!-- Tab1 -->
+                                        <div role="tabpanel" class="tab-pane active" id="columns">
+                                            <div class="specific-img-main-box clearfix marginTop15">
+                                                <div class="clearfix">
+                                                    <tree-multi-select-drag control-id="acceptedDocTypes" options-list="listAttributes"
+                                                                            selected-values="searchinterface.columns" create-content-node="createDocTypeInnerContentNode">
+                                                    </tree-multi-select-drag>
+                                                    <div id="docMultiSelectInnerDroppdown_parent">
+                                                        <div id="docFiltersDropdown" class="dropdown">
+                                                            <div id="toggleDocFilters" href="#" data-toggle="dropdown"></div>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+
+                                                                <div class="margin-10">
+                                                                    <div class="row">
+                                                                        <div class="col-xs-12">
+                                                                            <span class="font-bold">Column Filter</span>
+                                                                        </div>
+                                                                    </div>
+                                                                   
+                                                                    <select class="form-control" ng-model="selectedDocFilters.columnFilter">
+                                                                        <option ng-selected="selectedDocFilters.columnFilter == colfilter.id" ng-repeat="colfilter in colfilters" ng-value="colfilter.id">{{colfilter.label}}</option>
+                                                                    </select>
+                                                                  
+                                                                    <div data-ng-repeat="option in docFilterOptions">                                                                 
+
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" name="docFilter" value="{{option.key}}"
+                                                                                   data-ng-checked="isDocOptionSelected(option.key)"
+                                                                                   data-ng-click="changeDocFilters(option.key)">
+                                                                            {{option.value}}
+                                                                        </label>
+                                                                    </div>
+                                                                        
+
+                                                                        </div>
+
+                                                                
+
+                                                                    <div class="row">
+                                                                        <div class="col-xs-12">
+                                                                            <div class="bottom-border-empty marginbottom5"></div>
+                                                                            <div class="table-row">
+                                                                                <div class="table-cell table-cel-padding"><label> Sort Order</label></div>
+                                                                                <div class="table-cell table-cel-padding"><input class="form-control width50" type="text" value="" name="sortorder" ng-model="selectedDocFilters.sortOrder" /></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="row top-margin-10 clearfix">
+
+                                                    <div class="col-xs-6">
+                                                        <i class="fa fa-filter fa-lg gray-color"></i>
+                                                        Define Column Filters
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <i class="fa fa-plus fa-lg green-color"></i>
+                                                        ReArrange Columns
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Tab2 -->
+                                        <div role="tabpanel" class="tab-pane" id="conditions">
+
+                                            <div class="row marginTop15">
+                                                <div class="col-xs-12">
+                                                    <div class="checkbox">
+                                                        <span class="classification-expl marginRight4">!</span><label>
+                                                            <input type="checkbox" value="" ng-checked="searchinterface.classificationNegationOperator" ng-model="searchinterface.classificationNegationOperator">
+                                                            <b>Negate whole expression.</b>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="box-radius classification-bdr-pading clearfix classification-bdr-height">
+                                                        <div ng-include="'/manageit/conditionalExpressionBuilder/partials/conditionalExpressionBuilder.html'"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(addlistinterfaceAttributeForm.$dirty,'addlistinterface');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveListInterface()" ng-disabled="addlistinterfaceAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add Browse interface model -->
+    <div id="addbrowseinterface" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addbrowseinterface" data-backdrop="static">
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="addbrowseinterfaceAttributeForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(addbrowseinterfaceAttributeForm.$dirty,'addbrowseinterface');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{type}} Browse Interface</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="attribute-scroll-wrap">
+                            <div class="col-xs-12 marginbottom10">
+                                <div class="row">
+                                    <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="attribute-model-title">Search Properties</div>
+                                    <input type="hidden" ng-model="searchinterface.searchInterfaceId" name="searchInterfaceId" value="" />
+                                    <input type="hidden" ng-model="searchinterface.OrderNo" name="OrderNo" value="" />
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-5 control-label">Name<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" class="form-control" ng-model="searchinterface.name" id="listinerfacename" name="listinerfacename">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5 row">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="" name="isEnabled" ng-model="searchinterface.isEnabled">
+                                                Enabled
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-5 control-label">List Item Interface<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7" required>    
+                                                <select class="form-control" ng-model="searchinterface.listItemInterfaceName">
+                                                    <option value="">Auto Detect</option>
+                                                    <option ng-selected="listItemInterfaceName == userinterface.listInterfaceId" ng-repeat="userinterface in  userinterfaces track by $index" value="{{userinterface.listInterfaceId}}">{{userinterface.name}}</option>
+                                                </select> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-xs-5 control-label">Default Action<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7" required>                                               
+                                                <select class="form-control" name="default_action" ng-model="searchinterface.defaultAction" ng-init="searchinterface.defaultAction">
+                                                    <option value="ViewContentObject" ng-selected="searchinterface.defaultAction == '0' || defaultactionselect">View Content Object</option>
+                                                    <option value="EditContentObject" ng-selected="searchinterface.defaultAction == '1'">Edit Content Object</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-7 control-label">Results Per Page<span class="mandatory">*</span></label>
+                                            <div class="col-xs-5">
+                                                <input type="text" required class="form-control" id="noperpage" name="noperpage" ng-model="searchinterface.noperpage">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">Search Parameters</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 white-bg">
+
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs position-relative testclass" role="tablist" ng-init="displayaddsort= 'sorting'">
+                                        <li class="active"><a href="#" data-target="#resultsorting" role="tab" data-toggle="tab" ng-click="enableaddsort('sorting')">Result Sorting</a></li>
+                                        <li><a href="#" data-target="#searchconditions" role="tab" data-toggle="tab" ng-click="enableaddsort('condition')">Search Conditions</a></li>
+                                        <li class="pull-right position-absolute-tabs-btn2 list-options-button-wrap" ng-show="displayaddsort=='sorting'">
+
+                                            <div class="table-row">
+                                                <div class="table-cell table-cel-padding labelmargin0">
+                                                    <label class="control-label" for="timeFormat">Add Sort Attribute</label>
+                                                </div>
+                                                <div class="table-cell table-cel-padding">
+                                                    <select class="form-control width100" ng-model="attr">
+                                                        {{attributes}}
+                                                        <option ng-repeat="attr in attributes" value="{{attr.name}}">
+                                                            {{attr.name}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="table-cell table-cel-padding button-padding">
+                                                    <button class="btn btn-default ng-scope" type="button" ng-click="addsortingattr()"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <!-- Tab1 -->
+                                        <div role="tabpanel" class="tab-pane active" id="resultsorting">
+                                         
+                                            <div class="objects-table">
+                                                <table class="table table-hover table-condensed bg-white">
+                                                    <tbody ui-sortable="sortableOptionsB" ng-model="SortingResults">
+                                                        <tr ng-repeat="data in SortingResults" class="ui-state-default" style="cursor: move;">
+                                                            <td width="150" class="grey">
+                                                                <ul class="dragging-table">
+                                                                    <li>{{data.name}}</li>
+                                                                    <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td width="150">
+                                                                <select class="form-control" ng-model="sortordervalue" ng-change="chageorder(data,sortordervalue)">
+                                                                    <option value="">Select</option>
+                                                                    <option value="0" ng-selected="data.sortType == 0">Ascending  order </option>
+                                                                    <option value="1" ng-selected="data.sortType == 1"> Descending order </option>
+                                                                </select>
+                                                            </td>
+                                                            <td class="align-right table-links">
+                                                                <a href="#" rel="tooltip" title="Delete" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deletesorting(data)" confirm-click=""><i class="fa fa-times"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- Tab2 -->
+                                        <div role="tabpanel" class="tab-pane" id="searchconditions">
+                                    
+                                            <div class="row">
+                                                <div class="col-xs-3" ng-repeat="option in classificationCondition">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="ShowAllItems" ng-click="changeclassification(option.key)" ng-checked="option.key == enablecondition" value="{{option.key}}">
+                                                            {{option.value}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row marginTop15" ng-show="enablecondition == '1'">
+                                                <div class="col-xs-12">
+                                                    <div class="checkbox">
+                                                        <span class="classification-expl marginRight4">!</span><label>
+                                                            <input type="checkbox" value="" ng-checked="searchinterface.classificationNegationOperator" ng-model="searchinterface.classificationNegationOperator">
+                                                            <b>Negate whole expression.</b>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" ng-show="enablecondition == '1'">
+                                                <div class="col-xs-12">
+                                                    <div class="box-radius classification-bdr-pading clearfix classification-bdr-height">
+                                                        <div ng-include="'/manageit/conditionalExpressionBuilder/partials/conditionalExpressionBuilder.html'"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(addbrowseinterfaceAttributeForm.$dirty,'addbrowseinterface');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveBrowseInterface()" ng-disabled="addbrowseinterfaceAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+        <!-- Add Search Input -->
+    <div id="addSearchinput" class="modal fade attribute-container" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="addSearchinput">
+        <div class="modal-dialog">
+  
+            <div class="modal-content add-sub-object-main">
+                <form name="" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><b>Add Search Input</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="attribute-model-title">Select Input Type</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="attribute-types-list">
+                                <ul>
+                                   <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#decimalattform" ng-click="clearDecimalAttributeFields('Integer')"><img src="/images/Integer.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#decimalattform" ng-click="clearDecimalAttributeFields('Integer')">Integer</div>
+                            </a>
+                        </li>
+                                    <li data-dismiss="modal">
+                                        <a href="#">
+                                            <div class="attribute-type-img" data-toggle="modal" data-target="#decimalattform" ng-click="clearDecimalAttributeFields('Decimal')"><img src="/images/Price.jpg" alt="Price"></div>
+                                            <div class="attribute-type-img-title" data-toggle="modal" data-target="#decimalattform" ng-click="clearDecimalAttributeFields('Decimal')">Price /<br />  Decimal</div>
+                                        </a>
+                                    </li>
+                                    <li data-dismiss="modal">
+                                        <a href="#">
+                                            <div class="attribute-type-img" data-toggle="modal" data-target="#textattform" ng-click="clearTextAttributeFields()"><img src="/images/text.jpg" alt="Text"></div>
+                                            <div class="attribute-type-img-title" data-toggle="modal" data-target="#textattform" ng-click="clearTextAttributeFields()">Text </div>
+                                        </a>
+                                    </li>
+                                    <li data-dismiss="modal">
+                                        <a href="#">
+                                            <div class="attribute-type-img" data-toggle="modal" data-target="#datearrform" ng-click="clearDateAttributeFields()"><img src="/images/date.JPG" alt="Date"></div>
+                                            <div class="attribute-type-img-title" data-toggle="modal" data-target="#datearrform" ng-click="clearDateAttributeFields()">Date</div>
+                                        </a>
+                                    </li>
+
+                                    <li data-dismiss="modal">
+                                        <a href="#">
+                                            <div class="attribute-type-img" data-toggle="modal" data-target="#timearrform" ng-click="clearTimeAttributeFields()"><img src="/images/time.JPG" alt="Time"></div>
+                                            <div class="attribute-type-img-title" data-toggle="modal" data-target="#timearrform" ng-click="clearTimeAttributeFields()">Time</div>
+                                        </a>
+                                    </li>
+
+                                    <li data-dismiss="modal">
+                                        <a href="#">
+                                            <div class="attribute-type-img" data-toggle="modal" data-target="#datetimeattform" ng-click="clearDateTimeAttributeFields()"><img src="/images/date&time.JPG" alt="Date & Time"></div>
+                                            <div class="attribute-type-img-title" data-toggle="modal" data-target="#datetimeattform" ng-click="clearDateTimeAttributeFields()">Date & Time</div>
+                                        </a>
+                                    </li>
+
+                                    <li data-dismiss="modal">
+                                        <a href="#">
+                                            <div class="attribute-type-img" data-toggle="modal" data-target="#yesnoattform" ng-click="clearYesNoAttributeFields()"><img src="/images/yes-no.jpg" alt="Integer"></div>
+                                            <div class="attribute-type-img-title" data-toggle="modal" data-target="#yesnoattform" ng-click="clearYesNoAttributeFields()">Yes/No</div>
+                                        </a>
+                                    </li>
+
+                                    <li data-dismiss="modal">
+                                        <a href="#">
+                                            <div class="attribute-type-img" data-toggle="modal" data-target="#ListAttributeForm" ng-click="clearListAttributFields()"><img src="/images/list.jpg" alt="Integer"></div>
+                                            <div class="attribute-type-img-title" data-toggle="modal" data-target="#ListAttributeForm" ng-click="clearListAttributFields()">List<br />(Selection)</div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="clearCopyAttribute()" data-dismiss="modal" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--<div ng-include="'/manageIT/attribute/partials/yesNoAttribute.html'" ng-show="isYesNoAttribute"></div>-->
+   
+    <div id="textattform" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addTextsearchinput" ng-show="isTextAttribute">
+        <div class="modal-dialog">
+            <div class="modal-content add-sub-object-main">
+                <form name="textattformAttributeForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-toggle="modal" data-target="#ErrorScreen" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(textAttributeForm.$dirty,'textattform');">&times;</button>
+                        <h4><b>{{ action }} Text Attribute</b></h4>
+                        <!--Place the error directive here-->
+                        <error-control attribute-scope="errorAttribute"></error-control>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row marginTop5">
+                            <div class="attribute">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-xs-2">
+                                            <label class="control-label text-left" for="">Name<span class="mandatory">*</span></label>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="text" name="name" ng-model="currentScope.name"  class="input-medium form-control" required />
+                                        </div>
+                                        <div class="col-xs-1"></div>
+
+                                        <div class="col-xs-2">
+                                            <label class="control-label" for="">Field Width <span class="mandatory">*</span></label>
+                                        </div>
+                                        <div class="col-xs-2 row">
+
+                                            <input type="text" name="fieldWidth" ng-model="currentScope.fieldWidth" class="input-medium form-control" required
+                                                   only-number0999 />
+
+                                        </div>
+                                        <div class="col-xs-1 row">
+
+                                            <span class="text-attribute-px-text">&nbsp;px</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label for="exampleTextarea">Description/ Help Text</label>                                           
+                                            <textarea class="form-control" id="exampleTextarea" rows="3"  name="description" ng-model="currentScope.description"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(textattformAttributeForm.$dirty,'textattform');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveTextAttribute(currentScope)" ng-disabled="textattformAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add List Search Input -->
+    <div id="ListAttributeForm" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="ListAttribute" ng-show="isListAttribute" >
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="listAttributeForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(listAttributeForm.$dirty,'ListAttributeForm');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{ action }} List Attribute</b></h4>
+                        <!--Place the error directive here-->
+                        <error-control attribute-scope="errorAttribute"></error-control>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row marginTop5">
+                            <div class="attribute">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-xs-2">
+                                            <label class="control-label text-left" for="">Name<span class="mandatory">*</span></label>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="text" name="name" ng-model="listAttribute.name" class="input-medium form-control" required />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label for="exampleTextarea">Description/ Help Text</label>
+                                            <textarea class="form-control" id="exampleTextarea" rows="3" name="description" ng-model="listAttribute.description"></textarea>                                            
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-selection-devider"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="list-options-box clearfix">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-xs-5">
+                                                <label class="control-label text-left" for="">List Options<span class="mandatory">*</span></label>
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <select class="form-control" ng-model="listAttribute.listOption" ng-change="UpdateListValueOptions();"
+                                                        data-ng-options="option.key as option.value for option in listOptionsInlist" required></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+
+                                            <div class="col-xs-offset-5 col-xs-7 list-options-button-wrap" ng-show="listAttribute.listOption==='0'">
+                                                <button type="button" class="btn btn-update" aria-label="Left Align"
+                                                        data-toggle="modal" data-target="#defineListValues"
+                                                        ng-click="showDefineListValue()">
+                                                    Define Values
+                                                </button>
+                                            </div>
+
+                                            <div class="col-xs-offset-5 col-xs-7 list-options-button-wrap" ng-show="listAttribute.listOption==='1'">
+                                                <button type="button" class="btn btn-update" aria-label="Left Align"
+                                                        data-toggle="modal" data-target="#defineListSource"
+                                                        ng-click="showDefineDataSource()">
+                                                    Define Datasource
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-xs-5">
+                                            <label for="" class="control-label">List Type<span class="mandatory">*</span></label>
+                                        </div>
+                                        <div class="col-xs-7">
+                                            <select class="form-control" data-ng-model="listAttribute.listType"
+                                                    data-ng-options="option.key as option.value for option in listType" required></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);clearListAttributFields();openErrorScreen(listAttributeForm.$dirty,'ListAttributeForm');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveListAttribute(listAttribute)" ng-disabled="listAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add Integer and price/decimal input-->
+    <div id="decimalattform" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addintegerPriceDecmialinput" ng-show="isdecimalAttribute">
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="decimalattformAttributeForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-target="#ErrorScreen" data-toggle="modal" ng-click="openErrorScreen(decimalattformAttributeForm.$dirty,'decimalattform');">&times;</button>
+                        <h4><b>{{ action }} {{formName}} Input</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row marginTop5">
+                            <div class="attribute">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-xs-2">
+                                            <label class="control-label text-left" for="">Name<span class="mandatory">*</span></label>
+                                        </div>
+                                        <div class="col-xs-4">                                           
+                                            <input type="text" name="name" ng-model="decimalAttribute.name" class="input-medium form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label for="exampleTextarea">Description/ Help Text</label>
+                                            <textarea class="form-control" id="description" rows="3" name="description" ng-model="decimalAttribute.description"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-selection-devider"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div class="cor-border padding10">
+                                    <div class="form-group display-flex">
+                                        <select data-ng-model="decimalAttribute.displayaspriceorpercentage" data-ng-options="option.key as option.value for option in decimalDisplayAsPrice" class="form-control"
+                                                ng-disabled="displayaspriceorpercentageDisabled"></select>
+                                        <input ng-if="decimalAttribute.displayaspriceorpercentage==1" ng-init="decimalAttribute.currencyPrefix='$'" type="text" ng-pattern='/^[€ £ $]+$/'
+                                               class="form-control formwidth35 align-center margin-left5" name="currencyPrefix" ng-model="decimalAttribute.currencyPrefix" />
+                                    </div>
+                                    <span class="color-red" ng-show="decimalattformAttributeForm.currencyPrefix.$error.pattern">Incorrect Currency.</span>
+                                    <div class="checkbox checkbox-radio-space marginbottom0" ng-if="decimalAttribute.displayaspriceorpercentage==1">
+                                        <label>
+                                            <input type="checkbox" name="isInheritfromcontext" ng-model="decimalAttribute.inheritfromcontext" class=""> <span>Inherit symbol from context</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">                       
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(decimalattformAttributeForm.$dirty,'decimalattform');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveDecimalAttribute(decimalAttribute)" ng-disabled="decimalattformAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add Date input-->
+    <div id="datearrform" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="DateAttribute" ng-show="isDateAttribute">
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="datearrformAttributeForm" class="form-horizontal" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(datearrformAttributeForm.$dirty,'datearrform');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{ action }} Date Attribute</b></h4>
+                        <!--Place the error directive here-->
+                        <error-control attribute-scope="errorAttribute"></error-control>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row marginTop5">
+                            <div class="attribute">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <div class="col-xs-2">
+                                                <label class="control-label text-left" for="">Name<span class="mandatory">*</span></label>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input type="text" name="name" ng-model="dateAttribute.name" class="input-medium form-control" required />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label for="exampleTextarea">Description/ Help Text</label>
+                                                <textarea class="form-control" id="exampleTextarea" rows="3" name="description" ng-model="dateAttribute.description"></textarea>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-selection-devider"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4 align-left" for="">Date Format<span class="mandatory">*</span></label>
+                                        <div class="col-xs-8">
+                                            <select class="form-control" data-ng-model="dateAttribute.dateFormat"
+                                                    data-ng-options="option.key as option.value for option in dateFormatDefaultValues"
+                                                    ng-change="formatDateChange(dateAttribute.dateFormat)" required></select>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <label class="control-label col-xs-4 align-left" for="">Date<!--<span class="mandatory">*</span>--></label>
+                                    <div class="">
+                                        <div class="col-xs-8">
+                                            <input type="text" readonly uib-datepicker-popup="{{dateFormat}}"
+                                                   ng-model="dateAttribute.minDateTimeValues.date"
+                                                   is-open="datePickerControl.minOpened" close-text="Close"
+                                                   ng-focus="openDateCalendar(0)"
+                                                   name="minDate" class="form-control" ng-click="openDateCalendar(0)"
+                                                   placeholder="{{dateFormat}}" />
+                                            <i class="fa fa-calendar form-control-feedback" ng-click="openDateCalendar(0)" style="padding: 6px 25px 0px 0px;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="openErrorScreen(datearrformAttributeForm.$dirty,'datearrform');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveDateAttribute(dateAttribute)" ng-disabled="datearrformAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add Time input-->
+    <div id="timearrform" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="TimeAttributeForm" ng-show="isTimeAttribute">
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="timearrformAttributeForm" role="form" novalidate>
+                    <div class="modal-header">                      
+                        <button type="button" class="close" ng-click="openErrorScreen(timearrformAttributeForm.$dirty,'timearrform');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{ action }} Time Input</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row marginTop5">
+                            <div class="attribute">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-xs-2">
+                                            <label class="control-label text-left" for="">Name<span class="mandatory">*</span></label>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="text" name="name" ng-model="timeAttribute.name"  class="input-medium form-control" required />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label for="exampleTextarea">Description/ Help Text</label>
+                                            <textarea class="form-control" id="exampleTextarea" rows="3" name="description" ng-model="timeAttribute.description" ></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-selection-devider"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4 align-left" for="">Time Format<span class="mandatory">*</span></label>
+                                        <div class="col-xs-8">
+                                            <select class="form-control" data-ng-model="timeAttribute.timeFormat"
+                                                    data-ng-options="option.key as option.value for option in timeFormatDefaultValues"
+                                                    ng-change="timeFormatChange(timeAttribute.timeFormat)"
+                                                    required></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4 align-left" for="">Time<!--<span class="mandatory">*</span>--></label>
+
+                                        <div class="col-xs-8" ng-class="{'has-error': timearrformAttributeForm.minTime.$error.required}">
+                                            <input class="form-control" type="text" placeholder="{{timeTormat}}" name="minTime"
+                                                   ng-model="timeAttribute.minDateTimeValues.time" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(timearrformAttributeForm.$dirty,'time');" data-dismiss="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveTimeAttribute(timeAttribute)" ng-disabled="timearrformAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>   
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add dateTime input-->
+    <div id="datetimeattform" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="adddateTimeinput" ng-show="isDatetimeAttribute">
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="datetimeattformAttributeForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(datetimeattformAttributeForm.$dirty,'datetimeattform');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{ action }} Date Time Input</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row marginTop5">
+                            <div class="attribute">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-xs-2">
+                                            <label class="control-label text-left" for="">Name<span class="mandatory">*</span></label>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="text" name="name" ng-model="dateTimeAttribute.name" class="input-medium form-control" required />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label for="exampleTextarea">Description/ Help Text</label>
+                                            <textarea class="form-control" id="exampleTextarea" rows="3" name="description" ng-model="dateTimeAttribute.description" ></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-selection-devider"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4 align-left" for="">Date Format<span class="mandatory">*</span></label>
+                                        <div class="col-xs-8">
+                                            <select class="form-control" data-ng-model="dateTimeAttribute.dateFormat"
+                                                    data-ng-options="option.key as option.value for option in dateFormatDefaultValues"
+                                                    ng-change="formatDateTimeChange(dateTimeAttribute.dateFormat)"
+                                                    required></select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4 align-left" for="">Time Format<span class="mandatory">*</span></label>
+                                        <div class="col-xs-8">
+                                            <select class="form-control" data-ng-model="dateTimeAttribute.timeFormat"
+                                                    data-ng-options="option.key as option.value for option in timeFormatDefaultValues"
+                                                    ng-change="timeFormatChange(dateTimeAttribute.timeFormat)"
+                                                    required></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">                    
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(datetimeattformAttributeForm.$dirty,'datetimeattform');" data-toggle="modal" data-target="#ErrorScreen"
+                                    class="btn btn-grey" type="button" aria-hidden="true">
+                                <i class="fa fa-times"></i> Discard
+                            </button>
+                            <button ng-click="saveDateTimeAttribute(dateTimeAttribute)"
+                                    class="btn btn-primary" type="button" aria-hidden="true">
+                                <i class="fa fa-pencil"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add yesNo input-->
+    <div id="yesnoattform" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="adddyesNoinput" ng-show="isYesNoAttribute">
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="yesnoattformAttributeForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(yesnoattformAttributeForm.$dirty,'yesnoattform');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{ action }} Yes/No Attribute</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row marginTop5">
+                            <div class="attribute">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-xs-2">
+                                            <label class="control-label text-left" for="">Name<span class="mandatory">*</span></label>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="text" name="name" ng-model="yesNoAttribute.name"  class="input-medium form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label for="exampleTextarea">Description/ Help Text</label>
+                                            <textarea class="form-control" id="exampleTextarea" rows="3" name="description" ng-model="yesNoAttribute.description" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="list-selection-devider"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4" for="yesValue">Yes Value<span class="mandatory">*</span></label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="yesValue" ng-model="yesNoAttribute.yesValue" value="Yes" class="form-control" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4" for="noValue">No Value<span class="mandatory">*</span></label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="noValue" ng-model="yesNoAttribute.noValue" value="No" class="form-control" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">                         
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(yesnoattformAttributeForm.$dirty,'yesnoattform');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="saveYesNoAttribute(yesNoAttribute)"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>   
+
+    <div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div>   
+    <div ng-include="'/manageIT/attribute/partials/defineListValues.html'" ng-show="isDefineListValues"></div>
+    <div ng-include="'/manageIT/attribute/partials/defineListSource.html'" ng-show="isDefineListSource"></div>
+</div>
+
+<script>
+     $('.dropdown-menu').on('click', function(event){
+    event.stopPropagation();
+     });
+</script>

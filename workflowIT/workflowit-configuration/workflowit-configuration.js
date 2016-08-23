@@ -1,0 +1,1 @@
+﻿var workflowitConfigurationModule = angular.module('workflowit.configuration', []);

@@ -1,0 +1,237 @@
+﻿
+
+<div id="DateTimeAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="dateTimeAttributeForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'dateTimeAttributeForm')" novalidate>
+                <link href="/lib/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet" />
+                <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(dateTimeAttributeForm.$dirty,'DateTime');">&times;</button>
+                    <h4><b>{{ action }} Date Time Attribute</b></h4>
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+
+                    <div class="attribute-scroll-wrap">
+
+                        <basic-properties attribute-scope="dateTimeAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"
+                                          clear-unique-group-values="clearUniqueGroupValues"></basic-properties>
+                        <div class="row">
+                            <div class="col-xs-12 marginTop20">
+                                <div class="attribute-model-title">Date & Time Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute">
+
+                                    <div class="form-horizontal">
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2 align-left" for="">Date Format<span class="mandatory">*</span></label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="dateTimeAttribute.dateFormat"
+                                                        data-ng-options="option.key as option.value for option in dateFormatDefaultValues"
+                                                        ng-change="formatDateTimeChange(dateTimeAttribute.dateFormat)"
+                                                        required></select>
+                                            </div>
+
+                                            <label class="control-label col-xs-2 align-left" for="">Time Format<span class="mandatory">*</span></label>
+                                            <div class="col-xs-5">
+                                                <select class="form-control" data-ng-model="dateTimeAttribute.timeFormat"
+                                                        data-ng-options="option.key as option.value for option in timeFormatDefaultValues"
+                                                        ng-change="timeFormatChange(dateTimeAttribute.timeFormat)"
+                                                        required></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group dateTimeRowStyle">
+                                            <label class="control-label col-xs-2 align-left" for="">Minimum Date / Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="dateTimeAttribute.minimumDateTime"
+                                                        data-ng-options="option.key as option.value for option in minMaxDateTimeDefaultValues"></select>
+                                            </div>
+                                            <div class="min-wrap" ng-show="dateTimeAttribute.minimumDateTime == 0 || dateTimeAttribute.minimumDateTime == 2">
+
+                                                <div class="" ng-show="dateTimeAttribute.minimumDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Date / Time<span class="mandatory">*</span></label>
+
+                                                    <div class="" ng-show="dateTimeAttribute.minimumDateTime == 0">
+                                                        <div class="col-xs-2">
+                                                            <input class="form-control" type="text" ng-attr-placeholder="{{timeFormatDefaultValues[dateTimeAttribute.timeFormat].placeHolder}}" name="minTime" ng-model="dateTimeAttribute.minDateTimeValues.time" />
+                                                        </div>
+
+                                                        <div class="col-xs-3 calendar-space">
+                                                            <input type="text" readonly uib-datepicker-popup="{{dateTimeFormat}}"
+                                                                   ng-model="dateTimeAttribute.minDateTimeValues.date"
+                                                                   is-open="datePickerControl.minOpened"
+                                                                   ng-focus="openDateCalendar(0)"
+                                                                   close-text="Close" name="minDate" class="form-control"
+                                                                   ng-click="openDateCalendar(0)" placeholder="{{dateTimeFormat}}" />
+                                                            <i class="fa fa-calendar form-control-feedback datetime-calendareicon" ng-click="openDateCalendar(0)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="" ng-show="dateTimeAttribute.minimumDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+
+                                                    <div class="" ng-show="dateTimeAttribute.minimumDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+
+                                                        <div class="col-xs-1 no-padding">
+                                                            <input type="number" name="minTimeOffSetValue" ng-model="dateTimeAttribute.minDateTimeValues.timeOffset"
+                                                                   class="form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select class="form-control" ng-model="dateTimeAttribute.minDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in timeOffSetDefaultValues"
+                                                                    name="minTimeOffSetType" ></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group dateTimeRowStyle">
+                                            <label class="control-label col-xs-2 align-left" for="">Maximum Date / Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="dateTimeAttribute.maximumDateTime"
+                                                        data-ng-options="option.key as option.value for option in minMaxDateTimeDefaultValues"></select>
+
+                                            </div>
+                                            <div class="max-wrap" ng-show="dateTimeAttribute.maximumDateTime == 0 || dateTimeAttribute.maximumDateTime == 2">
+
+                                                <div ng-show="dateTimeAttribute.maximumDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Date / Time<span class="mandatory">*</span></label>
+
+                                                    <div class="" ng-show="dateTimeAttribute.maximumDateTime == 0">
+                                                        <div class="col-xs-2">
+                                                            <input type="text" ng-attr-placeholder="{{timeFormatDefaultValues[dateTimeAttribute.timeFormat].placeHolder}}" name="maxTime"
+                                                                   ng-model="dateTimeAttribute.maxDateTimeValues.time"
+                                                                   class="form-control" />
+                                                        </div>
+
+                                                        <div class="col-xs-3 calendar-space">
+                                                            <input type="text" readonly uib-datepicker-popup="{{dateTimeFormat}}"
+                                                                   ng-model="dateTimeAttribute.maxDateTimeValues.date"
+                                                                   is-open="datePickerControl.maxOpened" close-text="Close"
+                                                                   ng-focus="openDateCalendar(1)"
+                                                                   name="maxDate" class="form-control" ng-click="openDateCalendar(1)"
+                                                                   placeholder="{{dateTimeFormat}}" />
+                                                            <i class="fa fa-calendar form-control-feedback datetime-calendareicon" ng-click="openDateCalendar(1)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div ng-show="dateTimeAttribute.maximumDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+
+                                                    <div class="" ng-show="dateTimeAttribute.maximumDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+
+                                                        <div class="col-xs-1 no-padding">
+                                                            <input type="number" name="maxTimeOffSetValue" ng-model="dateTimeAttribute.maxDateTimeValues.timeOffset" class="input-medium form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select class="form-control" ng-model="dateTimeAttribute.maxDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in timeOffSetDefaultValues"
+                                                                    name="maxTimeOffSetType" ></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group dateTimeRowStyle">
+                                            <label class="control-label col-xs-2 align-left" for="">Default Date / Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="dateTimeAttribute.defaultDateTime"
+                                                        data-ng-options="option.key as option.value for option in minMaxDateTimeDefaultValues"></select>
+                                            </div>
+                                            <div class="default-wrap" ng-show="dateTimeAttribute.defaultDateTime == 0 || dateTimeAttribute.defaultDateTime == 2">
+
+                                                <div ng-show="dateTimeAttribute.defaultDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Date / Time<span class="mandatory">*</span></label>
+
+                                                    <div class="" ng-show="dateTimeAttribute.defaultDateTime == 0">
+                                                        <div class="col-xs-2" >
+                                                            <input type="text" ng-attr-placeholder="{{timeFormatDefaultValues[dateTimeAttribute.timeFormat].placeHolder}}" name="defaultTime"
+                                                                   ng-model="dateTimeAttribute.defaultDateTimeValues.time" class="form-control" />
+                                                        </div>
+
+                                                        <div class="col-xs-3 calendar-space">
+                                                            <input type="text" readonly uib-datepicker-popup="{{dateTimeFormat}}"
+                                                                   ng-model="dateTimeAttribute.defaultDateTimeValues.date"
+                                                                   is-open="datePickerControl.defaultOpened" close-text="Close"
+                                                                   ng-focus="openDateCalendar(2)"
+                                                                   name="defaultDate" class="form-control" ng-click="openDateCalendar(2)"
+                                                                   placeholder="{{dateTimeFormat}}" />
+                                                            <i class="fa fa-calendar form-control-feedback datetime-calendareicon" ng-click="openDateCalendar(2)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div ng-show="dateTimeAttribute.defaultDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+
+                                                    <div class="" ng-show="dateTimeAttribute.defaultDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+
+                                                        <div class="col-xs-1 no-padding">
+                                                            <input type="number" name="defaultTimeOffSetValue" ng-model="dateTimeAttribute.defaultDateTimeValues.timeOffset" class="form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2"> 
+                                                            <select class="form-control" ng-model="dateTimeAttribute.defaultDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in timeOffSetDefaultValues"
+                                                                    name="defaultTimeOffSetType"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(dateTimeAttributeForm.$dirty,'DateTime');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveDateTimeAttribute(dateTimeAttribute)"                                
+                                class="btn btn-primary" type="button" aria-hidden="true">
+                            <i class="fa fa-pencil"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,565 @@
+﻿<div ng-controller="userInterfaceController" >
+    <div class="col-xs-12 padding20">
+        <div class="col-xs-12 marginbottom10">
+            <div class="row">
+                <error-control attribute-scope="messageModel" ng-show="!messageModel.isHide"></error-control>
+                <error-control attribute-scope="viewMessageModel" ng-show="!viewMessageModel.isHide"></error-control>
+                <error-control attribute-scope="editMessageModel" ng-show="!editMessageModel.isHide"></error-control>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="font-bold marginbottom20 clearfix">Custom User Interface Templates</p>
+            </div>
+        </div>
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs position-relative" role="tablist" ng-init="enablebuttonvalue='List'" dynamicinterfacetype>
+                <li role="presentation" class="active"><a href="#" data-target="#listitems" role="tab" data-toggle="tab" ng-click="enableButton('List')"><i class="fa fa-th-large" aria-hidden="true"></i> List Items</a></li>
+                <li role="presentation"><a href="#" data-target="#viewitem" role="tab" data-toggle="tab" ng-click="enableButton('View')"> <i class="fa fa-file-o" aria-hidden="true"></i> View Item</a></li>
+                <li role="presentation"><a href="#" data-target="#edititem" role="tab" data-toggle="tab" ng-click="enableButton('Edit')"><i class="fa fa-pencil"></i> Edit Item</a></li>
+                <li class="pull-right position-absolute-tabs-btn">
+                    <div class="tabs-right-btn" ng-show="true">
+                        <a href="#" data-toggle="modal" data-target="#{{enablebuttonvalue}}userinterfacetemplate" ng-click="showTemplate(enablebuttonvalue,'Add'); disableerror()"><i class="fa fa-plus"></i> Add {{enablebuttonvalue}} Template</a>
+                    </div>    
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="listitems">
+                    <div class="objects-table">
+                        <table class="table table-hover table-condensed bg-white">
+                            <thead>
+                                <tr>
+                                    <th ng-hide="true">User Interface Id </th>
+                                    <th>User Interface </th>
+                                    <th>Classificatons</th>
+                                    <th class="text-center">Enabled</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="data in userinterfaces">                               
+                                <td ng-hide="true">{{data.listInterfaceId}} {{data.contentTypeId}} {{data.subObjectId}}  </td>
+                                <td width="180" class="grey"> {{data.name}}</td>
+                                <td>
+                                <div ng-show="data.viewEditClassifications.length > 0">
+                                    <span ng-show="data.viewNegationOperator">!(</span><span ng-repeat="item in data.viewEditClassifications">
+                                           {{item.conditionType}}&nbsp;<span ng-show="item.expressionNegationOperator">!</span>(<span ng-show="item.negationOperator">!</span>{{item.classificationName}}<span ng-show="item.subClassifications.length == 0">)</span>&nbsp;
+                                            <span ng-repeat="subitem in item.subClassifications">
+                                                {{subitem.conditionType}}&nbsp;<span ng-show="subitem.negationOperator">!</span>{{subitem.classificationName}}<span ng-show="item.subClassifications.length == ($index+1)">)</span>&nbsp;
+                                            </span>
+                                        </span><span ng-show="data.viewNegationOperator">)</span>
+                                    </div>
+                                    <div ng-show="data.viewEditClassifications.length == 0"><label><b>Any</b></label></div>
+                                </td>
+                                <td class="text-center"><input type="checkbox" value="" ng-checked="{{data.isEnabled}}" name="isEnabled" ng-disabled="true" ></td>
+
+                                <td class="align-right table-links">
+                                    <a href="#" rel="tooltip" title="Edit" ng-click="editUserinterface(data,'Listuserinterfacetemplate')"><i class="fa fa-pencil"></i></a>
+                                    <a href="#" rel="tooltip" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deleteUserinterface(data)" confirm-click="" title="Delete"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>                         
+                        </table>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="viewitem">
+                    <div class="objects-table">
+                        <table class="table table-hover table-condensed bg-white">
+                            <thead>
+                                <tr>
+                                    <th>User Interface</th>
+                                    <th>Classificatons</th>
+                                    <th class="text-center">Enabled</th>
+                                    <th></th>
+                                </tr>
+                            </thead>                           
+                            <tr ng-repeat="data in viewuserinterfaces">
+                                <td ng-hide="true">{{data.viewInterfaceId}} {{data.contentTypeId}} {{data.subObjectId}}  </td>
+                                <td width="180" class="grey"> {{data.name}}</td>
+                                <td>
+                                    <div ng-show="data.viewEditClassifications.length > 0">
+                                        <span ng-show="data.viewNegationOperator">!(</span><span ng-repeat="item in data.viewEditClassifications">
+                                            {{item.conditionType}}&nbsp;<span ng-show="item.expressionNegationOperator">!</span>(<span ng-show="item.negationOperator">!</span>{{item.classificationName}}<span ng-show="item.subClassifications.length == 0">)</span>&nbsp;
+                                            <span ng-repeat="subitem in item.subClassifications">
+                                                {{subitem.conditionType}}&nbsp;<span ng-show="subitem.negationOperator">!</span>{{subitem.classificationName}}<span ng-show="item.subClassifications.length == ($index+1)">)</span>&nbsp;
+                                            </span>
+                                        </span><span ng-show="data.viewNegationOperator">)</span>
+                                    </div>
+                                    <div ng-show="data.viewEditClassifications.length == 0"><label><b>Any</b></label></div>
+                                </td>
+                                <td class="text-center"><input type="checkbox" value="" ng-checked="{{data.isEnabled}}" name="isEnabled" ng-disabled="true"></td>
+
+                                <td class="align-right table-links">
+                                    <a href="#" rel="tooltip" title="Edit" ng-click="editViewUserinterface(data,'Viewuserinterfacetemplate')"><i class="fa fa-pencil"></i></a>
+                                    <a href="#" rel="tooltip" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deleteViewUserinterface(data)" confirm-click="" title="Delete"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>  
+                        </table>
+                    </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="edititem">
+                    <div class="objects-table">
+                        <table class="table table-hover table-condensed bg-white">
+                            <thead>
+                                <tr>
+                                    <th>User Interface</th>
+                                    <th>Classificatons</th>
+                                    <th class="text-center">Enabled</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="data in edituserinterfaces">
+                                <td ng-hide="true">{{data.editInterfaceId}} {{data.contentTypeId}} {{data.subObjectId}}  </td>
+                                <td width="180" class="grey"> {{data.name}}</td>
+                                <td>
+                                    <div ng-show="data.viewEditClassifications.length > 0">
+                                        <span ng-show="data.viewNegationOperator">!(</span><span ng-repeat="item in data.viewEditClassifications">
+                                            {{item.conditionType}}&nbsp;<span ng-show="item.expressionNegationOperator">!</span>(<span ng-show="item.negationOperator">!</span>{{item.classificationName}}<span ng-show="item.subClassifications.length == 0">)</span>&nbsp;
+                                            <span ng-repeat="subitem in item.subClassifications">
+                                                {{subitem.conditionType}}&nbsp;<span ng-show="subitem.negationOperator">!</span>{{subitem.classificationName}}<span ng-show="item.subClassifications.length == ($index+1)">)</span>&nbsp;
+                                            </span>
+                                        </span><span ng-show="data.viewNegationOperator">)</span>
+                                    </div>
+                                    <div ng-show="data.viewEditClassifications.length == 0"><label><b>Any</b></label></div>
+                                </td>
+                                <td class="text-center"><input type="checkbox" value="" ng-checked="{{data.isEnabled}}" name="isEnabled" ng-disabled="true"></td>
+
+                                <td class="align-right table-links">
+                                    <a href="#" rel="tooltip" title="Edit" ng-click="editEditUserinterface(data,'Edituserinterfacetemplate')"><i class="fa fa-pencil"></i></a>
+                                    <a href="#" rel="tooltip" ng-click="confirmClick('Are you sure you want to delete ??','Warning','Delete','Cancel') && deleteEditUserinterface(data)" confirm-click="" title="Delete"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>  
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <!-- Add list user interface template model -->
+    <div id="Listuserinterfacetemplate" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addlisttemplate" data-backdrop="static" dynamicinterfacetype>
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="ListuserinterfacetemplateAttributeForm" role="form" novalidate>                 
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(ListuserinterfacetemplateAttributeForm.$dirty,'Listuserinterfacetemplate');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{ ListuserinterfaceType}} List User Interface Template</b></h4>                       
+                    </div>
+                    <div class="modal-body">
+                        <div class="attribute-scroll-wrap">
+                            <div class="col-xs-12 marginbottom10">
+                                <div class="row">
+                                    <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="attribute-model-title">User Interface Properties</div>
+                                </div>
+                            </div>
+                            <input type="hidden" ng-model="userinterface.userinterfaceType" class="form-control" id="userinterfaceType" nmae="userinterfaceType" placeholder="">
+                            <input type="hidden" ng-model="userinterface.action" class="form-control" id="action" name="action" placeholder="">
+                            <input type="hidden" ng-model="userinterface.listInterfaceId" class="form-control" id="listInterfaceId" name="listInterfaceId" value="" placeholder="" >
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-5 control-label">Name<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" required ng-model="userinterface.userinterfaceName" class="form-control" id="userinterfaceName" nmae="userinterfaceName" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5 row">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="" name="isEnabled"
+                                                       ng-model="userinterface.isEnabled">
+                                                Enabled
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">Display Conditions <span class="mandatory">*</span></div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-xs-4" ng-repeat="option in classificationCondition">
+                                        <div class="radio">                                           
+                                          <div ng-if="userinterface.isAnyViewClassification == undefined || userinterface.isAnyViewClassification == ''">{{userinterface.isAnyViewClassification=0;""}}</div>
+                                            <label>
+                                                <input type="radio" name="isAnyViewClassification" ng-click="changeclassification(option.key)"                                                        ng-checked="option.key == userinterface.isAnyViewClassification " value="{{option.key}}">
+                                                {{option.value}}
+
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="userinterface.isAnyViewClassification == '1'">
+                                <div class="col-xs-12">
+                                    <div class="checkbox">
+                                        <span class="classification-expl marginRight4">!</span><label>
+                                                                                                   <div ng-if="userinterface.isAnyViewClassification == undefined || userinterface.isAnyViewClassification == ''">{{userinterface.isAnyViewClassification=0;""}}</div>
+                                           <!-- <input type="checkbox" value="" ng-checked="userinterface.viewNegationOperator"
+                                                   ng-model="userinterface.viewNegationOperator">-->
+                                                                                         <input type="checkbox" value="" name="viewNegationOperator" ng-checked="userinterface.viewNegationOperator == 'true'"
+                                                                                                          ng-model="userinterface.viewNegationOperator">
+                                            <b>Negates classification expression</b>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-show="userinterface.isAnyViewClassification == '1'" ng-controller="classificationExpressionBuilderController2"
+                                 ng-include="'/manageit/classificationExpressionBuilder/partials/classificationExpressionBuilder.html'">
+                            </div>
+                        
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">HTML Template</div>
+                                </div>
+                            </div>
+                            <div class="row"> 
+                                <div class="col-xs-8 links-blue" >
+                                    <a class="font-bold" href="#" data-toggle="modal" data-target="#listtemplateuploadhistory">Click Here to view Template Upload History.</a>
+                                </div>
+                                <div class="col-xs-4 userinterface-upload" >
+                                    <input type="file" ng-model="userinterface.file" on-read-file="showContent($fileContent)" class="custom-file-input flat-right"> 
+                                    <input type="hidden" ng-model="userinterface.htmlfile" ng-init="userinterface.htmlfile =''" name="htmlfile" id="htmlfile" />
+                                    <input type="hidden" ng-model="userinterface.htmlfilename" name="htmlfilename" id="htmlfilename" />                                                             
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">       
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(ListuserinterfacetemplateAttributeForm.$dirty,'Listuserinterfacetemplate');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+
+                            <!--<button ng-click="validatehtml('List');" ng-disabled="ListuserinterfacetemplateAttributeForm.$invalid" class="btn btn-primary" type="button"><i class="fa fa-pencil"></i> Save</button>-->
+
+                            <button ng-click="saveUserInterface();" ng-disabled="ListuserinterfacetemplateAttributeForm.$invalid" class="btn btn-primary" type="button"><i class="fa fa-pencil"></i> Save</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    
+
+    <div id="Viewuserinterfacetemplate" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addlisttemplate" data-backdrop="static" dynamicinterfacetype >
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="ViewuserinterfacetemplateAttributeForm" role="form" novalidate>                   
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(ViewuserinterfacetemplateAttributeForm.$dirty,'Viewuserinterfacetemplate');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4>
+                            <b>{{ViewuserinterfaceType}} View User Interface Template</b>
+                        </h4>                      
+                    </div>
+                    <div class="modal-body">
+                        <div class="attribute-scroll-wrap">
+                            <div class="col-xs-12 marginbottom10">
+                                <div class="row">
+                                    <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="attribute-model-title">User Interface Properties</div>
+                                </div>
+                            </div>
+                                                   
+                            <input type="hidden" ng-model="userinterface.ViewInterfaceId" class="form-control" id="ViewInterfaceId" name="ViewInterfaceId" placeholder="" >
+                          
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-5 control-label">Name<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" required ng-model="userinterface.userinterfaceName" class="form-control" id="userinterfaceName" nmae="userinterfaceName" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5 row">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="" name="isEnabled"
+                                                       ng-model="userinterface.isEnabled">
+                                                Enabled
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">Display Conditions <span class="mandatory">*</span></div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-xs-4" ng-repeat="option in classificationCondition">
+                                        <div class="radio">
+                                            <div ng-if="userinterface.isAnyViewClassification == undefined || userinterface.isAnyViewClassification == ''">{{userinterface.isAnyViewClassification=0;""}}</div>
+                                            <label>
+                                                <input type="radio" name="isAnyViewClassification" ng-click="changeclassification(option.key)" ng-checked="option.key == userinterface.isAnyViewClassification " value="{{option.key}}">
+                                                {{option.value}}
+
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="userinterface.isAnyViewClassification == '1'">
+                                <div class="col-xs-12">
+                                    <div class="checkbox">
+                                        <span class="classification-expl marginRight4">!</span><label>
+                                                                                                   <input type="checkbox" value="" ng-checked="userinterface.viewNegationOperator == 'true'"
+                                                   ng-model="userinterface.viewNegationOperator">
+                                            <b>Negate classification expression</b>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-show="userinterface.isAnyViewClassification == '1'" ng-controller="classificationExpressionBuilderController"
+                                 ng-include="'/manageit/classificationExpressionBuilder/partials/classificationExpressionBuilder.html'">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">HTML Template</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 links-blue">
+                                    <a class="font-bold" href="#" data-toggle="modal" data-target="#listtemplateuploadhistory">Click Here to view Template Upload History.</a>
+                                </div>
+                                <div class="col-xs-4 userinterface-upload">                                  
+                                    <input type="file" ng-model="userinterface.file" on-read-file="showContent($fileContent)" class="custom-file-input flat-right" >
+                                    <input type="hidden" ng-model="userinterface.htmlfile" name="htmlfile" id="htmlfile" />
+                                    <input type="hidden" ng-model="userinterface.htmlfilename" name="htmlfilename" id="htmlfilename" />                                                              
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(ViewuserinterfacetemplateAttributeForm.$dirty,'Viewuserinterfacetemplate');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+
+                          
+                            <button ng-click="saveViewUserInterface()" ng-disabled="ViewuserinterfacetemplateAttributeForm.$invalid" class="btn btn-primary" type="button"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add/Edit Edit iteam userinterface-->
+
+    <div id="Edituserinterfacetemplate" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addEditemplate" data-backdrop="static" dynamicinterfacetype>
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="EdituserinterfacetemplateAttributeForm" role="form" novalidate>
+                   
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(EdituserinterfacetemplateAttributeForm.$dirty,'Edituserinterfacetemplate');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{EdituserinterfaceType}} Edit User Interface Template</b></h4>           
+                    </div>
+                    <div class="modal-body">
+                        <div class="attribute-scroll-wrap">
+                            <div class="col-xs-12 marginbottom10">
+                                <div class="row">
+                                    <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="attribute-model-title">User Interface Properties</div>
+                                </div>
+                            </div>                          
+                            <input type="hidden" ng-model="userinterface.UploadedTemplateDetails" class="form-control" id="UploadedTemplateDetails" name="UploadedTemplateDetails" placeholder="" >
+                            <input type="hidden" ng-model="userinterface.EditInterfaceId" class="form-control" id="userinterfaceId" name="userinterfaceId" placeholder="" ng-init="userinterface.EditInterfaceId = ''">
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label for="" class="col-xs-5 control-label">Name<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" required ng-model="userinterface.userinterfaceName" class="form-control" id="userinterfaceName" nmae="userinterfaceName" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5 row">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="" name="isEnabled"
+                                                       ng-model="userinterface.isEnabled">
+                                                Enabled
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">Display Conditions<span class="mandatory">*</span></div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-xs-4" ng-repeat="option in classificationCondition">
+                                        <div class="radio">
+                                            <div ng-if="userinterface.isAnyViewClassification == undefined || userinterface.isAnyViewClassification == ''">{{userinterface.isAnyViewClassification=0;""}}</div>
+                                            <label>
+                                                <input type="radio" name="isAnyViewClassification" ng-click="changeclassification(option.key)" ng-checked="option.key == userinterface.isAnyViewClassification " value="{{option.key}}">
+                                                {{option.value}}
+
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="userinterface.isAnyViewClassification == '1'">
+                                <div class="col-xs-12">
+                                    <div class="checkbox">
+                                        <span class="classification-expl marginRight4">!</span><label>
+                                         <input type="checkbox" value="" ng-checked="userinterface.viewNegationOperator=='true'"
+                                                   ng-model="userinterface.viewNegationOperator">
+                                            <b>Negate classification expression</b>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                          
+                            <div ng-show="userinterface.isAnyViewClassification == '1'" ng-controller="classificationExpressionBuilderEdituserController"
+                                 ng-include="'/manageit/classificationExpressionBuilder/partials/classificationExpressionBuilder.html'">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 marginTop20">
+                                    <div class="attribute-model-title">HTML Template</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                  <div class="col-xs-8 links-blue">
+                                    <a class="font-bold" href="#" data-toggle="modal" data-target="#listtemplateuploadhistory">Click Here to view Template Upload History.</a>
+                                </div>
+                                <div class="col-xs-4 userinterface-upload">
+                                    <input type="file" ng-model="userinterface.file" on-read-file="showContent($fileContent)" class="custom-file-input flat-right">
+                                    <input type="hidden" ng-model="userinterface.htmlfile" ng-init="userinterface.htmlfile =''" name="htmlfile" id="htmlfile" />
+                                    <input type="hidden" ng-model="userinterface.htmlfilename" name="htmlfilename" id="htmlfilename" />                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(EdituserinterfacetemplateAttributeForm.$dirty,'Edituserinterfacetemplate');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="saveEditUserInterface()" ng-disabled="EdituserinterfacetemplateAttributeForm.$invalid" class="btn btn-primary" type="button"><i class="fa fa-pencil"></i> Save</button>
+                            <!--<button ng-click="validatehtml('Edit');" ng-disabled="EdituserinterfacetemplateAttributeForm.$invalid" class="btn btn-primary" type="button"><i class="fa fa-pencil"></i> Save</button>-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="listtemplateuploadhistory" class="modal fade attribute-container" tabindex="-2" role="dialog" aria-labelledby="listtemplateuploadhistory">
+        <div class="modal-dialog model-width750">
+            <div class="modal-content add-sub-object-main">
+                <form name="" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="closehistory('listtemplateuploadhistory')">&times;</button>                       
+                        <h4><b>{{userinterface.userinterfaceName}} (List UI Template)</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="attribute-scroll-wrap">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="attribute-model-title">Template Upload History</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="min-height150 noborder-table">
+                                        <table class="table table-hover table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th>Version</th>
+                                                    <th>Uploaded</th>
+                                                    <th>Status</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-repeat="data in userinterface.UploadtemplateDetails | orderBy: '-fileVersion'">
+                                                    <td>{{data.templateId}} </td>
+                                                    <td>{{data.uploadDateTime | date:'MM/dd/yyyy h:mma'}}</td>
+                                                    <td><p ng-show="data.isActive">Active </p>
+                                                        <p ng-show="!data.isActive">In Active </p>
+                                                    </td>
+                                                    <td class="links-blue"><a href="#" ng-click="showviewhistory(data.fileDetails,data.fileName,'viewhistory1');">View</a></td>
+                                                    <div id="viewhistory1" class="modal fade attribute-container" tabindex="-3" role="dialog" aria-labelledby="viewhistory1">
+                                                        <div>
+                                                            <div class="modal-dialog model-width750">
+                                                                <div class="modal-content add-sub-object-main">
+                                                                    <form name="" role="form" novalidate>
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" ng-click="closehistory('viewhistory1')">&times;</button>
+                                                                            <h4><b>{{userinterface.userinterfaceName}} (List UI Template)</b></h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <h3>   Uploaded File Content</h3>
+                                                                            <p>{{filedata}}</p>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <td class="links-blue"><a href="#" ng-click="downloadtemplate(data.fileDetails, data.fileName)">Download</a> </td>
+                                                    <td class="links-blue"><a href="#" ng-click="restoretemplate(data.templateId,userinterface.UploadtemplateDetails)" ng-show="!data.isActive">Restore</a></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <!--<button class="btn btn-grey" type="button" aria-hidden="true" ng-click="closehistory('viewhistory1')"><i class="fa fa-times"></i> Close</button>-->
+                            <button type="button" class="btn btn-grey" ng-click="closehistory('listtemplateuploadhistory')">Close</button>     
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Template Upload history model -->   
+    <div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div>
+</div>

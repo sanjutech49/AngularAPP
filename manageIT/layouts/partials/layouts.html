@@ -1,0 +1,747 @@
+﻿<div class="col-xs-12 padding20" ng-controller="layoutsController">
+    <error-control attribute-scope="errorLayoutdetails" ng-show="!errorLayoutdetails.isHide"></error-control>
+    <div class="object-head-wrap clearfix">
+        <div class="object-head ng-binding">{{navTitle}}</div>
+        <div class="sub-object-btn">
+            <a href="#" data-toggle="modal" data-target="#addlayout" ng-click="clearLayoutFields();resetErrorDirective(errorLayoutdetails);"><i class="fa fa-plus"></i> Add Layout</a>
+        </div>
+    </div>
+
+    <div class="objects-table">
+        <div class="table-responsive" ng-init="getLayouts();">
+            <table class="table table-hover table-condensed bg-white">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Layout</th>
+                        <th>Classifications</th>
+                        <th class="text-center">Enabled</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody ui-sortable="sortableOptionsA" ng-model="layouts">
+                    <tr ng-repeat="layout in layouts" class="ui-state-default" style="cursor: move;">
+                        <td width="180" class="grey"><span>{{layout.layoutName}}</span></td>
+                        <td><img src="/images/layout-img.png" /></td>
+                        <td>
+                            <div ng-show="layout.viewClassifications.length > 0">
+                                <span ng-show="layout.compositionViewNegationOperator">!(</span><div ng-repeat="item in layout.viewClassifications">
+                                    {{item.conditionType}}&nbsp;<span ng-show="item.expressionNegationOperator">!</span>(<span ng-show="item.negationOperator">!</span>{{item.classificationName}}<span ng-show="item.subClassifications.length == 0">)</span>&nbsp;
+                                    <div ng-repeat="subitem in item.subClassifications">
+                                        {{subitem.conditionType}}&nbsp;<span ng-show="subitem.negationOperator">!</span>{{subitem.classificationName}}<span ng-show="item.subClassifications.length == ($index+1)">)</span>&nbsp;
+                                    </div>
+                                </div><span ng-show="layout.compositionViewNegationOperator">)</span>
+                            </div>
+                            <div ng-show="layout.viewClassifications.length == 0"><label><b>Any</b></label></div>
+                        </td>
+                        <td class="text-center"><input type="checkbox" ng-checked="{{layout.isEnabled}}" ng-model="layout.isEnabled" ng-disabled="true"></td>
+                        <td class="align-right table-links">
+                            <a href="#" rel="tooltip" title="Edit" data-toggle="modal" data-target="#addlayout" ng-click="editlayout(layout)"><i class="fa fa-pencil"></i></a>
+                            <a href="#" rel="tooltip" title="Delete" ng-click="confirmClick('Are you sure you want to delete?','Warning','Delete','Cancel') && deleteLayout(layout)" confirm-click><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="addlayout" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+        <div class="modal-dialog model-width900 addlayout-height">
+            <form name="addlayoutForm" role="form" novalidate>
+
+                <div class="modal-content add-sub-object-main">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(addlayoutForm.$dirty,'addlayout');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>{{editOrAdd}} Layout</b></h4>
+                    </div>
+                    <error-control attribute-scope="errorLayoutdetails" ng-show="errorLayoutdetails.isHide"></error-control>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12 white-bg">
+
+                                <!-- Nav tabs -->
+
+                                <ul class="nav nav-tabs position-relative" role="tablist">
+                                    <li ng-repeat="tab in tabs"
+                                        ng-class="{active:isActiveTab(tab.id)}" id="{{tab.id}}" ng-click="onClickTab(tab,$event)">
+                                        <a href="#" role="tab" data-toggle="tab">{{tab.title}}</a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <!-- Tab1 -->
+                                    <div role="tabpanel" class="tab-pane active" id="properties">
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="attribute-model-title">Layout Properties</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-horizontal">
+                                                <div class="col-xs-7">
+                                                    <div class="form-group">
+                                                        <label for="" class="col-xs-5 control-label">Name<span class="mandatory">*</span></label>
+                                                        <div class="col-xs-7">
+                                                            <input type="text" class="form-control" id="inputEmail3" placeholder="" ng-model="layout.layoutName">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-5 row">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" ng-model="layout.isEnabled" ng-checked="{{layout.isEnabled}}">
+                                                            Enabled
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 marginTop20">
+                                                <div class="attribute-model-title">Use Conditions</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-xs-4" ng-repeat="option in classificationCondition">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="isAnyViewClassification" ng-model="layout.isAnyViewClassification"
+                                                                   ng-checked="layout.isAnyViewClassification==option.key" value="{{option.key}}">
+                                                            {{option.value}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-show="layout.isAnyViewClassification == '1'">
+                                            <div class="col-xs-12">
+                                                <div class="checkbox">
+                                                    <span class="classification-expl marginRight4">!</span><label>
+                                                        <input type="checkbox" value="" ng-checked="layout.layoutViewNegationOperator"
+                                                               ng-model="layout.layoutViewNegationOperator">
+                                                        <b>Negate classification expression</b>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div ng-show="layout.isAnyViewClassification == '1'"
+                                             ng-controller="classificationExpressionBuilderController"
+                                             ng-include="'/manageit/classificationExpressionBuilder/partials/classificationExpressionBuilder.html'">
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Tab2 -->
+                                    <div role="tabpanel" class="tab-pane" id="design">
+
+                                        <div class="design-grybg marginbottom20">
+                                            <div class="controls-mainwrap">
+                                                <div class="control-container marginRight5 marginTop19">
+                                                    <ul>
+                                                        <li><a href="#" ng-click="pointerSelect();"><img src="/images/pointer.png" /></a></li>
+                                                        <li><a href="#" ng-click="DesignLayout();"><img src="/images/add.png" /></a></li>
+                                                        <li><a href="#" ng-click="removeLayout();"><img src="/images/remove.png" /></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="control-container marginRight5">
+                                                    <p>Slice</p>
+                                                    <ul>
+                                                        <li><a href="#" ng-click="LayoutPartitionV();"><img src="/images/slice-h.png" /></a></li>
+                                                        <li><a href="#" ng-click="LayoutPartitionH();"><img src="/images/slice-v.png" /></a></li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="control-container marginRight5">
+                                                    <p>Merge</p>
+                                                    <ul>
+                                                        <li><a href="#" ng-click="mergeRegion();"><img src="/images/merge.png" /></a></li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="control-container marginTop19">
+                                                    <ul>
+                                                        <li><a href="#" ng-click="UndoChages();"><img src="/images/undo.png" /></a></li>
+                                                        <li><a href="#" ng-click="RedoChages()"><img src="/images/redo.png" /></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="dimensions-wrap margin-left15">
+                                                <div class="dimensions-container">
+                                                    <p>Layout Dimensions (millimeters)</p>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="table-row ">
+                                                                <div class="table-cell table-cel-padding"><label>Width</label></div>
+                                                                <div class="table-cell"><input class="form-control" ng-change="ConvertMMToPixelLayout(layoutHeight,layoutWidth)" ng-model="layoutWidth" /></div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li>
+                                                            <div class="table-row margin-left10">
+                                                                <div class="table-cell table-cel-padding"><label>Height</label></div>
+                                                                <div class="table-cell"><input class="form-control" ng-change="ConvertMMToPixelLayout(layoutHeight,layoutWidth)" ng-model="layoutHeight" /></div>
+                                                            </div>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+                                                <div class="dimensions-container margin-left10">
+                                                    <p>Region Dimensions (millimeters)</p>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="table-row ">
+                                                                <div class="table-cell table-cel-padding"><label>Left</label></div>
+                                                                <div class="table-cell"><input class="form-control" ng-change="ConvertMMToPixelRegionPos(regionLeft,regionTop)" ng-model="regionLeft" /></div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li>
+                                                            <div class="table-row margin-left10">
+                                                                <div class="table-cell table-cel-padding"><label>Top</label></div>
+                                                                <div class="table-cell"><input class="form-control" ng-change="ConvertMMToPixelRegionPos(regionLeft,regionTop)" ng-model="regionTop" /></div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li>
+                                                            <div class="table-row margin-left10">
+                                                                <div class="table-cell table-cel-padding"><label>Width</label></div>
+                                                                <div class="table-cell"><input class="form-control" ng-change="ConvertMMToPixelRegion(regionHeight,regionWidth)" ng-model="regionWidth" /></div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li>
+                                                            <div class="table-row margin-left10">
+                                                                <div class="table-cell table-cel-padding"><label>Height</label></div>
+                                                                <div class="table-cell"><input class="form-control" ng-change="ConvertMMToPixelRegion(regionHeight,regionWidth)" ng-model="regionHeight" /></div>
+                                                            </div>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="text-center">
+                                            <div class="layout-grybg">
+
+                                                <style>
+                                                    #draggable {
+                                                        width: 150px;
+                                                        height: 150px;
+                                                        padding: 0.5em;
+                                                    }
+
+                                                    @import url('reset.css') screen;
+
+                                                    /* browser editor css */
+
+                                                    /*html {
+                                                        height: 100%;
+                                                        width: 100%;
+                                                    }*/
+
+                                                    /*body {
+                                                        background: #ccc;
+                                                        height: 101%;
+                                                        width: 101%;
+                                                    }*/
+
+                                                    h3 {
+                                                        font: bold 20px georgia, serif;
+                                                    }
+
+                                                    #layoutwrapper {
+                                                        width: 100%;
+                                                        height: 100%;
+                                                        margin: 0 auto;
+                                                        overflow: hidden;
+                                                    }
+                                                    /* --------- col_one elements(stylesheet) --------- */
+
+
+                                                    .button.dl-css {
+                                                        float: left;
+                                                        margin: 0 auto;
+                                                        display: block;
+                                                    }
+
+                                                    /* --------- col_two elements(Create divs) --------- */
+
+                                                    .col_two {
+                                                        background: #fff;
+                                                        float: left;
+                                                        height: 100%;
+                                                        position: relative;
+                                                        width: 100%;
+                                                    }
+
+                                                    .inner_col_two {
+                                                        width: 100%;
+                                                        margin: 13% auto;
+                                                    }
+
+
+                                                    /* ------------ generic styles ------------ */
+
+                                                    .full-width {
+                                                        width: 100%;
+                                                    }
+
+                                                    .start-button {
+                                                        margin: 40px;
+                                                        color: white;
+                                                        display: inline-block;
+                                                        padding: 10px 20px;
+                                                        background: black;
+                                                        border: none;
+                                                        -webkit-border-radius: 10px;
+                                                        -moz-border-radius: 10px;
+                                                        border-radius: 10px;
+                                                        font-size: 16px;
+                                                        text-transform: uppercase;
+                                                    }
+
+
+                                                    /* box styles */
+
+                                                    /*.ui-resizable {
+                                                        -webkit-border-radius: 10px;
+                                                        -moz-border-radius: 10px;
+                                                        border-radius: 10px;
+                                                    }
+
+                                                    .genbox_bg {
+                                                        -webkit-border-radius: 10px;
+                                                        -moz-border-radius: 10px;
+                                                        border-radius: 10px;
+                                                    }*/
+
+                                                    .ui-resizable.ui-resizable-resizing,
+                                                    .ui-resizable.ui-draggable-dragging {
+                                                        border: 2px dashed #ffcc66 !important;
+                                                    }
+
+                                                    .selected {
+                                                        background: #ffffff;
+                                                    }
+                                                    /* prettify styles */
+                                                    .prettyprint {
+                                                        border: none !important;
+                                                        font: 16px ‘Courier New’, Courier, monospace;
+                                                    }
+
+                                                    /* generated content */
+                                                    .addFocus {
+                                                        border: 2px dashed yellow;
+                                                    }
+
+                                                    .over {
+                                                        border: solid 5px purple;
+                                                    }
+
+                                                    #layoutwrapper .ui-selecting {
+                                                        background: #FECA40;
+                                                    }
+
+                                                    #layoutwrapper .ui-selected {
+                                                        background: #F39814;
+                                                        color: black;
+                                                    }
+                                                    
+                                                </style>
+
+                                                <div class="design-whitebg">
+                                                    <div id="{{layoutHtmlId}}" class="col_two">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <!-- Tab3 -->
+                                    <div role="tabpanel" class="tab-pane" id="attributeAssignment">
+
+                                        <div class="row">
+                                            <div class="col-xs-8">
+                                                <div class="layout-grybg">
+                                                    <div class="layout-assnmnt-whitebg">
+
+
+                                                        <!-- callout 1 Start -------------------------------->
+                                                        <div class="layout-asignment-callout" style="display:none" role="dialog" id="regionAttrcallout">
+                                                            <div class="margin-10 attribute-map-chckradio">
+
+                                                                <!-- button -->
+                                                                <div class="callout-button">
+                                                                    <button class="btn btn-default btn-xs" ng-click="removeattr();">Remove from layout</button>
+                                                                </div>
+                                                                <!-- button end -->
+
+                                                                <div class="table-row">
+                                                                    <div class="table-cell">
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" ng-model="attrProperties.rangeType" ng-change="updatelimit();" value="all"> All
+                                                                            </label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="table-row">
+                                                                    <div class="table-cell width60">
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" ng-model="attrProperties.rangeType" ng-change="updatelimit();" value="first"> First
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10">
+                                                                        <input type="text" class="form-control form-width" id="" placeholder="" ng-model="attrProperties.nfirstValue" ng-disabled="attrProperties.rangeType!='first'">
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10">
+                                                                        <span>Items</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="table-row marginTop5">
+                                                                    <div class="table-cell width60">
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" ng-model="attrProperties.rangeType" ng-change="updatelimit();" value="last"> Last
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10">
+                                                                        <input type="text" class="form-control form-width" id="" placeholder="" ng-model="attrProperties.nlastValue" ng-disabled="attrProperties.rangeType!='last'">
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10">
+                                                                        <span>Items</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="table-row marginTop5">
+                                                                    <div class="table-cell width60">
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" ng-model="attrProperties.rangeType" ng-change="updatelimit();" value="range"> Range
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10">
+                                                                        <input type="text" class="form-control form-width" id="" placeholder="" ng-model="attrProperties.nFromValue" ng-disabled="attrProperties.rangeType!='range'">
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10">
+                                                                        <span>to</span>
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10">
+                                                                        <input type="text" class="form-control form-width" id="" placeholder="" ng-model="attrProperties.nToValue" ng-disabled="attrProperties.rangeType!='range'">
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft25">
+                                                                        <select class="form-control width100" ng-model="attrProperties.classType" ng-options="st for st in styles">
+                                                                            <option>No style</option>
+                                                                        </select>
+
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10 search-warap">
+                                                                        <button class="btn btn-default">
+                                                                            <i class="fa fa-plus" data-toggle="modal" data-target="#defineStyles" ng-click="resetErrorDirective(errorLayoutStyles);openStyleModal();"></i>
+                                                                        </button>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="row marginTop20" ng-show="isChildAttrShow" ng-model="isChildAttrShow">
+                                                                    <div class="col-xs-6" ng-checked="{{(attrProperties.roles ==0)?true:false}}">
+                                                                        <span class="font-bold marginbottom5 display-block">Image Role</span>
+                                                                        <div class="table-row">
+                                                                            <div class="table-cell">
+                                                                                <div class="checkbox">
+                                                                                    <label>
+                                                                                        <input type="checkbox"> Any Role
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="table-row" ng-repeat="role in attrProperties.roles">
+                                                                            <div class="table-cell">
+                                                                                <div class="checkbox">
+                                                                                    <label>
+                                                                                        <input type="checkbox" id="{{role.roleid}}" ng-model="role.isDefault"> {{role.roleName}}
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <span class="font-bold marginbottom5 display-block">Image Types</span>
+                                                                        <div class="table-row">
+                                                                            <div class="table-cell">
+                                                                                <div class="checkbox">
+                                                                                    <label>
+                                                                                        <input type="checkbox"> Any Type
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="table-row">
+                                                                            <div class="table-cell">
+                                                                                <div class="checkbox">
+                                                                                    <label>
+                                                                                        <input type="checkbox"> Product Images
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="table-cell">
+
+                                                                                <div class="asnment-filter"><a href="#" data-toggle="dropdown"><i class="fa fa-filter" aria-hidden="true"></i></a></div>
+
+                                                                                <!-- Filter-callout -->
+                                                                                <div class="layout-asignment-filter-callout">
+                                                                                    <div class="margin-10 attribute-map-chckradio">
+
+
+                                                                                        <div class="table-row">
+                                                                                            <div class="table-cell">
+                                                                                                <div class="checkbox">
+                                                                                                    <label>
+                                                                                                        <input type="checkbox"> Any Classification
+                                                                                                    </label>
+                                                                                                </div>
+
+                                                                                                <div class="checkbox">
+                                                                                                    <label>
+                                                                                                        <input type="checkbox"> Approved
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- Filter-callout -->
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- callout 1 End -------------------------------->
+                                                        <!-- callout 2 Start -------------------------------->
+                                                        <div class="layout-asignment-callout fade" style="display:none" role="dialog" data-backdrop="static" id="styleAttrModal">
+                                                            <div class="margin-10 attribute-map-chckradio">
+
+                                                                <!-- button -->
+                                                                <!-- button end -->
+
+                                                                <div class="table-row marginTop5">
+
+                                                                    <div class="table-cell">
+                                                                        <select class="form-control width100">
+                                                                            <option>No style</option>
+                                                                            <option>2</option>
+                                                                            <option>3</option>
+                                                                            <option>4</option>
+                                                                            <option>5</option>
+                                                                        </select>
+
+                                                                    </div>
+
+                                                                    <div class="table-cell paddingLeft10 search-warap">
+                                                                        <button class="btn btn-default" data-toggle="modal" data-target="#defineStyles">
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <div class="table-cell remove-button-padding">
+                                                                        <button class="btn btn-default btn-xs margin-left30" data-dismiss="modal" aria-hidden="true">Remove from layout</button>
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- callout 2 End -------------------------------->
+
+
+
+                                                        <div id="finalLayout" class="col_two">
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="layout-grylightbg" ng-init="defaultAttributes();subObjectAllAttributes();getAttributeSets();">
+                                                    <div class="attr-assignment-list" ng-model="attributes">
+                                                        <ul>
+                                                            <li><div class="attribute-lable-head">Default Attribute</div></li>
+                                                            <li ng-repeat="attr in attributes">
+                                                                <div class="attribute-lablewrap dragItem"><a href="#" id="{{'attributes_' + $index}}" value="{{attr}}"><i class="fa fa-arrows" aria-hidden="true"></i> {{attr.name}}</a></div>
+                                                            </li>
+                                                            <li ng-repeat="attrs in subObjects">
+                                                                <div ng-repeat="obattrs in attrs.attributes">
+                                                                    <div class="attribute-lablewrap dragItem"><a href="#" id="{{'attributes_' + $index}}" value="{{obattrs}}"><i class="fa fa-arrows" aria-hidden="true"></i> {{subObjects[$parent.$index].singularName + " : "+ obattrs.name}}</a></div>
+                                                                </div>
+                                                            </li>
+
+                                                            <li ng-repeat="attrsets in attributeSets">
+                                                                <div class="attribute-lable-head marginTop10">{{attrsets.attributeSetName}}</div>
+                                                                <div ng-repeat="item in attrsets.attributes"  class="attribute-lablewrap dragItem"><a href="#"><i class="fa fa-arrows" aria-hidden="true"></i> {{item.name}}</a></div>
+                                                            </li>
+                                                            <li >
+                                                               
+                                                            </li>
+
+                                                            <li><div class="attribute-lable-head marginTop10">Static Text</div></li>
+                                                            <li>
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" placeholder="Add Static Text" ng-model="staticText.name">
+                                                                    <span class="input-group-addon btn" ng-click="addStaticText()"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div id="staticlist">
+
+                                                                </div>
+                                                            </li>
+
+                                                        </ul>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="openErrorScreen(addlayoutForm.$dirty,'addlayout');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button ng-click="addLayout(layout);" ng-disabled="addlayoutForm.$invalid" data-toggle="modal" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> {{editOrAdd=="Add"?"Save":"Update"}}</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- end popup modal window -->
+    <!-- Define styles for attribute assignment tab -->
+    <div id="defineStyles" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <form name="defineStylesForm" role="form" novalidate>
+                <div class="modal-content marginTop50 attributes-wrap">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(defineStylesForm.$dirty,'defineStyles');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><strong>Define Styles</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+
+
+                                <error-control attribute-scope="errorLayoutStyles"></error-control>
+
+                                <div class="col-xs-12 row">
+
+                                    <label for="">Add Styles</label>
+                                </div>
+
+                                <div class="col-lg-10 ">
+
+                                    <div class="form-group row">
+                                        <input id="txtStyleName" type="text" class="form-control" ng-model="styleAttr.name" value="{{styleAttr.name}}">
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 define-listvalue-wrap">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-update" aria-label="Left Align">
+                                            <div aria-hidden="true" ng-click="addStyle();"><i class="fa fa-plus"></i></div>
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-12">
+                                <p class="font-bold">Existing System Styles</p>
+                                <div class="list-edit-value-box">
+
+                                    <table class="table table-hover">
+                                        <tr ng-repeat="sty in styles">
+                                            <td><label class="control-label" ng-model="sty">{{sty}}</label></td>
+                                            <td class="align-right list-edit-icons">
+                                                <a href="" class="fa fa-pencil" aria-hidden="true" ng-click="editStyle(sty)"></a>
+                                                <a href="" class="fa fa-times" aria-hidden="true"></a>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true" ng-click="openErrorScreen(defineStylesForm.$dirty,'defineStyles');"><i class="fa fa-times"></i> Discard</button>
+                            <button class="btn btn-primary" type="button" ng-click="saveStyle(styles)"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <div ng-include="'/manageIT/attribute/partials/errorscreen.html'" ng-show="isErrorScreen"></div>
+</div><!-- Define styles for attribute assignment tab  END -->

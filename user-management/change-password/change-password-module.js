@@ -1,0 +1,1 @@
+﻿var changePasswordModule = angular.module('changePassword', ['userProfile']);

@@ -1,0 +1,241 @@
+﻿<div class="col-xs-12 padding20">
+    <div class="row">
+        <div class="col-xs-12">
+            <!--Place the error directive here-->
+            <error-control attribute-scope="errorAttribute"></error-control>
+            <p class="font-bold marginbottom20 clearfix">{{isVisibleAttributes==2?'Attribute':'Object'}} Permissions</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="button-list clearfix">
+                <li>
+                    <div class="tabs-button-links">
+                        <a href="#" data-toggle="modal" data-target="#addrole" ng-click="reloadRoleswithRoleModels();clearRoleandAttribute();prepareAttributesBeforeSave=[];resetErrorDirective();"><i class="fa fa-plus"></i> Add Role</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="tabs-button-links">
+                        <a href="#" data-toggle="modal" data-target="#addclassification" ng-click="reloadRoleswithRoleModels();getClassifications();clearRoleandAttribute();prepareAttributesBeforeSave=[];resetErrorDirective();"><i class="fa fa-plus"></i> Add Classification</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div ng-class="{'col-xs-4':isVisibleAttributes==2,'col-xs-6':isVisibleAttributes!=2}">
+            <div class="box-square marginTop5">
+                <div class="box-square-head font-bold">Role / Classificaiton</div>
+                <div class="box-square-content">
+                    <ul class="box-square-content-list">
+                        <li ng-repeat="role in contentPermissions|unique:'name'| orderBy:'id'" ng-click="getPermissionsToObject(role);
+                            clearPermissionsObject();resetErrorDirective();">
+                            <a href="#" ng-class="{'selected-permission':selectedRoleOrClassification.id==role.id}">{{role.name}}</a>
+                        </li>                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6" ng-if="isVisibleAttributes==2" ng-class="{'col-xs-4':isVisibleAttributes==2}">
+            <div class="box-square marginTop5">
+                <div class="box-square-head font-bold">Attributes</div>
+                <div class="box-square-content">
+                    <ul class="box-square-content-list">
+                        <li ng-repeat="attribute in selectedContentTypeAttributes">
+                            <a href="#" ng-class="{'selected-permission':selectedAttributeId==attribute.attributeId}"
+                               ng-click="updateAttributeData(attribute);resetErrorDirective();">{{attribute.attributeName}}</a>
+                        </li>
+                    </ul>                    
+                </div>
+            </div>
+        </div>
+
+        <div ng-class="{'col-xs-4':isVisibleAttributes==2,'col-xs-6':isVisibleAttributes!=2}">
+            <div class="box-square marginTop5">
+                <div class="box-square-head font-bold">Permission</div>
+                <div class="box-square-content">
+                    <div ng-hide="selectedContentTypeAttributes.length==0&&isVisibleAttributes==2">
+                        <div class="margin-left10 marginTop10" ng-if="!isReferenceAttribute" ng-show="permissionTypeId>0">
+                            <div class="table-row marginbottom5" ng-hide="!isReferenceAttribute && permissionTypeId==2">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="1" id="checkbox1" ng-disabled="!isReferenceAttribute && permissionTypeId==2" ng-model="changedPermission.add" indeterminate />
+                                    <label for="checkbox1" ng-class="{'lite-green-check':changedPermission.add==true,'lite-red-x':changedPermission.add==null}" name="checkbox1_lbl" class="css-label">Add</label>
+                                </div>
+                            </div>
+
+                            <div class="table-row marginbottom5">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="2" id="checkbox2" ng-model="changedPermission.view" indeterminate />
+                                    <label for="checkbox2" ng-class="{'lite-green-check':changedPermission.view==true,'lite-red-x':changedPermission.view==null}" name="checkbox1_lbl" class="css-label">View</label>
+                                </div>
+                            </div>
+
+                            <div class="table-row marginbottom5" ng-hide="!isReferenceAttribute && permissionTypeId==2">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="3" id="checkbox3" ng-disabled="!isReferenceAttribute && permissionTypeId==2" ng-model="changedPermission.edit" indeterminate />
+                                    <label for="checkbox3" name="checkbox1_lbl" ng-class="{'lite-green-check':changedPermission.edit==true,'lite-red-x':changedPermission.edit==null}" class="css-label">Edit</label>
+                                </div>
+                            </div>
+
+                            <div class="table-row marginbottom5" ng-hide="!isReferenceAttribute && permissionTypeId==2">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="4" id="checkbox4" ng-disabled="!isReferenceAttribute && permissionTypeId==2" ng-model="changedPermission.delete" indeterminate />
+                                    <label for="checkbox4" name="checkbox1_lbl" ng-class="{'lite-green-check':changedPermission.delete==true,'lite-red-x':changedPermission.delete==null}" class="css-label">Delete</label>
+                                </div>
+                            </div>
+
+                            <div class="table-row marginbottom5" ng-hide="permissionTypeId==1">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="5" id="checkbox5" ng-model="changedPermission.modify" indeterminate />
+                                    <label for="checkbox5" name="checkbox1_lbl" class="css-label" ng-class="{'lite-green-check':changedPermission.modify==true,'lite-red-x':changedPermission.modify==null}">Modify</label>
+                                </div>
+                            </div>
+                            <div class="table-row marginbottom5" ng-hide="!isReferenceAttribute && permissionTypeId==2">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="9" id="checkbox9" ng-disabled="!isReferenceAttribute && permissionTypeId==2" ng-model="changedPermission.search" indeterminate />
+                                    <label for="checkbox9" name="checkbox1_lbl" ng-class="{'lite-green-check':changedPermission.search==true,'lite-red-x':changedPermission.search==null}" class="css-label">Search</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="margin-left10" ng-if="isReferenceAttribute">
+                            <div class="table-row marginbottom5">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="2" id="checkbox2" ng-model="changedPermission.view" indeterminate />
+                                    <label for="checkbox2" name="checkbox1_lbl" ng-class="{'lite-green-check':changedPermission.view==true,'lite-red-x':changedPermission.view==null}" class="css-label">View</label>
+                                </div>
+                            </div>
+                            <div class="table-row marginbottom5" ng-hide="permissionTypeId==1">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="5" id="checkbox5" ng-model="changedPermission.modify" indeterminate />
+                                    <label for="checkbox5" name="checkbox1_lbl" class="css-label" ng-class="{'lite-green-check':changedPermission.modify==true,'lite-red-x':changedPermission.modify==null}">Modify</label>
+                                </div>
+                            </div>
+                            <div class="table-row marginbottom5">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="4" id="checkbox6" ng-model="changedPermission.linkItem" indeterminate />
+                                    <label for="checkbox6" name="checkbox1_lbl" class="css-label" ng-class="{'lite-green-check':changedPermission.linkItem==true,'lite-red-x':changedPermission.linkItem==null}">Link Item</label>
+                                </div>
+                            </div>
+
+                            <div class="table-row marginbottom5">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="5" id="checkbox7" ng-model="changedPermission.unLinkItem" indeterminate />
+                                    <label for="checkbox7" name="checkbox1_lbl" class="css-label" ng-class="{'lite-green-check':changedPermission.unLinkItem==true,'lite-red-x':changedPermission.unLinkItem==null}">Unlink Item</label>
+                                </div>
+                            </div>
+
+                            <div class="table-row marginbottom5">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="6" id="checkbox8" ng-model="changedPermission.addItem" indeterminate />
+                                    <label for="checkbox8" name="checkbox1_lbl" class="css-label" ng-class="{'lite-green-check':changedPermission.addItem==true,'lite-red-x':changedPermission.addItem==null}">Add Item</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="margin-left10" ng-if="subObjectDecicer==true && permissionTypeId==2">
+                            <div class="table-row marginbottom5">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="10" id="checkbox10" ng-model="changedPermission.add" indeterminate />
+                                    <label for="checkbox10" ng-class="{'lite-green-check':changedPermission.add==true,'lite-red-x':changedPermission.add==null}" name="checkbox1_lbl" class="css-label">Add</label>
+                                </div>
+                            </div>
+                            <div class="table-row marginbottom5">
+                                <div class="table-cell">
+                                    <input type="checkbox" class="css-checkbox" value="11" id="checkbox11" ng-model="changedPermission.delete" indeterminate />
+                                    <label for="checkbox11" name="checkbox1_lbl" ng-class="{'lite-green-check':changedPermission.delete==true,'lite-red-x':changedPermission.delete==null}" class="css-label">Remove</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 marginTop20 update-btnbg">
+        <button class="btn btn-update pull-right" ng-click="updatePermission();resetErrorDirective();removePermission();"> <i class="fa fa-pencil"></i> Update</button>
+
+    </div>
+
+</div>
+
+
+
+<!-- Modelbox heare -->
+<div id="addrole" data-toggle="modal" data-backdrop="static" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addlayout">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content add-sub-object-main">
+            <form name="AddRole" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-toggle="modal" data-target="#ErrorScreen" ng-click="openErrorScreen(AddRole.$dirty,'Add Roles')">&times;</button>
+                    <h4><b>Add Role</b></h4>
+                    <div class="bottom-gray-border"></div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="multi-checklist marginTop10">
+                                <ul>
+                                    <li ng-repeat="role in formRoles | orderBy: 'Name'| filter: {IsContentAdmin:'false', IsImplicitRole:'false'}">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="{{role.Name}}" value="{{role.Id}}" ng-model="role.selected" 
+                                                       ng-change="toggleRoleSelection(role,role.selected,$index)" /> {{role.Name}}
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button class="btn btn-grey" type="button" aria-hidden="true" data-toggle="modal" data-target="#ErrorScreen" ng-click="openErrorScreen(AddRole.$dirty,'AddRole')"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-disabled="" class="btn btn-primary" type="button" aria-hidden="true" data-dismiss="modal" ng-click="addRolesOrClasstoMainMenu()"><i class="fa fa-plus"></i> Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modelbox Classification heare -->
+<div id="addclassification" class="modal fade attribute-container" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="addlayout">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content add-sub-object-main">
+            <form name="AddClassification" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-toggle="modal" data-target="#ErrorScreen" ng-click="openErrorScreen(AddClassification.$dirty,'Add Classifications')">&times;</button>
+                    <h4><b>Add Classification</b></h4>
+                    <div class="bottom-gray-border"></div>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="multi-checklist marginTop10">
+                                <ul>
+                                    <li ng-repeat="class in classifications">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="{{class.classificationName}}" ng-model="class.selected"
+                                                       ng-change="toggleClassificationSelection(class,class.selected,$index)"> {{class.classificationName}}
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button class="btn btn-grey" type="button" aria-hidden="true" data-toggle="modal" data-target="#ErrorScreen" ng-click="openErrorScreen(AddClassification.$dirty,'AddClassifications')"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-disabled="" class="btn btn-primary" type="button" aria-hidden="true" data-dismiss="modal" ng-click="addRolesOrClasstoMainMenu()"><i class="fa fa-plus"></i> Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-include="'/manageIT/attribute/partials/errorscreen.html'"></div>
+
+

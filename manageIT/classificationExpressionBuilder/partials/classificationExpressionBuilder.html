@@ -1,0 +1,85 @@
+﻿
+<div class="box-radius classification-bdr-pading clearfix" ng-init="getClassifications()">
+    <div class="row bottom-border clearfix" ng-repeat="cond in conditionsDisplay">
+        <div class="col-xs-8 marginTop5">
+            <span ng-hide="true">{{cond.conditionId}}</span>
+            <span ng-hide="true">{{cond.classificationId}}</span>
+            <span ng-hide="isFirst">{{cond.conditionType}}</span>
+            <span class="classification-expl marginRight4">!</span>
+            <input type="checkbox" ng-checked="cond.expressionNegationOperator"
+                   ng-model="storeExpressions[$index]">
+            <span class="valign-top">(<span class="valign-top" ng-show="cond.negationOperator">!</span>{{cond.classificationName}}<span class="valign-top" ng-show="cond.subClassifications.length == 0">)</span></span>
+            <div class="icon-links pull-right">
+                <a href="#" rel="tooltip" title="Delete" ng-click="deleteExpression(cond,false,$index, null)"><i class="fa fa-times"></i></a>
+                <a href="#" rel="tooltip" title="Edit" ng-click="editExpression(cond,false,$index, null)"><i class="fa fa-pencil"></i></a>
+            </div>
+
+            <div class="marginTop10" ng-repeat="condChild in cond.subClassifications">
+                <span ng-hide="true">{{condChild.conditionId}}</span>
+                <span ng-hide="true">{{condChild.classificationId}}</span>
+
+                <span class="valign-top">{{condChild.conditionType}} <span ng-show="condChild.negationOperator">!</span>{{condChild.classificationName}}<span ng-show="cond.subClassifications.length == ($index+1)">)</span></span>
+                <div class="table-links pull-right">
+                    <a href="#" rel="tooltip" title="Delete" ng-click="deleteExpression(condChild,true,$parent.$index,$index)"><i class="fa fa-times"></i></a>
+                    <a href="#" rel="tooltip" title="Edit" ng-click="editExpression(condChild,true,$parent.$index,$index)"><i class="fa fa-pencil"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-4">
+            <ul class="classification-dropdown">
+                <li class="dropdown pull-right">
+                    <button href="#" class="btn btn-default btn-xs dropdown-toggle" ng-click="showAttributeMatch(true,cond.classificationId)" data-toggle="dropdown" data-disabled="true" role="button">Add Sub-Condition</button>
+                    <!--<ul class="dropdown-menu">
+                        <li>
+                            <a href="#" ng-click="showAttributeMatch(true,cond.classificationId)"> Attribute Match</a>
+                        </li>
+                    </ul>-->
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row marginTop15" ng-show="isAttributeMatch">
+        <div class="col-xs-2 marginTop5">
+            <span class="classification-expl">!</span>
+            <label>
+                <input type="checkbox" name="chkBoxExpLevel" ng-checked="classExpBuilder.negationOperator" ng-model="classExpBuilder.negationOperator">
+            </label>
+        </div>
+       
+        <div class="col-xs-3" ng-show="showCondition">
+            <select class="form-control" ng-model="classExpBuilder.conditionType" name="conditionType">
+                <option ng-repeat="item in conditionAndOr" value="{{item.key}}"
+                        ng-selected="classExpBuilder.conditionType==item.value">
+                    {{item.value}}
+                </option>
+            </select>
+        </div>
+        <div class="col-xs-4">
+            <select class="form-control" name="classification"
+                    ng-options="option.classificationName for option in classifications track by option.classificationId"
+                    ng-model="classExpBuilder.classification"></select>
+        </div>
+
+        <div class="col-xs-3 classification-btnsmall">
+            <button ng-click="saveExpression(classExpBuilder)" class="btn btn-primary btn-xs pull-right" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="classification-dropdown marginTop10">
+                <li class="dropdown pull-right">
+                    <button href="#" class="btn btn-default btn-xs dropdown-toggle"  ng-click="showAttributeMatch(false, '')" data-toggle="dropdown" data-disabled="true" role="button">Add Condition</button>
+                    <!--<ul class="dropdown-menu">
+                        <li>
+                            <a href="#"> Attribute Match</a>
+                        </li>
+                    </ul>-->
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<div id="SequenceAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="sequenceAttributeForm" role="form" ng-init="setFormScope(this,'sequenceAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(sequenceAttributeForm.$dirty,'Sequence');">&times;</button>
+                    <h4><b>{{ action }} Sequence Attribute</b></h4>                    
+                    <!--Place the error directive here-->
+                    <!--Change the scope from sequenceAttribute to errorAttribute to get the validation of min max values-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <basic-properties attribute-scope="sequenceAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"
+                                          clear-unique-group-values="clearUniqueGroupValues"></basic-properties>
+                        <div class="row">
+                            <div class="col-sm-12 marginTop20">
+                                <div class="attribute-model-title">Sequence Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-row col-centered">
+                                    <div class="table-cell table-cel-padding labelmargin0">
+                                        <label class="control-label" for="timeFormat">Sequence Generator<span class="mandatory">*</span></label>
+                                    </div>
+
+                                    <div class="table-cell table-cel-padding">
+                                        <select class="form-control width150" data-ng-model="sequenceAttribute.sequenceGenerator" data-ng-options="option.key as option.value for option in sequenceGenerators" required></select>
+                                    </div>
+
+                                    <div class="table-cell table-cel-padding button-padding">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" ng-click="showManageIT()"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="font-bold color-red" ng-show="errorsSeq.length > 0" ng-repeat="error in errorsSeq">{{error}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="clearImageReferenceFields();openErrorScreen(sequenceAttributeForm.$dirty,'Sequence');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveSequenceAttribute(sequenceAttribute)" ng-disabled="sequenceAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>                
+            </form>
+        </div>
+    </div>
+    <!--Remove at top and added here to get the Manageit Modal over the Sequence Modal-->
+    <div ng-include="'/manageIT/common/partials/manageit-settings.html'"></div>
+</div>

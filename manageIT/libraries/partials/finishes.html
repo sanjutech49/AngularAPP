@@ -1,0 +1,100 @@
+﻿<div class="row marginTop20" ng-init="getlibrary('Finishes');">
+    <div class="col-xs-12 marginbottom10">
+        <div class="row">
+            <error-control attribute-scope="rooterrormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+            <error-control attribute-scope="messageModel" ng-show="!messageModel.isHide"></error-control>
+        </div>
+    </div>
+     <div class="col-xs-12">
+        <div class="object-head-wrap clearfix">
+            <div class="object-head">Select the Finishes which apply to this Image Library</div>
+            <div class="sub-object-btn">
+                <a href="#" data-toggle="modal" data-target="#addFinishes" ng-click="clearMessage()"><i class="fa fa-plus"></i> Add Finish</a>
+            </div>
+        </div>
+
+        <div class="box-square">
+            <div class="box-square-head font-bold">Finishes</div>
+            <div class="box-img-dimension"> 
+                <form name="updateFinishesForm" role="form" novalidate>
+                    <div class="checkbox" ng-repeat="dimention in imageFinishes">
+                        <label>
+                            <input type="checkbox" name="{{dimention.Name}}" value="{{dimention.id}}" ng-model="dimention.selected" ng-checked="dimention.selected">
+                            {{dimention.name}}
+                        </label>
+                    </div>
+                    <div class="marginTop20 update-btnbg align-right padding10">                      
+                        <button class="btn btn-grey" type="button" aria-hidden="true" ng-click="showConfirm(updateFinishesForm.$dirty)"><i class="fa fa-times"></i> Discard</button>
+                        <button class="btn btn-primary" type="button" ng-disabled="updateFinishesForm.$invalid" aria-hidden="true" ng-click="updateImageFinishes(imagefinishes)"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+               </form>
+            </div>
+        </div>
+    </div>
+    <div id="closeModel" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirm Discard</h4>
+                </div>
+                <div class="modal-body">
+                    <p> {{ message }} </p>
+                </div>
+                <div class="modal-footer">                    
+                    <button type="button" ng-show="formstatus" class="btn btn-default" data-dismiss="modal" ng-click="canceldiscard()">No</button>
+                    <button type="button" ng-show="formstatus" class="btn btn-default" data-dismiss="modal" ng-click="confirmdiscard('Finishes')">Yes</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addFinishes" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+        <div class="modal-dialog model-width700">
+            <div class="modal-content add-sub-object-main">
+                <form name="addFinishesForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="openErrorScreen(addFinishesForm.$dirty,'addFinishes');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>Add Finishes</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute-model-title">Image Finishes Properties</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 marginbottom10">
+                            <div class="row">
+                                <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>
+                            </div>
+                        </div>  
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Finshes title</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="Name" name="Name" ng-model="finishes.Name" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" ng-model="finishes.IsAllowAnyFinishes"> <!--Allow All Finishes-->
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button data-toggle="modal" ng-click="openErrorScreen(addFinishesForm.$dirty,'addFinishes');" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="saveFinishes(finishes)"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+
+    <div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div> 
+</div>

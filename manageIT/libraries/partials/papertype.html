@@ -1,0 +1,94 @@
+﻿<div class="row marginTop20" ng-init="getlibrary('PaperType')">
+    <div class="col-xs-12 marginbottom10">
+        <div class="row">            
+            <error-control attribute-scope="messageModel" ng-show="!messageModel.isHide"></error-control>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="object-head-wrap clearfix">
+            <div class="object-head">Select the Paper Types which apply to this Image Library</div>            
+            <div class="sub-object-btn">
+                <a href="#" data-toggle="modal" data-target="#addPaperType" ng-click="clearMessage()"><i class="fa fa-plus"></i> Add Paper Type</a>
+            </div>
+        </div>
+        <div class="box-square">
+            <div class="box-square-head font-bold">Paper Types</div>
+            <div class="box-img-dimension">  
+                <form name="updatePaperTypeForm" role="form" novalidate>
+                    <div class="checkbox" ng-repeat="dimention in imagePaperType">
+                        <label>
+                            <input type="checkbox" name="{{dimention.name}}" ng-model="dimention.selected" ng-checked="dimention.selected" />
+                            {{dimention.name}}                            
+                        </label>
+                    </div>
+                    <div class="marginTop20 update-btnbg align-right padding10">                       
+                        <button class="btn btn-grey" type="button" aria-hidden="true" ng-click="showConfirm(updatePaperTypeForm.$dirty)"><i class="fa fa-times"></i> Discard </button>
+                        <button class="btn btn-primary" type="button" aria-hidden="true" ng-disabled="updatePaperTypeForm.$invalid" ng-click="updatePaperType()"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                 </form>
+</div>
+        </div>
+    </div>
+    <div id="addPaperType" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+        <div class="modal-dialog model-width700">
+            <div class="modal-content add-sub-object-main">
+                <form name="addPaperTypeForm" role="form" novalidate>
+                    <div class="modal-header">                       
+                        <button type="button" class="close" ng-click="openErrorScreen(addPaperTypeForm.$dirty,'addPaperType');" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                        <h4><b>Add PaperType</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <error-control attribute-scope="errormessageModel" ng-show="!errormessageModel.isHide"></error-control>                          
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute-model-title">Image PaperType Properties</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Paper Type title</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="Name" name="Name" ng-model="paperType.Name" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" ng-model="paperType.IsAllowAnyPaperType">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="openErrorScreen(addPaperTypeForm.$dirty,'addPaperType');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>                          
+                            <button class="btn btn-primary" type="button" ng-disabled="addPaperTypeForm.$invalid" aria-hidden="true" ng-click="savePapertype(paperType)"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
+    <div id="closeModel" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirm Discard</h4>
+                </div>
+                <div class="modal-body">
+                    <p> {{ message }} </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-show="formstatus" class="btn btn-default" data-dismiss="modal" ng-click="canceldiscard()">No</button>    
+                    <button type="button" ng-show="formstatus" class="btn btn-default" data-dismiss="modal" ng-click="confirmdiscard('PaperType')">Yes</button>                                 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div> 
+</div>

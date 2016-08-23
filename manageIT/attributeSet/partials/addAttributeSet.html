@@ -1,0 +1,169 @@
+﻿<div id="AttributeSet" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="attributeSetForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'attributeSetForm')" novalidate>
+
+                
+                <div class="modal-header">
+                    <button type="button" class="close" data-toggle="modal" data-target="#ErrorScreen" ng-click="openErrorScreen(attributeSetForm.$dirty,'AttributeSet');">&times;</button>
+                    <h4><b>{{editOrAdd}} AttributeSet</b></h4>
+
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>               
+
+                <error-control attribute-scope="attributeSet"></error-control>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="sub-object-container">
+                            <div class="subobject-head-model">
+                                <h8>AttributeSet</h8>
+                            </div>
+
+                            <div class="sub-object-border-wrap">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group" ng-hide="true">
+                                                <label for="pname" class="col-xs-4 control-label">AttributeSet Id</label>
+                                                <div class="col-xs-8">
+                                                    <input class="form-control" type="text" id="attributeSetId" g-model="attributeSet.attributeSetId" ng-init="attributeSet.attributeSetId = ''">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group" ng-hide="true">
+                                                <label for="pname" class="col-xs-5 control-label">AttributeSet version</label>
+                                                <div class="col-xs-7">
+                                                    <input class="form-control" type="text" name="version" ng-model="attributeSet.version">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-5 col-xs-offset-3">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label for="pname" class="col-xs-2 control-label">Name<span class="mandatory">*</span></label>
+                                                <div class="col-xs-10">
+                                                    <input type="text" class="form-control input-medium" onblur="this.value = this.value.trim();" name="name"
+                                                           maxlength="64" ng-model="attributeSet.attributeSetName" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-xs-10 col-xs-offset-2">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="displayHeading" ng-model="attributeSet.displayHeading"> Display name as heading
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row marginbottom10">
+                                    <div class="col-xs-12">
+                                        <div class="settings-bottom-devider"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <label>The attribute set can be <b>viewed</b> when a Product has:</label>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-xs-3" ng-repeat="option in classificationCondition">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="isAnyViewClassification" ng-model="attributeSet.isAnyViewClassification"
+                                                           ng-checked="attributeSet.isAnyViewClassification==option.key" value="{{option.key}}">
+                                                    {{option.value}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-show="attributeSet.isAnyViewClassification == '1'">
+                                    <div class="col-xs-12">
+                                        <div class="checkbox">
+                                            <span class="classification-expl marginRight4">!</span><label>
+                                                <input type="checkbox" value="" ng-checked="attributeSet.attributeSetViewNegationOperator"
+                                                       ng-model="attributeSet.attributeSetViewNegationOperator">
+                                                <b>Negate view expression.</b>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div ng-show="attributeSet.isAnyViewClassification == '1'"
+                                     ng-controller="classificationExpressionBuilderController"
+                                     ng-include="'/manageit/classificationExpressionBuilder/partials/classificationExpressionBuilder.html'">
+                                </div>
+
+                                <div class="row marginTop15">
+                                    <div class="col-xs-12">
+                                        <label>The attribute set can be <b>edited</b> when a Product has:</label>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-xs-3" ng-repeat="option in classificationCondition">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="isAnyEditClassification" ng-model="attributeSet.isAnyEditClassification"
+                                                         ng-checked="attributeSet.isAnyEditClassification==option.key" value="{{option.key}}"> {{option.value}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row" ng-show="attributeSet.isAnyEditClassification == '1'">
+                                    <div class="col-xs-12">
+                                        <div class="checkbox">
+                                            <span class="classification-expl marginRight4">!</span><label>
+                                                <input type="checkbox" value="" ng-checked="attributeSet.attributeSetEditNegationOperator"
+                                                       ng-model="attributeSet.attributeSetEditNegationOperator">
+                                                <b>Negate edit expression.</b>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div ng-show="attributeSet.isAnyEditClassification == '1'"
+                                     ng-controller="classificationExpressionBuilderController2"
+                                     ng-include="'/manageit/classificationExpressionBuilder/partials/classificationExpressionBuilder.html'"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="font-bold color-red" ng-show="errorsAttSet.length > 0" ng-repeat="error in errorsAttSet">{{error}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="clearTimeAttributeFields();openErrorScreen(attributeSetForm.$dirty,'AttributeSet');" data-toggle="modal" data-target="#ErrorScreen" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-disabled="attributeSetForm.$invalid || conditionsDisplay.length == 0" ng-click="saveAttributeSet(attributeSet)" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>    
+</div>

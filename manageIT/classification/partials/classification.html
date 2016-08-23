@@ -1,0 +1,52 @@
+﻿<div class="col-xs-12 padding20" ng-controller="classificationController">
+    <div class="col-xs-12">
+        <div class="row">
+            <error-control attribute-scope="classification" ng-show="!classification.isHide"></error-control>
+            <!--<div class="font-bold color-red" ng-show="errors.length > 0" ng-repeat="error in errors">{error}}</div>-->
+        </div>
+    </div>
+    <div class="object-head-wrap clearfix">
+        <div class="object-head">Classifications</div>
+        <div class="sub-object-btn">
+            <a href="#" data-toggle="modal" data-target="#Classification" ng-click="clearClassificationFields();resetErrorDirective(classification)"><i class="fa fa-plus"></i> Add Classification</a>
+        </div>
+    </div>
+
+    <div ng-include="'/manageIT/classification/partials/addClassification.html'" ng-show="isClassification"></div>
+
+    <div class="objects-table">
+        <div class="table-responsive" ng-init="getClassifications()">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th ng-hide="true">ClassificationId</th>
+                        <th width="250">Classifications</th>
+                        <th>Conditions</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="class in classifications">
+                    <td ng-hide="true">{{class.classificationId}}</td>
+                    <td class="grey">{{class.classificationName}}</td>
+                    <td>
+                        <span ng-show="class.classificationNegationOperator">!(</span><div ng-repeat="item in class.conditions">
+                            {{item.conditionType}}&nbsp;<span ng-show="item.expressionNegationOperator">!</span>(<span ng-show="item.negationOperator">!</span>{{item.attributeType.identifier}}&nbsp;<span class="label label-default" ng-hide="item.attributeType.attributeSetName==null">{{item.attributeType.attributeSetName}}</span>&nbsp;{{item.conditionOperator}}&nbsp;{{item.conditionValue}}&nbsp;{{item.attributeValue}}<span ng-show="item.subConditions.length == 0">)</span>
+                            <br />
+                            <div ng-repeat="condChild in item.subConditions">
+                                {{condChild.conditionType}}&nbsp;<span ng-show="condChild.negationOperator">!</span>{{condChild.attributeType.identifier}}&nbsp;<span class="label label-default" ng-hide="conChild.attributeType.attributeSetName==null">{{conChild.attributeType.attributeSetName}}</span>&nbsp;{{condChild.conditionOperator}}&nbsp;{{condChild.conditionValue}}&nbsp;{{condChild.attributeValue}}<span ng-show="item.subConditions.length == ($index+1)">)</span>
+</div>
+                        </div><span ng-show="class.classificationNegationOperator">)</span>
+                    </td>
+                    <td class="align-right table-links">
+                        <a href="#" rel="tooltip" title="Edit" data-toggle="modal" data-target="#Classification" ng-click="editClassification(class);resetErrorDirective(class)"><i class="fa fa-pencil"></i></a>&nbsp;
+                        <a href="#" rel="tooltip" title="Delete" ng-click="confirmClick('Are you sure you want to delete ?','Confirm','Delete','Cancel') && deleteClassification(class)"  confirm-click><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+            </table>
+
+
+            
+        </div>
+    </div>
+</div>
+<div ng-include="'/manageIT/attribute/partials/errorscreen.html'" ng-show="isErrorScreen"></div>

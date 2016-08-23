@@ -1,0 +1,132 @@
+﻿<div id="addAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content add-sub-object-main">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><b>Add Attribute</b></h4>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="attribute-model-title">
+                    Select Attribute Type
+                </div>
+
+                <div class="attribute-types-list">
+                    <ul>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DecimalAttribute" ng-click="clearDecimalAttributeFields('Integer')"><img src="/images/Integer.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DecimalAttribute" ng-click="clearDecimalAttributeFields('Integer')">Integer</div>
+                            </a>
+                        </li>
+
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DecimalAttribute" ng-click="clearDecimalAttributeFields('Decimal')"><img src="/images/Price.jpg" alt="Price"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DecimalAttribute" ng-click="clearDecimalAttributeFields('Decimal')">Price /<br />  Decimal</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#SequenceAttribute" ng-click="clearSequenceAttributeFields()"><img src="/images/sequence.JPG" alt="Sequence"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#SequenceAttribute" ng-click="clearSequenceAttributeFields()">Sequence <br /> (Autonumber)</div>
+                            </a>
+                        </li>
+
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DateAttribute" ng-click="clearDateAttributeFields()"><img src="/images/date.JPG" alt="Date"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DateAttribute" ng-click="clearDateAttributeFields()">Date</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#TimeAttribute" ng-click="clearTimeAttributeFields()"><img src="/images/time.JPG" alt="Time"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#TimeAttribute" ng-click="clearTimeAttributeFields()">Time</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DateTimeAttribute" ng-click="clearDateTimeAttributeFields()"><img src="/images/date&time.JPG" alt="Date & Time"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DateTimeAttribute" ng-click="clearDateTimeAttributeFields()">Date & Time</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#TextAttribute" ng-click="clearTextAttributeFields()"><img src="/images/text.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#TextAttribute" ng-click="clearTextAttributeFields()">Text </div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#YesNoAttribute" ng-click="clearYesNoAttributeFields()"><img src="/images/yes-no.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#YesNoAttribute" ng-click="clearYesNoAttributeFields()">Yes/No</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#ListAttribute" ng-click="clearListAttributFields()"><img src="/images/list.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#ListAttribute" ng-click="clearListAttributFields()">List<br />(Selection)</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal" ng-hide="isSubObject">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#SubObjectAttribute" ng-click="clearsubObjectAttributeFields()"><img src="/images/sub-object.JPG" alt="Integer"></div>
+
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#SubObjectAttribute" ng-click="clearsubObjectAttributeFields()">Sub-Object</div>
+
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#CopyAttribute" ng-click="clearCopyAttribute()"><img src="/images/copy.JPG" alt="Copy"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#CopyAttribute" ng-click="clearCopyAttribute()">Copy</div>
+                            </a>
+                        </li>
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#ObjectReferenceAttribute"><img src="/images/object-reference.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#ObjectReferenceAttribute" ng-click="clearObjectReferenceAttributeValues()">Object<br />Reference</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#ImageReferenceAttribute" ng-click="clearImageReferenceAttributeFields()"><img src="/images/image-reference.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#ImageReferenceAttribute" ng-click="clearImageReferenceAttributeFields()">Image<br />Reference</div>
+                            </a>
+                        </li>
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DocumentReferenceAttribute" ng-click="clearDocReferenceAttributeFields()">
+                                    <img src="/images/Doc-reference.jpg" alt="Integer">
+                                </div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DocumentReferenceAttribute" ng-click="clearDocReferenceAttributeFields()">Document<br />Reference</div>
+                            </a>
+
+                        </li>
+
+
+                    </ul>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿<form >
+    <div class="modal-content min-height450">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="checkForChanges($event,activeTab,true)">&times;</button>
+            <h4><i class="fa fa-gear"></i> <b>ManageiT Settings</b></h4>
+        </div>
+
+        <div class="padding15 config">
+            <error-control attribute-scope="getDetails.errordetails"></error-control>
+            <uib-tabset active="activeTab">
+                <uib-tab index="0" ng-model="getDetails.admins" select="getTypes('admin', 'true')" deselect="checkForChanges($event,0)">
+                    <uib-tab-heading>Administrators</uib-tab-heading>
+                    <div ng-include="'/manageIT/administrator/partials/administrator.html'"></div>
+                </uib-tab>
+                <uib-tab index="1" ng-model="getDetails.domains" select="getTypes('domain', 'true')" deselect="checkForChanges($event,1);">
+                    <uib-tab-heading>Domains</uib-tab-heading>
+                    <div ng-include="'/manageIT/domain/partials/domain.html'"></div>
+                </uib-tab>
+                <uib-tab index="2" ng-model="getDetails.sequences" select="getTypes('sequence', 'true')" deselect="checkForChanges($event,2);">
+                    <uib-tab-heading>Sequences</uib-tab-heading>
+                    <div ng-include="'/manageIT/sequence/partials/sequence.html'"></div>
+                </uib-tab>
+            </uib-tabset>
+
+            <!--<ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#" data-target="#Admin" ng-model="getDetails.admins" ng-click=";checkForChanges();getTypes('admin', 'true')">Administrators</a></li>
+                <li><a data-toggle="tab" href="#" data-target="#Domain" ng-model="getDetails.domains" ng-click="checkForChanges();getTypes('domain', 'true')">Domains</a></li>
+                <li><a data-toggle="tab" href="#" data-target="#Sequence" ng-model="getDetails.sequences" ng-click="checkForChanges();getTypes('sequence', 'true')">Sequences</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="Admin" class="tab-pane fade" ng-include=""></div>
+                <div id="Domain" class="tab-pane fade" ng-include="'/manageIT/domain/partials/domain.html'"></div>
+                <div id="Sequence" class="tab-pane fade" ng-include="'/manageIT/sequence/partials/sequence.html'"></div>
+            </div>-->
+        </div>
+    </div>
+    <div id="manageItConfirmModal"></div>
+</form>

@@ -1,0 +1,95 @@
+﻿<div class="col-lg-12 padding20" ng-controller="attributeController">
+  
+    <div class="col-xs-12 marginbottom10">
+        <div class="row">
+            <error-control attribute-scope="errorAttribute" ng-show="!errorAttribute.isHide" ></error-control>
+        </div>
+    </div>
+    
+      <div class="object-head-wrap clearfix">
+        <div class="object-head">{{attributeScreenName}} > Attributes</div>
+        <div class="sub-object-btn">
+            <a href="#" data-toggle="modal" data-target="#addAttribute" ng-click="isAddAttribute = true; errors = [];resetErrorDirective(errorAttribute);attributeFormDirty=false;">
+                <i class="fa fa-plus"></i>
+                Add Attribute
+            </a>
+        </div>
+    </div>
+    <div ng-include="'/manageIT/attribute/partials/addattribute.html'" ng-show="isAddAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/textattribute.html'" ng-show="isTextAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/dateTimeAttribute.html'" ng-show="isDatetimeAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/dateAttribute.html'" ng-show="isDateAttribute"></div>    
+    <div ng-include="'/manageIT/attribute/partials/timeAttribute.html'" ng-show="isTimeAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/sequenceAttribute.html'" ng-show="isSequenceAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/copyAttribute.html'" ng-show="isCopyAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/copyAttributeField.html'" ng-show="isCopyAttributeField"></div>
+    <div ng-include="'/manageIT/attribute/partials/yesNoAttribute.html'" ng-show="isYesNoAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/decimalAttribute.html'" ng-show="isdecimalAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/listAttribute.html'" ng-show="isListAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/subObjectAttribute.html'" ng-show="isSubObjectAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/defineListValues.html'" ng-show="isDefineListValues"></div>
+    <div ng-include="'/manageIT/attribute/partials/defineListSource.html'" ng-show="isDefineListSource"></div>
+    <div ng-include="'/manageIT/attribute/partials/imageReferenceAttribute.html'" ng-show="isImageReferenceAttribute"></div>
+    <div ng-include="'/manageIT/attribute/partials/documentReferenceAttribute.html'"></div>
+    <div ng-include="'/manageIT/attribute/partials/acceptedDocumentTypes.html'"></div>
+    <div ng-include="'/manageIT/attribute/partials/linkedDocumentSources.html'"></div>
+    <div ng-include="'/manageIT/attribute/partials/objectReferenceAttribute.html'" ng-show="isObjectReferenceAttribute"></div>
+   
+    <!--Unique group screen should always be at the last, because this should open at the top of all popup's-->
+    <div ng-include="'/manageIT/attribute/partials/defineUniqueGroup.html'"></div>
+
+    <!--As per current requirement Close Discard popup should always be at the last, because this should open at the top of all popup's-->
+    <div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div>
+    
+    <div class="objects-table links-hover">
+        <div class="table-responsive" ng-init="defaultAttributes();getDefineUniqueGroup();getSubObjects();loadSequences();getDomainsForTreeControls();getClassificationsByContentTypeId();defaultviewUserinterfaces();">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>                                     
+                        <th>Attribute</th>
+                        <th>Attribute Type</th>
+                        <th>Required</th>
+                        <th>Read Only</th>
+                        <th>Multiple</th>
+                        <th>Min Items</th>
+                        <th>Max Items</th>
+                        <th></th>
+                    </tr>
+                </thead>             
+                <tbody ui-sortable="sortableOptionsA" ng-model="attributes">
+                    <tr ng-repeat="attr in attributes | orderBy :'orderNo'" class="ui-state-default" style="cursor: move;" >                                                                                                          
+                        <td width="230" class="grey">
+                            <ul class="dragging-table">
+                                <li>{{attr.name}}</li>
+                                <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <span ng-show="attr.attributeType != 'SubObjectAttribute'">{{attr.attributeType.replace('Attribute','')}}</span>
+                            <span ng-show="attr.attributeType == 'TextAttribute'">&nbsp;({{lineFormat[attr.format].value}})</span>
+                            <span ng-show="attr.attributeType == 'SubObjectAttribute'">{{attr.attributeType.replace('SubObjectAttribute','Sub-Object')}}&nbsp;({{findSubObjectById(attr.subObjectType)}})</span>
+                        </td>
+                        <td><input type="checkbox" ng-checked="{{attr.mandatory}}" name="isMandatory" disabled="disabled" /></td>
+                        <td><input type="checkbox" ng-checked="{{attr.readOnly}}" name="isReadOnly" disabled="disabled" /></td>
+                        <td><input type="checkbox" ng-checked="{{attr.multipleValues.allowMultipleValues}}" name="isAllowMultipleValues" disabled="disabled" /></td>
+                        <td>{{attr.multipleValues.minimumValue}}</td>
+                        <td>{{attr.multipleValues.maximumValue}}</td>
+                        <td width="60" class="align-right table-links">
+                            <a href="#" rel="tooltip" title="Edit" data-toggle="modal" data-target="#{{attr.attributeType == 'IntegerAttribute' ? 'DecimalAttribute' : attr.attributeType}}" ng-click="editAttribute(attr)"><i class="fa fa-pencil"></i></a>&nbsp;
+                            <a href="#" rel="tooltip" title="Delete" ng-click="resetErrorDirective(errorAttribute);confirmClick('Are you sure you want to delete?','Confirm','Delete','Cancel') && deleteAttribute(attr)"  confirm-click><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>                    
+                </tbody>
+            </table>
+
+
+            <div class="col-sm-12 marginTop20">
+                <div class="row">
+                    <div class="form-group color-red" ng-show="errors.length > 0" ng-repeat="error in errors">{{error}}</div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

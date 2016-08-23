@@ -1,0 +1,99 @@
+﻿<div id="linkedDocumentSourcesAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width700">
+        <div class="modal-content add-sub-object-main">
+            <form name="linkedDocumentSourcesAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="clearLinkedDocumentSources();openErrorScreen(linkedDocumentSourcesAttributeForm.$dirty,'linkedDocumentSources',true,'documentReferenceAttributeForm');">&times;</button>
+                    <h4><b>Linked Document Sources</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute-model-title">Configure Document Reference</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 refefence-tabbing">
+
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#" data-target="#sourceContentObject">Source from another Content Object</a></li>
+                                    <li><a data-toggle="tab" href="#" data-target="#sourceContentLibrary">Source from a Document Library</a></li>
+                                    <li><a data-toggle="tab" href="#" data-target="#searchOptions">Search Options</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="sourceContentObject">
+                                        <div>
+                                            <tree-multi-select control-id="docContentTypes" options-list="allDocContentTypes"
+                                                               selected-values="documentReferenceAttribute.selectedDocContentTypes" 
+                                                               create-content-node="createDocContentTypeInnerNode">
+                                            </tree-multi-select>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="sourceContentLibrary">
+                                        <div>
+                                            <tree-multi-select control-id="docSourceLibrary" options-list="allDocTypes"
+                                                               selected-values="documentReferenceAttribute.selectedDocLibraries" 
+                                                               create-content-node="createDocLibraryInnerNode">
+                                            </tree-multi-select>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="searchOptions">
+                                        <div>
+                                            <tree-multi-select control-id="docSourceOptions" options-list="searchInterfaces"
+                                                               selected-values="documentReferenceAttribute.selectedDocSourceOptions" 
+                                                               create-content-node="createDocSourceInnerNode">
+                                            </tree-multi-select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="clearLinkedDocumentSources();openErrorScreen(linkedDocumentSourcesAttributeForm.$dirty,'linkedDocumentSources',true,'documentReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveLinkedDocumentSources()" ng-disabled="documentReferenceAttribute.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="editDocSourceOptionSectionAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="editDocSourceOptionSectionAttributeAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="discardDocSearchOption();openErrorScreen(editDocSourceOptionSectionAttributeAttributeForm.$dirty,'editDocSourceOptionSection',true,'documentReferenceAttributeForm');">&times;</button>
+                    <h4><b>Select Search Interface</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="bottom-gray-border font-bold">
+                        Selected Search Interface
+                    </div>
+                    <div class="specific-img-main-box top-margin-5">
+                        <div id="editDocSearchOption"></div>
+                    </div>
+                    <div class="bottom-gray-border top-margin-5 font-bold">
+                        Search Name
+                    </div>
+                    <div class="top-margin-5 marginbottom10">
+                        <input id="docSearchOptionName" class="form-control" type="text" />
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button data-ng-click="discardDocSearchOption();openErrorScreen(editDocSourceOptionSectionAttributeAttributeForm.$dirty,'editDocSourceOptionSection',true,'documentReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button data-ng-click="saveDocSearchOption()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

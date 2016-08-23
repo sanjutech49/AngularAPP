@@ -1,0 +1,66 @@
+﻿<!--Job Workflows MODAL START--------------------------------------------------------------------->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">&times;</button>
+    <h4><i class="fa fa-sitemap"></i> <b>Job Workflows</b></h4>
+</div>
+<div class="modal-body">
+    <div class="">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="float-right">
+                    <div class="table-row">
+                        <div class="table-cell">Workflow<span class="mandatory">*</span></div>
+                        <div class="filter-table-cell table-cel-padding">
+                            <select class="form-control width120">
+                                <option>none</option>
+                            </select>
+                        </div>
+                        <div class="table-cell table-cel-padding imageroles">
+                            <div class="center"> <a class="btn btn-default" href="#" ng-click="jbwfd.newAddWorkflowPreset()" rel="tooltip" title="Click the + button to add a Workflow" data-toggle="modal" data-target="#addWorkflow"> <i class="fa fa-plus"></i></a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 white-bg">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs position-relative" role="tablist">
+                    <li><a href="#" data-target="#worlflowProperties" role="tab" data-toggle="tab">Properties</a></li>
+                    <li class="active"><a href="#" data-target="#workflows" role="tab" data-toggle="tab">Workflow</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <!-- Tab1 -->
+                    <div role="tabpanel" class="tab-pane" id="worlflowProperties">
+                        <div class="padding10">
+                            Properties
+                        </div>
+                    </div>
+                    <!-- Tab2 -->
+                    <div role="tabpanel" class="tab-pane active" id="workflows">
+                        <div class="padding5">
+                            <div class="row">
+                                <div class="col-xs-9">
+                                    <div class="workflow-map-wrap">
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="workflow-properties-wrap">
+                                        <div class="default-properties-text">
+                                            <span>Select a State or Action to view Properties.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

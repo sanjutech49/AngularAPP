@@ -1,0 +1,174 @@
+﻿<div id="DocumentReferenceAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="documentReferenceAttributeForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'documentReferenceAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(documentReferenceAttributeForm.$dirty,'DocumentReference');">&times;</button>
+                    <h4><b>{{ action }} Document Reference Attribute</b></h4>
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <basic-properties attribute-scope="documentReferenceAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"
+                                          clear-unique-group-values="clearUniqueGroupValues"></basic-properties>
+                        <div class="row">
+                            <div class="col-sm-12 marginTop20">
+                                <div class="attribute-model-title">Document Reference Behavior</div>
+                            </div>
+                            <div class="col-sm-12">
+                                The document references associated with this attribute can be modified when:
+                            </div>
+                            <div class="col-sm-12 top-margin-10">
+                                <div class="col-sm-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model="documentReferenceAttribute.isEditProduct" ng-checked="documentReferenceAttribute.isEditProduct" />
+                                            Editing the Product
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model="documentReferenceAttribute.isViewProduct" ng-checked="documentReferenceAttribute.isViewProduct" />
+                                            Viewing the Product
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row marginTop15">
+                            <div class="col-sm-12">
+                                <div class="attribute-model-title">Document Reference Attribute Properties</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-7 img-ref-btn">
+                                <div class="form-group">
+                                    <label class="control-label align-left">Specify the Document Types the reference will accept<span class="mandatory">*</span></label>
+                                    <button class="btn btn-default marginTop10" type="button" data-toggle="modal" data-target="#acceptedDocumentTypesAttribute"
+                                            ng-click="showAcceptedDocTypes();">
+                                        Accepted Document Types
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <!--<label class="control-label">Document Reference Behavior<span class="mandatory">*</span></label>-->
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="canCreateDocFolders" ng-model="documentReferenceAttribute.canCreateDocFolders"
+                                               ng-checked="documentReferenceAttribute.canCreateDocFolders"><span>User can create Document Folders</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 imageroles">
+                                <div class="col-xs-6">
+                                    <div class="row">
+                                        <b class="paddingTop10 display-block">Document Roles</b>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 clearfix">
+                                    <div class="row">
+                                        <div class="form-inline flat-right marginbottom10">
+
+                                            <div class="form-group">
+                                                <div class="table-row">
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input class="form-control" type="text" ng-model="documentReferenceAttribute.addRole" />
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <button class="btn btn-default" type="button" ng-click="addNewDocumentRole()"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="settings-bottom-devider clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 marginTop10">
+                                <div class="cor-border min-height20 noborder-table">
+                                    <table class="table table-condensed table-hover">
+                                        <tbody>
+                                            <tr ng-repeat="role in documentReferenceAttribute.documentRoles">
+                                                <td ng-bind="role.roleName"></td>
+                                                <td class="text-right table-links">
+                                                    <a href="#">
+                                                        <i class="fa fa-pencil grid-actions" data-toggle="modal" data-target="#editDocRoleSection"
+                                                           data-ng-click="editDocumentRole(role,$index);"></i>
+                                                    </a>
+                                                    <a href="#"><i class="fa fa-times grid-actions" data-ng-click="deleteDocumentRole($index);"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                        <!--<div class="row">
+                            <div class="col-xs-12">
+                                <div class="font-bold color-red" ng-show="documentReferenceAttributeForm.name.$error.required && documentReferenceAttributeForm.name.$dirty">Name is required</div>
+                                <div class="font-bold color-red" ng-show="documentReferenceAttributeForm.identifier.$error.required && documentReferenceAttributeForm.identifier.$dirty">Identifier is required</div>
+                                <div class="font-bold color-red" ng-show="errorsDocRef.length > 0" ng-repeat="error in errorsDocRef">{{error}}</div>
+                            </div>
+                        </div>-->
+
+
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="resetErrorDirective(errorAttribute);clearDocReferenceFields();openErrorScreen(documentReferenceAttributeForm.$dirty,'DocumentReference');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveDocumentReferenceAttribute(documentReferenceAttribute)" ng-disabled="documentReferenceAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+            <
+        </div>
+    </div>
+</div>
+<div id="editDocRoleSectionAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="editDocRoleSectionAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-ng-click="discardDocRoleName(editDocRoleSectionAttributeForm.$dirty,'editDocRoleSectionAttribute')" aria-hidden="true">&times;</button>
+                    <h4><b>Edit Document Role</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline marginbottom10">
+                        <div class="form-group">
+                            <label class="form-control-label">Role Name</label>
+                            <input class="form-control" type="text" data-ng-model="documentReferenceAttribute.docRole.roleName" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="font-bold color-red" ng-show="errorsDocRole.length > 0" ng-repeat="error in errorsDocRole">{{error}}</div>
+                        </div>
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button data-ng-click="discardDocRoleName(editDocRoleSectionAttributeForm.$dirty,'editDocRoleSectionAttribute')" class="btn btn-grey" type="button" ><i class="fa fa-times"></i> Discard</button>
+                            <button data-ng-click="saveDocRoleName()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

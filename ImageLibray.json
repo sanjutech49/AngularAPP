@@ -1,0 +1,307 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "JSOn schema for Image Library",
+
+  "type": "object",
+
+  "properties": {
+    "ImageLibraryId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "Name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "SingularName": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "PluralName": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "Identifier": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "SelectedOwnerTypes": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "SelectedImages": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "DomainId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "ContentTypeId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "AttributeId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "DomainName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "ContentTypeName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "AttributeName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "SearchOption": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "DomainId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ContentTypeId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "SearchId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "DomainName": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ContentTypeName": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "SearchName": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "DomainId",
+                    "ContentTypeId",
+                    "SearchId",
+                    "DomainName",
+                    "ContentTypeName",
+                    "SearchName"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "DomainId",
+              "ContentTypeId",
+              "AttributeId",
+              "DomainName",
+              "ContentTypeName",
+              "AttributeName",
+              "SearchOption"
+            ]
+          }
+        }
+      },
+      "required": [
+        "SelectedImages"
+      ]
+    },
+    "SelectedDimensions": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "SelectedPaperTypes": {
+      "$ref": "#/properties/SelectedDimensions"
+    },
+    "SelectedFinishes": {
+      "$ref": "#/properties/SelectedDimensions"
+    },
+    "ImageFileTypes": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "AllowedFileTypes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "DenyFileTypes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "IsAllowedAllTypes": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "AllowedFileTypes",
+        "DenyFileTypes",
+        "IsAllowedAllTypes"
+      ]
+    },
+    "IsValid": {
+      "type": "boolean"
+    },
+    "CreatedBy": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "CreatedDate": {
+      "type": "string"
+    },
+    "UpdatedBy": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "UpdatedDate": {
+      "type": "string"
+    },
+    "Version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ErrorMessage": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "properties": {
+          "Message": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "Code": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "Status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "MoreDetails": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "Message",
+          "Code",
+          "Status",
+          "MoreDetails"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ImageLibraryId",
+    "Name",
+    "SingularName",
+    "PluralName",
+    "Identifier",
+    "SelectedOwnerTypes",
+    "SelectedDimensions",
+    "SelectedPaperTypes",
+    "SelectedFinishes",
+    "ImageFileTypes",
+    "IsValid",
+    "CreatedBy",
+    "CreatedDate",
+    "UpdatedBy",
+    "UpdatedDate",
+    "Version",
+    "ErrorMessage"
+  ]
+
+}

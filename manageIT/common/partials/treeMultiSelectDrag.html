@@ -1,0 +1,21 @@
+﻿<div id="{{controlId}}_parent">
+    <div id="{{controlId}}">
+        <div class="filter-table-row">
+            <div class="filter-table-cell filter-table-cel-padding width-50-percent">
+                <div class="align-right font-bold">Available</div>
+                <div id="{{leftSelectId}}" class="multi-select"></div>
+            </div>
+            <div class="filter-table-cell filter-table-cel-padding">
+                <div id="buttons" class="multi-select-action-buttons">
+                    <button class="btn btn-default marginbottom10" type="button" ng-click="selectItems();"><i class="fa fa-chevron-right"></i></button><br /><br />
+                    <button class="btn btn-default" type="button" ng-click="deSelectItems();"><i class="fa fa-chevron-left"></i></button>
+                </div>
+
+            </div>
+            <div class="filter-table-cell filter-table-cel-padding width-50-percent">
+                <div class="align-right font-bold">Selected</div>
+                <div id="{{rightSelectId}}" class="multi-select selected-list"></div>
+            </div>
+        </div>
+    </div>
+</div>

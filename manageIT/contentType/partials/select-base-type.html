@@ -1,0 +1,370 @@
+﻿
+<!--Select Content Type MODAL START--------------------------------------------------------------------->
+
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                    <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>Add Content Type</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="main-content">
+                        <div class="row">
+                            <div class="col-xs-12 white-bg">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs position-relative" role="tablist">
+                                    <li class="active"><a href="#" data-target="#newcontenttypeTab" role="tab" data-toggle="tab">New Content Type</a></li>
+                                    <li><a href="#" data-target="#newSubTypeTab" role="tab" data-toggle="tab">New Sub Type</a></li>
+                                    <li><a href="" data-target="#templatesTab" role="tab" data-toggle="tab">Templates</a></li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <!-- Tab1 -->
+                                    <div role="tabpanel" class="tab-pane active" id="newcontenttypeTab">
+                                        <div class="padding10">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="attribute-model-title">Select the Base Content Type to be Sub-Typed.</div>
+                                                    <div class="jobit-content-type-list">
+                                                        <ul>
+                                                            <li >
+                                                                <a href="#" data-toggle="modal" ng-click="sbtc.campaignContentClick()">
+                                                                    <div class="attribute-type-img"> <img src="../../../images/icon-campaign.jpg" alt=""> </div>
+                                                                    <div class="attribute-type-img-title"><b>Campaign</b></div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"  data-toggle="modal" ng-click="sbtc.jobContentClick()">
+                                                                    <div class="attribute-type-img"> <img src="../../../images/icon-job.jpg" alt=""> </div>
+                                                                    <div class="attribute-type-img-title"><b>Job</b></div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" ng-click="sbtc.flatPlanContentClick()">
+                                                                    <div class="attribute-type-img"> <img src="../../../images/icon-flatplan.jpg" alt=""> </div>
+                                                                    <div class="attribute-type-img-title"><b>Flat Plan</b></div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" ng-click="sbtc.pageContentClick()">
+                                                                    <div class="attribute-type-img"> <img src="../../../images/icon-page-spread.jpg" alt=""> </div>
+                                                                    <div class="attribute-type-img-title"><b>Page / Spread</b></div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <div class="attribute-type-img"> <img src="../../../images/icon-partpage.jpg" alt=""> </div>
+                                                                    <div class="attribute-type-img-title"><b>Part Page</b></div>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row marginTop20">
+                                                <div class="col-xs-12">
+                                                    <div class="attribute-model-title">Manage iT Content Types</div>
+                                                    <div class="jobit-content-type-list">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal"  ng-click="sbtc.manageItContentClick()">
+                                                                    <div class="attribute-type-img"> <img src="../../../images/icon-content-type.jpg" alt=""> </div>
+                                                                    <div class="attribute-type-img-title"><b>Content Type</b></div>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tab2 -->
+                                    <div role="tabpanel" class="tab-pane" id="newSubTypeTab">
+                                        <div class="padding10">
+                                            <div class="row">
+                                                <div class="subtype-header font-bold">Select the Base Content Type to be Sub-Typed.</div>
+                                            </div>
+                                            <div class="jobit-modal-scroll-wrap-sml">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="attribute-model-title">Amart Content Types</div>
+                                                        <div class="jobit-content-type-list">
+                                                            <ul>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/icon-content-type.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Brand</b></div>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/icon-content-type.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Department</b></div>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/icon-product.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Product</b></div>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row marginTop20">
+                                                    <div class="col-xs-12">
+                                                        <div class="attribute-model-title">Rebel Content Types</div>
+                                                        <div class="jobit-content-type-list">
+                                                            <ul>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/icon-content-type.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Advertisement</b></div>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/icon-content-type.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Brand</b></div>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#" data-toggle="modal" data-target="#selectBasetype">
+                                                                        <div class="attribute-type-img"> <img src="images/icon-content-type.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Job</b></div>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/icon-product.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Product</b></div>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/icon-content-type.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Store</b></div>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row marginTop20">
+                                                    <div class="col-xs-12">
+                                                        <div class="attribute-model-title">User Management Content Types</div>
+                                                        <div class="jobit-content-type-list">
+                                                            <ul>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/icon-roles.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Roles</b></div>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="attribute-type-img"> <img src="../../../images/users.jpg" alt=""> </div>
+                                                                        <div class="attribute-type-img-title"><b>Users</b></div>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Tab3 -->
+                                    <div role="tabpanel" class="tab-pane" id="templatesTab">
+                                        <div class="padding10">Under Development 2</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+     
+<!--Select Content Type MODAL END----------------------------------------------------------------------------------------->
+
+
+
+
+<!--add Content Type MODAL START--------------------------------------------------------------------->
+<div id="addContenttype" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addlistinterface">
+    <div class="modal-dialog model-width700">
+        <div class="modal-content add-sub-object-main">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                    <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>Add Job Content Type</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row marginTop10">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Singular Name<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Plural Name<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Identifier<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-4 attribute-map-chckradio">
+                                <div class="checkbox paddding-top0">
+                                    <label>
+                                        <input type="checkbox">Use as a Context
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-4 attribute-map-chckradio">
+                                <div class="checkbox paddding-top0">
+                                    <label>
+                                        <input type="checkbox"> Use as a version Variatation
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-left">
+                        <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-times"></i> Cancel</button>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-sm" type="button"><i class="fa fa-pencil"></i> Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--add Content Type MODAL END----------------------------------------------------------------------------------------->
+
+
+<!--Select Base Type MODAL START--------------------------------------------------------------------->
+<div id="selectBasetype" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addlistinterface">
+    <div class="modal-dialog model-width700">
+        <div class="modal-content add-sub-object-main">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>Select Base Type</b></h4>
+            </div>
+            <div class="modal-body min-height300">
+                <div class="padding10">
+                    <div class="row">
+                        <div class="subtype-header font-bold">Select the Base Type for the nee sub-type</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="attribute-model-title">Job iT Content Types</div>
+                            <div class="jobit-content-type-list">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <div class="attribute-type-img"> <img src="../../../images/icon-campaign.jpg" alt=""> </div>
+                                            <div class="attribute-type-img-title"><b>Campaign</b></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="attribute-type-img"> <img src="images/icon-job.jpg" alt=""> </div>
+                                            <div class="attribute-type-img-title"><b>Job</b></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="modal" data-target="#addFlatplanContentSubtype">
+                                            <div class="attribute-type-img"> <img src="../../../images/icon-flatplan.jpg" alt=""> </div>
+                                            <div class="attribute-type-img-title"><b>Flatplan</b></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="attribute-type-img"> <img src="../../../images/icon-page-spread.jpg" alt=""> </div>
+                                            <div class="attribute-type-img-title"><b>Page / Spread</b></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="attribute-type-img"> <img src="../../../images/icon-partpage.jpg" alt=""> </div>
+                                            <div class="attribute-type-img-title"><b>Part Page</b></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Select Base Type MODAL END----------------------------------------------------------------------------------------->
+
+
+<!--Add Flat Plan Content Sub-Type MODAL START--------------------------------------------------------------------->
+<div id="addFlatplanContentSubtype" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addlistinterface">
+    <div class="modal-dialog model-width700">
+        <div class="modal-content add-sub-object-main">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                    <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>Add Flat Plan Content Sub-Type</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row marginTop10">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Singular Name<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Plural Name<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Identifier<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-left">
+                        <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-times"></i> Cancel</button>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-sm" type="button"><i class="fa fa-pencil"></i> Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Add Flat Plan Content Sub-Type MODAL END------------------------------------------------------------> 

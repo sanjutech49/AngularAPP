@@ -1,0 +1,107 @@
+<div id="YesNoAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="yesNoAttributeForm" class="form-horizontal" role="form" ng-init="setFormScope(this,'yesNoAttributeForm')" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(yesNoAttributeForm.$dirty,'YesNo');" >&times;</button>
+                    <h4><b>{{ action }} Yes/No Attribute</b></h4>                    
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+
+                    <div class="attribute-scroll-wrap">
+
+
+                        <basic-properties attribute-scope="yesNoAttribute" derive-identifier="deriveIdentifier"
+                                          is-singularly-uniques="isSingularlyUniques" unique-group="uniqueGroup"
+                                          unique-group-check="uniqueGroupCheck"
+                                          multiples-values-checked-changed="multiplesValuesCheckedChanged"
+                                          derive-identifier-from-id="deriveIdentifierFromId"></basic-properties>
+                        <div class="row">
+                            <div class="col-xs-12 marginTop20">
+                                <div class="attribute-model-title">Yes / No Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="attribute">
+                                    <div class="form-horizontal">
+
+                                        <div class="form-group row">
+                                            <div class="col-xs-3">
+                                                <label class="control-label text-left" for="yesValue">Yes Value<span class="mandatory">*</span></label>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <input type="text" name="yesValue" ng-model="yesNoAttribute.yesValue" value="Yes" class="form-control" required />
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <label class="control-label" for="noValue">No Value<span class="mandatory">*</span></label>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <input type="text"  name="noValue" ng-model="yesNoAttribute.noValue" value="No" class="form-control" required />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-xs-3">
+                                                <label class="control-label" for="defaultValue">Default Value<span class="mandatory">*</span></label>
+                                            </div>
+                                            <div class="col-xs-3">                                               
+                                                <select name="defaultValue" data-ng-model="yesNoAttribute.defaultValue" class="form-control" required> 
+                                                    <option value="" hidden></option>
+                                                    <option value="0" selected="selected">Not Specified</option>                                                  
+                                                    <option value="1" ng-bind="yesNoAttribute.yesValue"></option>
+                                                    <option value="2" ng-bind="yesNoAttribute.noValue"></option>
+                                                </select>                                              
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="form-group row">
+
+                                            <div class="col-xs-3">
+                                                <label class="control-label">Display Input As<span class="mandatory">*</span></label>
+                                            </div>
+
+                                            <div class="col-xs-3" data-ng-repeat="option in yesnoDisplayTypes">
+                                                <div class="yesno-displaybox">
+                                                    <div class="yesno-box-header">
+                                                        <div class="form-horizontal">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input class="yesno-displaybox-heckbox" type="radio" name="displayType" ng-model="yesNoAttribute.displayType" ng-checked="yesNoAttribute.displayType==option.key" value="{{option.key}}" required />  {{option.value}}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="yesno-img-wrap">
+                                                        <div class="yesno-img-checkbox" ng-show="option.key==0"></div>
+                                                        <div class="yesno-img-radiobutton" ng-show="option.key==1"></div>
+                                                        <div class="yesno-img-dropdown" ng-show="option.key==2"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(yesNoAttributeForm.$dirty,'YesNo');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="saveYesNoAttribute(yesNoAttribute)" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

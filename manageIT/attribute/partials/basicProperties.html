@@ -1,0 +1,133 @@
+﻿
+<div class="basci-properties-wrap">
+    <div class="attribute-model-title">Basic Properties</div>
+    <div class="row">
+        <div class="col-xs-7">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-xs-2 control-label">Name<span class="mandatory">*</span></label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control input-medium" name="name" onblur="this.value = this.value.trim();"
+                               ng-model="currentScope.name" ng-change="deriveIdentifier(currentScope)" allow-pattern="(\d|[a-z ])">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-xs-2 control-label">Identifier<span class="mandatory">*</span></label>
+                    <div class="col-xs-7">
+                        <input type="text" name="identifier" ng-model="currentScope.identifier" attr-identifier
+                               ng-readonly="readonly" class="form-control" ng-disabled="(currentScope.attributeId != '')"
+                               ng-change="deriveIdentifierFromId(currentScope)" onblur="this.value = this.value.replace(/\s/g, '');" allow-pattern="(\d|[a-z ])" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-offset-2 col-xs-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="isMandatory" ng-model="currentScope.isMandatory" ng-change="currentScope.isReadOnly = false"> Mandatory (Users must specify a value for this field)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-xs-offset-2 col-xs-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-disabled="currentScope.isMandatory" name="isReadOnly" ng-model="currentScope.isReadOnly"> Read Only (Users cannot modify this attribute)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-xs-offset-2 col-xs-10" ng-hide="currentScope.isCopyField">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-change="uniqueGroupCheck(currentScope, true)" name="isUnique" ng-model="currentScope.isUnique" > Value(s) must be Unique across all Objects
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="listbox-wrap form-group" ng-hide="!currentScope.isUnique">
+                    <div class="col-xs-offset-2 col-xs-10">
+                        <div class="list-valu-box">
+
+                            <div class="radio" ng-repeat="option in isSingularlyUniques">
+                                <label>
+                                    <input type="radio" name="isSingularlyUnique" ng-model="currentScope.isSingularlyUnique"
+                                           ng-checked="currentScope.isSingularlyUnique==option.key" value="{{option.key}}"
+                                           ng-change="uniqueGroupCheck(currentScope, false)"
+                                           ng-disabled="!currentScope.isUnique">
+                                    {{option.value}}
+                                </label>
+                            </div>
+                            <div class="form-inline margin-left20" ng-hide="currentScope.isSingularlyUnique == '1' || !currentScope.isUnique">
+                                <label for="unique_group" class="control-label">Unique Group<span class="form-mandatory">*</span></label>
+                                <select class="form-control width100 margin-left10" ng-model="currentScope.uniqueGroup" name="uniqueGroup"
+                                        ng-options="option.unqiueGroupId as option.uniqueGroupName for option in uniqueGroup"
+                                        ng-change="currentScope.isSingularlyUnique = '0'"
+                                        ng-disabled="currentScope.isSingularlyUnique == '1' || !currentScope.isUnique">
+                                    <option value="" selected hidden></option>
+                                </select>                                
+                                <button class="btn btn-default" ng-click="clearUniqueGroupValues()" data-toggle="modal" data-target="#defineUniqueGroupAttribute" >
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-5" ng-hide="currentScope.isSequence">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="isAllowMultiValue" ng-change="multiplesValuesCheckedChanged(currentScope)" ng-model="currentScope.isAllowMultiValue" />
+                    Allow Multiple Values
+                </label>
+            </div>
+            <div class="list-valu-box marginTop10" ng-hide="!currentScope.isAllowMultiValue">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="isValueUnique" ng-disabled="!currentScope.isAllowMultiValue" ng-model="currentScope.isValueUnique" class="">
+                        Values Must be unique
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="canValueRearranged" ng-disabled="!currentScope.isAllowMultiValue" ng-model="currentScope.canValueRearranged" class="">
+                        Values can be rearranged
+                    </label>
+                </div>
+
+                <div class="attribute">
+                    <div class="form-horizontal marginTop10">
+                        <div class="form-group">
+                            <label class="control-label col-xs-7 text-left no-padding">Minimum # of values</label>
+                            <div class="col-xs-5">
+                                <input type="text" name="minNumOfValues" ng-disabled="!currentScope.isAllowMultiValue"
+                                       ng-model="currentScope.minNumOfValues" maxlength="3" only-number0999 class="form-control" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-horizontal marginTop10">
+                        <div class="form-group">
+                            <label class="control-label col-xs-7 text-left no-padding">Maximum # of values</label>
+                            <div class="col-xs-5">
+                                <input type="text" name="maxNumOfValues" ng-disabled="!currentScope.isAllowMultiValue"
+                                       ng-model="currentScope.maxNumOfValues" maxlength="3" only-number0999 class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 marginTop20">
+    <div class="form-group">
+        <label for="exampleTextarea">Attribute Description/ Help Text</label>
+        <textarea class="form-control" id="exampleTextarea" rows="3" textarea name="description" ng-model="currentScope.description" ></textarea>
+    </div>
+
+</div>
+

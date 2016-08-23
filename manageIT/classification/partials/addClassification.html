@@ -1,0 +1,103 @@
+﻿<div id="Classification" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width900">
+        <div class="modal-content add-sub-object-main">
+            <form name="classificationForm" role="form" novalidate>
+               
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(classificationForm.$dirty,'classification');discardClassification();" data-toggle="modal" data-target="#ErrorScreen">&times;</button>
+                    <h4><b>{{editOrAdd}} Classification</b></h4>
+                    <error-control attribute-scope="classification"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute-model-title">Classification Properties</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-5 col-xs-offset-1">
+                                <div class="form-horizontal">
+                                    <div class="form-group" ng-hide="true">
+                                        <label for="pname" class="col-xs-5 control-label">Classification Id</label>
+                                        <div class="col-xs-7">
+                                            <input class="form-control" type="text" id="classificationId" ng-model="classification.classificationId" ng-init="classification.classificationId = ''">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group" ng-hide="true">
+                                        <label for="pname" class="col-xs-6 control-label">Classification version</label>
+                                        <div class="col-xs-6">
+                                            <input class="form-control" type="text" name="version" ng-model="classification.version">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="pname" class="col-xs-3 control-label">Name</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" class="form-control" onblur="this.value = this.value.trim();" name="classificationName" maxlength="64" ng-model="classification.classificationName" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="pname" class="col-xs-5 control-label">Classification Type</label>
+                                        <div class="col-xs-7">
+                                            <select class="form-control" ng-model="classification.classificationType" name="classificationType" required>
+                                                <option ng-repeat="option in classificationType" value="{{option.key}}"
+                                                        ng-selected="classification.classificationType==option.key">
+                                                    {{option.value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row marginTop15">
+                            <div class="col-xs-12">
+                                <div class="checkbox">
+                                    <span class="classification-expl marginRight4">!</span><label>
+                                        <input type="checkbox" value="" ng-checked="classification.classificationNegationOperator" ng-model="classification.classificationNegationOperator">
+                                        <b>Negate whole expression.</b>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box-radius classification-bdr-pading clearfix classification-bdr-height">
+                                    <div ng-include="'/manageit/conditionalExpressionBuilder/partials/conditionalExpressionBuilder.html'"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="font-bold color-red" ng-show="errorsClassification.length > 0" ng-repeat="error in errorsClassification">{{error}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(classificationForm.$dirty,'classification');discardClassification();" data-toggle="modal" data-target="#ErrorScreen"class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-disabled="classificationForm.$invalid || conditionsDisplay.length == 0" ng-click="saveClassification(classification)" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-include="'/manageIT/attribute/partials/ErrorScreen.html'" ng-show="isErrorScreen"></div>

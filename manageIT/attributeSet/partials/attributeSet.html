@@ -1,0 +1,69 @@
+﻿<div class="col-xs-12 padding20" ng-controller="attributeSetController">
+
+    <error-control attribute-scope="attributeSet" ng-show="!attributeSet.isHide" ></error-control>
+
+    <div class="object-head-wrap clearfix">
+        <div class="object-head">Attribute Sets</div>
+        <div class="sub-object-btn">
+            <a href="#" data-toggle="modal" data-target="#AttributeSet" ng-click="clearAttributeSetFields()">Add AttributeSet</a>
+        </div>
+    </div>
+
+    <div ng-include="'/manageIT/attributeSet/partials/addAttributeSet.html'" ng-show="isAttributeSet"></div>
+    <div ng-include="'/manageIT/attribute/partials/errorscreen.html'"></div>
+
+    <div class="objects-table">
+        <div class="table-responsive" ng-init="getAttributeSets()">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th ng-hide="true">AttributeSetId</th>
+                        <th>Name</th>
+                        <th class="center-align">Display Heading</th>
+                        <th>View Classifications</th>
+                        <th>Edit Classifications</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="attSet in attributeSets">
+                    <td ng-hide="true">{{attSet.classificationId}}&nbsp;{{attSet.attributeSetId}}</td>
+                    <td class="grey">{{attSet.attributeSetName}}</td>
+                    <td class="center-align"><input type="checkbox" ng-checked="{{attSet.displayHeading}}"  name="displayHeading" ng-disabled="true" /></td>
+                    <td>
+                        <div ng-show="attSet.viewClassification.length > 0">
+                            <span ng-show="attSet.attributeSetViewNegationOperator">!(</span><div ng-repeat="item in attSet.viewClassification">
+                                {{item.conditionType}}&nbsp;<span ng-show="item.expressionNegationOperator">!</span>(<span ng-show="item.negationOperator">!</span>{{item.classificationName}}<span ng-show="item.subClassifications.length == 0">)</span>&nbsp;
+                                <div ng-repeat="subitem in item.subClassifications">
+                                    {{subitem.conditionType}}&nbsp;<span ng-show="subitem.negationOperator">!</span>{{subitem.classificationName}}<span ng-show="item.subClassifications.length == ($index+1)">)</span>&nbsp;
+                                </div>
+                            </div><span ng-show="attSet.attributeSetViewNegationOperator">)</span>
+                        </div>
+                        <div ng-show="attSet.viewClassification.length == 0"><label><b>Any</b></label></div>
+                    </td>
+                    <td>
+                        <div ng-show="attSet.editClassification.length > 0">
+                            <span ng-show="attSet.attributeSetEditNegationOperator">!(</span><div ng-repeat="item in attSet.editClassification">
+                                <span>{{item.conditionId}}</span>&nbsp;{{item.conditionType}}&nbsp;<span ng-show="item.expressionNegationOperator">!</span>(<span ng-show="item.negationOperator">!</span>{{item.classificationName}}<span ng-show="item.subClassifications.length == 0">)</span>&nbsp;
+                                <div ng-repeat="subitem in item.subClassifications">
+                                    <span>{{subitem.conditionId}}</span>&nbsp;{{subitem.conditionType}}&nbsp;{{subitem.classificationName}}<span ng-show="item.subClassifications.length == ($index+1)">)</span>&nbsp;
+                                </div>
+                            </div>
+                        </div><span ng-show="attSet.attributeSetEditNegationOperator">)</span>
+                        <div ng-show="attSet.editClassification.length == 0"><label><b>Any</b></label></div>
+                    </td>
+                    <td class="align-right table-links">
+                        <a href="#" rel="tooltip" title="Edit" data-toggle="modal" data-target="#AttributeSet" ng-click="editAttributeSet(attSet)"><i class="fa fa-pencil"></i></a>&nbsp;
+                        <a href="#" rel="tooltip" title="Delete" ng-click="confirmClick('Are you sure you want to delete?','Confirm','Delete','Cancel') && deleteAttributeSet(attSet)"  confirm-click=""><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="font-bold color-red" ng-show="errors.length > 0" ng-repeat="error in errors">{{error}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

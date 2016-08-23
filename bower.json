@@ -1,0 +1,31 @@
+{
+  "name": "aps",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.1.4",
+    "jquery-tree": "*",
+    "tree-multiselect": "1.17.2",
+    "jquery-ui": "^1.11.4",
+    "jquery-ui-sortable-min": "latest",
+    "jquery-widget": "latest",
+    "jquery-validation": "^1.14.0",
+    "jquery-validation-unobtrusive": "^3.2.4",
+    "underscore": "^1.8.3",
+    "Font-Awesome": "^4.4.0",
+    "bootswatch": "3.3.5+2",
+    "angular": "1.4.9",
+    "angular-route": "1.4.9",
+    "angular-resource": "1.4.9",
+    "angular-bootstrap": "*",
+    "angular-material": "1.0.9",
+    "angular-ui": "0.4.0",
+    "angular-ui-router": "0.2.15",
+    "angular-mocks": "1.5.8",
+    "angular-aria": "1.5.8"
+
+  },
+  "resolutions": {
+    "angular": ">= 1.0.8"
+  }
+}

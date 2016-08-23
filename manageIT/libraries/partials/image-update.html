@@ -1,0 +1,58 @@
+﻿<div class="col-xs-12" ng-controller="librariesController">
+
+    <form name="imageLibraryUpdateForm" role="form" novalidate>
+        <div>
+            <h6 class="font-bold">Basic Properties</h6>
+            <div class="col-xs-12 marginbottom10">
+                <div class="row">
+                    <error-control attribute-scope="errorContentTypedetails"></error-control>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div ng-show="true">
+                    <div class="form-group" ng-hide="true">
+                        <div class="row">
+                            <label for="" class="col-xs-3 control-label">Image Library Id<i class="mandatory">*</i></label>
+                            <div class="col-xs-5">
+                                <input type="text" name="domainId" maxlength="32" ng-model="imageLibrary.imageLibraryId" ng-init="loadImageLibraries()" class="form-control" />
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="" class="col-xs-3 control-label">Singular Name<i class="mandatory">*</i></label>
+                            <div class="col-xs-5"><input type="hidden" name="version" ng-model="imageLibrary.version" class="form-control" />
+                                <input type="text" name="singularName" maxlength="32" ng-model="imageLibrary.singularName" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="" class="col-xs-3 control-label">Plural Name<i class="mandatory">*</i></label>
+                            <div class="col-xs-5">
+                                <input type="text" name="pluralName" maxlength="32" ng-model="imageLibrary.pluralName" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="" class="col-xs-3 control-label">Identifier<i class="mandatory">*</i></label>
+                            <div class="col-xs-5">
+                                <input type="text" ng-disabled="true" name="identifier" ng-model="imageLibrary.identifier" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-12 marginTop20 update-btnbg">
+            <button class="btn btn-update pull-right" ng-disabled="imageLibraryUpdateForm.$invalid" ng-click="updateImageLibrary(imageLibrary)"> <i class="fa fa-pencil"></i> Update</button>
+        </div>
+    </form>
+</div>
+
+
+
