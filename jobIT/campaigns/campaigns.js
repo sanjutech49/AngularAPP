@@ -1,0 +1,1 @@
+﻿var campaignModule = angular.module('jobit.campaign', []);

@@ -1,0 +1,35 @@
+﻿<!--3.1.3 Add Production Hierarchy MODAL START--------------------------------------------------------------------->
+<form name="frm2" role="form" novalidate>
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" ng-click="jbph.cancel()">&times;</button>
+        <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>Add Production Hierarchy </b></h4>
+    </div>
+    <div class="modal-body">
+        <div ng-form="frmAddProductionHierchy" class="row marginTop10">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="" class="col-xs-4 control-label">Hierarchy Name<span class="mandatory">*</span></label>
+                    <div class="col-xs-4">
+                        <input type="text" ng-model="hierarchyNme" name="hierarchyNme" required class="form-control" id="" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-xs-4 control-label">Template<span class="mandatory">*</span></label>
+                    <div class="col-xs-4">
+                        <input type="text" ng-model="Template" name="Template" required class="form-control" id="" placeholder="">
+                    </div>
+                    <div class="col-xs-4 row links-blue marginTop5"><a class="font-bold" href="#">Select Template</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="btn-left">
+            <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+        <div class="btn-right">
+            <button class="btn btn-primary btn-sm" type="button" ng-disabled="frmAddProductionHierchy.$invalid"><i class="fa fa-pencil"></i> Add</button>
+        </div>
+    </div>
+</form>
+<!--3.1.3	Add Production Hierarchy MODAL END----------------------------------------------------------------------------------------->

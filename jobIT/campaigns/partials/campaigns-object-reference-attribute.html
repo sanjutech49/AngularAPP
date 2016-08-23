@@ -1,0 +1,669 @@
+﻿<div id="ObjectReferenceAttribute" class="attribute-container" role="dialog" data-backdrop="static" ng-controller="CampaignAttributeController as cac">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="objectReferenceAttributeForm" class="form-horizontal" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="closeModal();">&times;</button>
+                    <h4><b>{{ action }} Add Content Type Reference Attribute</b></h4>
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="basci-properties-wrap">
+                            <div class="attribute-model-title">Basic Properties</div>
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-xs-2 control-label">Name<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" class="form-control input-medium" name="name"
+                                                       ng-model="cac.model.name" ng-change="cac.deriveIdentifier()" allow-pattern="(\d|[a-z ])" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-xs-2 control-label">Identifier<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" name="identifier" ng-model="cac.model.identifier"
+                                                       ng-readonly="readonly" class="form-control" 
+                                                       allow-pattern="(\d|[a-z ])" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="Mandatory" ng-model="cac.model.Mandatory" ng-change="cac.model.ReadOnly = false" ng-checked="true"> Mandatory (Users must specify a value for this field)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" ng-disabled="cac.model.Mandatory" name="ReadOnly" ng-model="cac.model.ReadOnly"> Read Only (Users cannot modify this attribute)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <fieldset disabled>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" ng-disabled="cac.model.Mandatory" name="ReadOnly" ng-model="cac.model.ReadOnly"> Allow version specific values
+                                                        </label>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+
+                                            <div class="col-xs-offset-2 col-xs-10" ng-hide="cac.model.isCopyField">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="isUnique" ng-model="cac.model.isUnique"> Value(s) must be Unique across all Objects
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <fieldset disabled>
+                                            <div class="listbox-wrap form-group" ng-hide="!cac.model.isUnique">
+                                                <div class="col-xs-offset-2 col-xs-10">
+                                                    <div class="list-valu-box">
+
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="isSingularlyUnique" ng-model="cac.model.isSingularlyUnique"
+                                                                       ng-checked="cac.model.isSingularlyUnique==option.key" value="0">
+                                                                Sinularly Unique
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="isSingularlyUnique" ng-model="cac.model.isSingularlyUnique"
+                                                                       ng-checked="cac.model.isSingularlyUnique==option.key" value="1">
+                                                                Composite Unique
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-inline margin-left20">
+                                                            <label for="unique_group" class="control-label">Unique Group<span class="form-mandatory">*</span></label>
+                                                            <select class="form-control width100 margin-left10" ng-model="cac.model.uniqueGroup" name="uniqueGroup"
+                                                                    ng-change="cac.model.isSingularlyUnique = '0'">
+                                                                <option value="" selected hidden> Name+Brand</option>
+                                                            </select>
+                                                            <button class="btn btn-default" data-toggle="modal">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="col-xs-5" ng-hide="cac.model.isSequence">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="isAllowMultiValue" ng-model="cac.model.isAllowMultiValue" />
+                                            Allow Multiple Values
+                                        </label>
+                                    </div>
+                                    <div class="list-valu-box marginTop10" ng-hide="!cac.model.isAllowMultiValue">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="isValueUnique" ng-disabled="!cac.model.isAllowMultiValue" ng-model="cac.model.isValueUnique" class="">
+                                                Values Must be unique
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="canValueRearranged" ng-disabled="!cac.model.isAllowMultiValue" ng-model="cac.model.canValueRearranged" class="">
+                                                Values can be rearranged
+                                            </label>
+                                        </div>
+
+                                        <div class="attribute">
+                                            <div class="form-horizontal marginTop10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-7 text-left no-padding">Minimum # of values</label>
+                                                    <div class="col-xs-5">
+                                                        <input type="text" name="minNumOfValues" ng-disabled="!cac.model.isAllowMultiValue"
+                                                               ng-model="cac.model.minNumOfValues" maxlength="3" only-number0999 class="form-control" />
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="form-horizontal marginTop10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-7 text-left no-padding">Maximum # of values</label>
+                                                    <div class="col-xs-5">
+                                                        <input type="text" name="maxNumOfValues" ng-disabled="!cac.model.isAllowMultiValue"
+                                                               ng-model="cac.model.maxNumOfValues" maxlength="3" only-number0999 class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 marginTop20">
+                            <div class="form-group">
+                                <label for="exampleTextarea">Attribute Description/ Help Text</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="3" textarea name="description" ng-model="cac.model.description"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 marginTop20">
+                                <div class="attribute-model-title">Content Type Reference Behaviour</div>
+                            </div>
+                            <div class="col-sm-12">
+                                The reference associated with this attribute can be modified when:
+                            </div>
+                            <div class="col-sm-12 top-margin-10">
+                                <div class="col-sm-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-ng-model="cac.model.isEditProduct" />
+                                            Editing The Product
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-ng-model="cac.model.isViewProduct" />
+                                            Viewing the Product
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 marginTop20">
+                                <div class="attribute-model-title">Content Type Reference Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div class="form-group">
+                                    <label class="control-label marginbottom5" for="">Reference Selection Method<span class="mandatory">*</span></label>
+                                    <select class="form-control" data-ng-model="cac.model.referenceSelectionMethod"
+                                            data-ng-change="cac.model.displayAs = ''"
+                                            data-ng-options="option.key as option.value for option in referenceSelectionOptions"></select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-xs-7 img-ref-btn">
+                                <label class="control-label marginbottom5 align-left" for="">Specify the Content Types which the reference will accept<span class="mandatory">*</span></label>
+                                <button class="btn btn-default" type="button" data-ng-click="cac.showAcceptedReferenceTypes();" data-toggle="modal" data-target="#referenceTypesConfigurationAttribute">Accepted Content Types</button>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 imageroles">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <b class="paddingTop10 display-block">Display As</b>
+                                    </div>
+                                </div>
+                                <div class="settings-bottom-devider clearfix"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="display-list1" ng-show="(cac.model.referenceSelectionMethod != '3')">
+                            <div class="row marginTop15">
+                                <div class="col-xs-3">
+                                    <div class="displaybox">
+                                        <div class="displaybox-header">
+                                            <div class="form-horizontal">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="list_radio1" value="1" id="list_radio1" data-ng-model="cac.model.displayAs" required> Icons
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="displaybox-img-wrap">
+                                            <div class="content-obj-img-icons"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div class="displaybox">
+                                        <div class="displaybox-header">
+                                            <div class="form-horizontal">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="list_radio1" value="2" id="list_radio2" data-ng-model="cac.model.displayAs" required> List
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="displaybox-img-wrap">
+                                            <div class="content-obj-img-List"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div class="displaybox">
+                                        <div class="displaybox-header">
+                                            <div class="form-horizontal">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="list_radio1" value="3" id="list_radio3" data-ng-model="cac.model.displayAs" required> Details
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="displaybox-img-wrap">
+                                            <div class="content-obj-img-details"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3" ng-show="(cac.model.referenceSelectionMethod == '2')">
+                                    <div class="displaybox">
+                                        <div class="displaybox-header">
+                                            <div class="form-horizontal">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="list_radio1" value="4" id="list_radio4" data-ng-model="cac.model.displayAs" required> Dropdown
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="displaybox-img-wrap">
+                                            <div class="content-obj-img-dropdown"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row marginTop10">
+                                <div class="col-xs-3 col-xs-offset-6 img-ref-btn align-center">
+                                    <button class="btn btn-default" type="button" ng-disabled="cac.model.displayAs!='3'" data-ng-click="cac.showObjectDetailsGrid();" data-toggle="modal" data-target="#objectColumnLayoutModalDialogAttribute">Define Columns</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="display-list2" ng-show="(cac.model.referenceSelectionMethod == '3')">
+                            <div class="row marginTop15">
+                                <div class="col-xs-3">
+                                    <div class="displaybox">
+                                        <div class="displaybox-header">
+                                            <div class="form-horizontal">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="list_radio2" value="1" id="list_radio5" data-ng-model="cac.model.displayAs" required> Single Value Lookup
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="displaybox-img-wrap">
+                                            <div class="content-obj-img-single-lookup"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div class="displaybox">
+                                        <div class="displaybox-header">
+                                            <div class="form-horizontal">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="list_radio2" value="2" id="list_radio6" data-ng-model="cac.model.displayAs" required> Multiple Value Lookup
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="displaybox-img-wrap">
+                                            <div class="content-obj-img-multi-lookup"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row marginTop10">
+                                <div class="col-xs-3 img-ref-btn align-center">
+                                    <button class="btn btn-default" type="button" data-ng-click="showObjectLookupGrid();" data-toggle="modal" ng-disabled="cac.model.displayAs == ''" data-target="#objectColumnLayoutModalDialogAttribute">Define Columns</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(objectReferenceAttributeForm.$dirty, 'ObjectReference',true,'objectReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="cac.addObjectReference(cac.model)" ng-disabled="objectReferenceAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="objectColumnLayoutModalDialogAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="objectColumnLayoutModalDialogAttributeForm" class="form-horizontal" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="discardObjectColumnLayout(objectColumnLayoutModalDialogAttributeForm.$dirty)">&times;</button>
+                    <h4><b>Define Columns</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="row">
+                            <div class="col-xs-10">
+                                Press Add Column to add a new column, once added specify the attribute which shall be displayed in the column for each content type
+                            </div>
+                            <div class="col-xs-2 align-right">
+                                <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#objectGridColumnModalDialogAttribute" data-ng-click="addNewObjectGridColumn();">Add Column</button>
+                            </div>
+                        </div>
+                        <div id="columnGrid" class="marginTop15">
+                            <div class="objref-colum-grid">
+                                <table class="table table-curved-boder table-condensed">
+                                    <tr>
+                                        <th data-ng-repeat="column in customObjectGridColumns track by $index" ng-show="customObjectGridColumns.length!=0">
+
+                                            <div class="objref-table-row">
+                                                <div class="objref-table-cel">
+                                                    <div class="objref-colum-grid-overflow middle-align">{{column.title}}</div>
+                                                </div>
+                                                <div class="objref-table-cel">
+                                                    <div class="text-right define-col-tablelinks" data-ng-show="column.editable">
+                                                        <a href="#"><i class="fa fa-pencil grid-actions" data-toggle="modal" data-target="#objectGridColumnModalDialogAttribute" data-ng-click="editObjectGridColumnName(column);"></i></a>
+                                                        <a href="#"><i class="fa fa-times grid-actions" data-ng-click="deleteObjectGridColumn($index);"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </th>
+                                        <th data-ng-show="customObjectGridColumns.length==1">
+                                            <div class="inline-display overflow-text middle-align" style="color: grey;">No Columns defined</div>
+                                        </th>
+                                    </tr>
+                                    <tr data-ng-repeat="row in customObjectGridRows">
+                                        <td data-ng-class="(row.isHeader) ? '' : 'define-table-padleft11'">{{row.contentType}}</td>
+                                        <td data-ng-repeat="cell in row.cells track by $index" ng-show="row.cells.length!=0">
+                                            <select data-ng-if="(row.attributes.length > 0)" class="form-control">
+                                                <option data-ng-repeat="attribute in row.attributes"
+                                                        data-ng-selected="(attribute.value == cell)" value="{{attribute.value}}">{{attribute.label}}</option>
+                                            </select>
+                                            <span data-ng-if="(row.attributes.length == 0)">{{cell}}</span>
+                                        </td>
+                                        <td ng-show="row.cells.length==0">
+                                            <span style="color: grey;">Click Add Column to Add a Column</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button data-ng-click="discardObjectColumnLayout(objectColumnLayoutModalDialogAttributeForm.$dirty)" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button data-ng-click="saveObjectColumnLayout()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="objectGridColumnModalDialogAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="objectGridColumnModalDialogAttributeForm" class="form-horizontal" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(objectGridColumnModalDialogAttributeForm.$dirty, 'objectGridColumnModalDialog',true,'objectReferenceAttributeForm');">&times;</button>
+                    <h4><b>{{objectGridColumnMode}} Column</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="bottom-gray-border top-margin-5 font-bold">
+                        Column Name
+                    </div>
+                    <div class="marginTop15 marginbottom10">
+                        <input id="objectGridColumnName" name="objectGridColumnName" class="form-control" type="text" value="" />
+                    </div>
+                    <div id="objectGridColumnError" class="error-message marginbottom15"></div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button ng-click="openErrorScreen(objectGridColumnModalDialogAttributeForm.$dirty, 'objectGridColumnModalDialog',true,'objectReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button data-ng-click="saveObjectColumnName()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="referenceTypesConfigurationAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="referenceTypesConfigurationAttributeForm" class="form-horizontal" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen((referenceTypesConfigurationAttributeForm.$dirty||isFormchange), 'referenceTypesConfiguration',true,'objectReferenceAttributeForm');">&times;</button>
+                    <h4><b>Accepted Content Types</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="attribute-model-title">Configure Content Object Reference</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#" data-target="#objectContentTypeSection">Accepted Types</a></li>
+                                    <li><a data-toggle="tab" href="#" data-target="#objectSearchSection" ng-click="showSearchOptions()">Search Options</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="objectContentTypeSection">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <label>
+                                            <input type="radio" name="applyImageType" value="1" ng-checked="(cac.model.referenceApplyType == '1')" data-ng-click="changeReferenceApplyType('1');" />
+                                            <b>Any Content Type</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <label>
+                                            <input type="radio" name="applyImageType" value="2" ng-checked="(cac.model.referenceApplyType == '2')" data-ng-click="changeReferenceApplyType('2');" />
+                                            <b>Specific Content Types</b>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="specific-img-main-box clearfix marginTop15" data-ng-show="(cac.model.referenceApplyType == '2')">
+                                    <div class="clearfix">
+                                        <tree-multi-select control-id="objectContentTypes" options-list="allObjectContentTypes"
+                                                           selected-values="selectedObjectContentTypes" create-content-node="createObjectContentTypeInnerNode">
+                                        </tree-multi-select>
+                                    </div>
+                                    <div class="row top-margin-10">
+                                        <div class="col-xs-6">
+                                            <i class="fa fa-filter fa-lg gray-color"></i>
+                                            Define Classification Filters
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <i class="fa fa-th-large fa-lg gray-color"></i>
+                                            Select Layout used to Display References in InDesign
+                                        </div>
+                                    </div>
+
+                                    <div class="row top-margin-10">
+                                        <div class="col-xs-6">
+                                            <i class="fa fa-list-alt fa-lg gray-color"></i>
+                                            Select Interfaces used to Display References
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <i class="fa fa-search fa-lg gray-color"></i>
+                                            Select Searches used to Add References
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div id="objectContentType_parent">
+
+
+                                        <div id="objectClassificationsDropdown" class="dropdown">
+                                            <div id="toggleObjectClassifications" href="#" data-toggle="dropdown"></div>
+                                            <div class="dropdown-menu dropdown-menu-right padding10">
+                                                <div class="attribute-map-chckradio reference-dropdown-label" data-ng-repeat="option in allObjectClassifications">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="objectFilter" value="{{option.key}}"
+                                                                   data-ng-checked="isObjectClassificationSelected(option.key)"
+                                                                   data-ng-disabled="isObjectClassificationDisabled(option.key)"
+                                                                   data-ng-click="changeObjectClassifications(option.key)">
+                                                            {{option.value}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div id="objectLayoutsDropdown" class="dropdown image-type-nav">
+                                            <div id="toggleObjectLayouts" href="#" data-toggle="dropdown"></div>
+                                            <div class="dropdown-menu dropdown-menu-right padding10 width220">
+                                                <div class="row marginbottom5">
+                                                    <div class="col-xs-8"><b>Layouts</b></div>
+                                                    <div class="col-xs-4"><b>Default</b></div>
+                                                </div>
+                                                <div class="attribute-map-chckradio row reference-dropdown-label" data-ng-repeat="option in allObjectLayouts">
+                                                    <div class="col-xs-8 checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="objectLayout" value="{{option.key}}"
+                                                                   data-ng-checked="isObjectLayoutSelected(option.key)"
+                                                                   data-ng-disabled="isObjectLayoutDisabled(option.key)"
+                                                                   data-ng-click="changeObjectLayouts(option.key)">
+                                                            {{option.value}}
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xs-4 object-ref-radio attribute-map-chckradio" data-ng-show="isObjectLayoutSelected(option.key)">
+                                                        <input type="radio" name="objectDefaultLayout" data-ng-checked="(defaultObjectLayoutId == option.key)"
+                                                               data-ng-click="changeDefaultObjectLayout(option.key)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div id="objectInterfacesDropdown" class="dropdown image-type-nav">
+                                            <div id="toggleObjectInterfaces" href="#" data-toggle="dropdown"></div>
+                                            <div class="dropdown-menu dropdown-menu-right padding10 width220">
+                                                <div class="row marginbottom5">
+                                                    <div class="col-xs-8"><b>Interfaces</b></div>
+                                                    <div class="col-xs-4"><b>Default</b></div>
+                                                </div>
+
+
+                                                <div class="reference-dropdown-label attribute-map-chckradio row" data-ng-repeat="option in allObjectInterfaces">
+                                                    <div class="col-xs-8 checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="objectInterface" value="{{option.key}}"
+                                                                   data-ng-checked="isObjectInterfaceSelected(option.key)"
+                                                                   data-ng-disabled="isObjectInterfaceDisabled(option.key)"
+                                                                   data-ng-click="changeObjectInterfaces(option.key)">
+                                                            {{option.value}}
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xs-4 object-ref-radio attribute-map-chckradio" data-ng-show="isObjectInterfaceSelected(option.key)">
+                                                        <input class="marginTop5" type="radio" name="objectDefaultInterface" data-ng-checked="(defaultObjectInterfaceId == option.key)"
+                                                               data-ng-click="changeDefaultObjectInterface(option.key)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="tab-pane" id="objectSearchSection">
+                                <div class="bottom-margin-10">
+                                    Select the search interfaces which can be used to add references
+                                </div>
+                                <div class="specific-img-main-box clearfix marginTop15">
+                                    <div class="clearfix">
+                                        <tree-multi-select control-id="objectSearchOptions" options-list="allObjectSearchOptions"
+                                                           selected-values="selectedObjectSearchOptions" create-content-node="createObjectSearchOptionInnerNode">
+                                        </tree-multi-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen((referenceTypesConfigurationAttributeForm.$dirty||isFormchange), 'referenceTypesConfiguration',true,'objectReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button class="btn btn-primary" type="button" aria-hidden="true" data-ng-click="saveAcceptedContentTypes();"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="editObjectSearchOptionSection" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="objectSearchOptionSectionForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-ng-click="discardObjectSearchOption(objectSearchOptionSectionForm.$dirty,'editObjectSearchOptionSection')" aria-hidden="true">&times;</button>
+                    <h4><b>Select Search Interface</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="bottom-gray-border font-bold">
+                        Selected Search Interface
+                    </div>
+                    <div class="specific-img-main-box top-margin-5">
+                        <div id="editObjectSearchOption"></div>
+                    </div>
+                    <div class="bottom-gray-border top-margin-5 font-bold">
+                        Search Name
+                    </div>
+                    <div class="top-margin-5 marginbottom10">
+                        <input id="objectSearchOptionName" class="form-control" type="text" value="" />
+                    </div>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button data-ng-click="discardObjectSearchOption(objectSearchOptionSectionForm.$dirty,'editObjectSearchOptionSection')" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿<!--3.4.1.1	Add Flat Plan Content Sub-Type MODAL START--------------------------------------------------------------------->
+<div id="addFlatplanContentSubtype" class="modal fade attribute-container" tabindex="-1" role="dialog" aria-labelledby="addlistinterface">
+    <div class="modal-dialog model-width700">
+        <div class="modal-content add-sub-object-main">
+            <form name="frma1" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                    <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>Add Flat Plan Content Sub-Type</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div ng-form name="frmContentSubType" class="row marginTop10">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Domain<span class="mandatory">*</span></label>
+                                <div class="col-xs-3">
+                                    <input type="text" required ng-model="domain" name="domain" class="form-control" id="" placeholder="">
+                                </div>
+                                <div class="col-xs-4 imageroles row">
+                                    <button type="button" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Singular Name<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" required ng-model="singular" name="singular" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Plural Name<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" required ng-model="plural" name="plural" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Identifier<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="identifier" name="identifier"  id="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-left">
+                        <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-times"></i> Cancel</button>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-sm" ng-disabled="frmContentSubType.$invalid" type="button"><i class="fa fa-pencil"></i> Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--3.4.1.1	Add Flat Plan Content Sub-Type MODAL END----------------------------------------------------------------------------------------->

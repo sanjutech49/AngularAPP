@@ -1,0 +1,1 @@
+﻿var pagesModule = angular.module('jobit.pages', []);

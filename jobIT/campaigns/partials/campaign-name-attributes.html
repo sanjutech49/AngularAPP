@@ -1,0 +1,130 @@
+﻿<div id="campaignNameAttribute" class="attribute-container" role="dialog" data-backdrop="static" ng-controller="CampaignAttributeController as cac">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content add-sub-object-main">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="closeModal();">&times;</button>
+                <h4><b>Add Attribute</b></h4>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="attribute-model-title">
+                    Select Attribute Type
+                </div>
+
+                <div class="attribute-types-list">
+                    <ul>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#IntegerAttribute" ng-click="showIntegerCampaignAttribute()"><img src="/images/Integer.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#IntegerAttribute" ng-click="showIntegerCampaignAttribute()">Integer</div>
+                            </a>
+                        </li>
+
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DecimalAttribute" ng-click="showPriceDecimalCampaignAttribute()"><img src="/images/Price.jpg" alt="Price"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DecimalAttribute" ng-click="showPriceDecimalCampaignAttribute()">Price /<br />  Decimal</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#SequenceAttribute" ng-click="showSequenceCampaignAttribute()" ><img src="/images/sequence.JPG" alt="Sequence"></div>
+                                <div class="attribute-type-img-title"  data-toggle="modal" data-target="#SequenceAttribute" ng-click="showSequenceCampaignAttribute()">Sequence <br /> (Autonumber)</div>
+                            </a>
+                        </li>
+
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DateAttribute" ng-click="showDateCampaignAttribute()" ><img src="/images/date.JPG" alt="Date"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DateAttribute" ng-click="showDateCampaignAttribute()">Date</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#TimeAttribute" ng-click="showTimeCampaignAttribute()" ><img src="/images/time.JPG" alt="Time"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#TimeAttribute" ng-click="showTimeCampaignAttribute()">Time</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DateTimeAttribute" ng-click="showDateAndTimeCampaignAttribute()" ><img src="/images/date&time.JPG" alt="Date & Time"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DateTimeAttribute" ng-click="showDateAndTimeCampaignAttribute()">Date & Time</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#campaignAttribute" ng-click="showTextCampaignAttribute()"><img src="/images/text.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#campaignAttribute" ng-click="showTextCampaignAttribute()">Text </div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#YesNoAttribute" ng-click="showYesNoCampaignAttribute()" ><img src="/images/yes-no.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#YesNoAttribute" ng-click="showYesNoCampaignAttribute()">Yes/No</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#ListAttribute" ng-click="showListCampaignAttribute()" ><img src="/images/list.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#ListAttribute" ng-click="showListCampaignAttribute()">List<br />(Selection)</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal" ng-hide="isSubObject">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#SubObjectAttribute" ng-click="showSubObjectCampaignAttribute()" ><img src="/images/sub-object.JPG" alt="Integer"></div>
+
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#SubObjectAttribute" ng-click="showSubObjectCampaignAttribute()">Sub-Object</div>
+
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#CopyAttribute" ng-click="showCopyCampaignAttribute()"><img src="/images/copy.JPG" alt="Copy"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#CopyAttribute" ng-click="showCopyCampaignAttribute()">Copy</div>
+                            </a>
+                        </li>
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#ObjectReferenceAttribute" ng-click="showObjectReferenceCampaignAttribute()"><img src="/images/object-reference.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#ObjectReferenceAttribute" ng-click="showObjectReferenceCampaignAttribute()">Object<br />Reference</div>
+                            </a>
+                        </li>
+
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#ImageReferenceAttribute" ng-click="showImageReferenceCampaignAttribute()"><img src="/images/image-reference.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#ImageReferenceAttribute" ng-click="showImageReferenceCampaignAttribute()">Image<br />Reference</div>
+                            </a>
+                        </li>
+                        <li data-dismiss="modal">
+                            <a href="#">
+                                <div class="attribute-type-img" data-toggle="modal" data-target="#DocumentReferenceAttribute" ng-click="showDocumentReferenceCampaignAttribute()"><img src="/images/Doc-reference.jpg" alt="Integer"></div>
+                                <div class="attribute-type-img-title" data-toggle="modal" data-target="#DocumentReferenceAttribute" ng-click="showDocumentReferenceCampaignAttribute()">Document<br />Reference</div>
+                            </a>
+
+                        </li>
+
+
+                    </ul>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

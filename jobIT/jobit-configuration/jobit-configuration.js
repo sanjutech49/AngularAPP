@@ -1,0 +1,1 @@
+var jobitConfigurationModule = angular.module('jobit.configuration', []);

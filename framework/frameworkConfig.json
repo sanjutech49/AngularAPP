@@ -1,0 +1,143 @@
+﻿{
+  "companyLogo": "/images/logo.png",
+  "companyName": "Advertising Production System",
+  "userEmail": "user@domain.com.au",
+  "configurationMenu": [
+    {
+      "Name": "ManageiT",
+      "order": 1,
+      "Id": "manageit",
+      "permissions": {
+        "isvisible": "true",
+        "role": "user"
+      }
+    },
+    {
+      "Name": "JobiT",
+      "order": 2,
+      "Id": "jobit",
+      "url": "URL",
+      "permissions": {
+        "isvisible": "true",
+        "role": "user"
+      }
+    },
+    {
+      "Name": "PlaniT",
+      "order": 3,
+      "Id": "URL",
+      "permissions": {
+        "isvisible": "false",
+        "role": "admin"
+      }
+    },
+    {
+      "Name": "WorkflowiT",
+      "order": 4,
+      "Id": "WorkflowiT",
+      "url": "URL",
+      "permissions": {
+        "isvisible": "true",
+        "role": "user"
+      }
+    }
+  ],
+  "headerColours": {
+    "headerText": "#FFFFFF",
+    "headerTextShadow": "#CCCCCC",
+    "headerMenuBackground": "#OOOOOO",
+    "headerMenuText": "#FFFFFF",
+    "headerActiveMenuText": "#OOOOOO",
+    "headerActiveMenuBackground": "#CCCCCC"
+  },
+  "mainNavigationModules": [
+    {
+      "isvisible": "true",
+      "Name": "PlaniT",
+      "order": 3,
+      "Id": "",
+      "style": {
+        "style": "italic",
+        "weight": "bold",
+        "size": "10px",
+        "align": ""
+      }
+    },
+   
+    {
+      "isvisible": "true",
+      "Name": "ManageiT",
+      "order": 1,
+      "Id": "manageit",
+      "style": {
+        "style": "italic",
+        "weight": "bold",
+        "size": "",
+        "align": "pull-right"
+      }
+    }
+  ],
+  "instances": [
+    {
+      "clientLogo": "/images/copy.jpg",
+      "clientName": "SBM",
+      "uri": "http://sb-media.com:82",
+      "databaseServer": "localhost",
+      "createDatabase": true,
+      "databaseName": "ManageIT",
+      "isAccessControlEnabled": false,
+      "databasePassword": "Password.1",
+      "databaseUser": "manageITAdminUser",
+      "databasePort": 27017
+    },
+    {
+      "clientLogo": "/images/date.jpg",
+      "clientName": "Rebel sports",
+      "uri": "http://rebelsports.com:81",
+      "databaseServer": "localhost",
+      "createDatabase": true,
+      "databaseName": "ManageIT",
+      "isAccessControlEnabled": false,
+      "databasePassword": "Password.1",
+      "databaseUser": "manageITAdminUser",
+      "databasePort": 27017
+    },
+    {
+      "clientLogo": "/images/integer.jpg",
+      "clientName": "Walmart",
+      "uri": "http://walmart.com:83",
+      "databaseServer": "localhost",
+      "createDatabase": true,
+      "databaseName": "ManageIT",
+      "isAccessControlEnabled": false,
+      "databasePassword": "Password.1",
+      "databaseUser": "manageITAdminUser",
+      "databasePort": 27017
+    },
+    {
+      "clientLogo": "/images/list.jpg",
+      "clientName": "Reebok",
+      "uri": "http://reebok.com:84",
+      "databaseServer": "localhost",
+      "createDatabase": true,
+      "databaseName": "ManageIT",
+      "isAccessControlEnabled": false,
+      "databasePassword": "Password.1",
+      "databaseUser": "manageITAdminUser",
+      "databasePort": 27017
+    },
+    {
+      "clientLogo": "/images/sequence.jpg",
+      "clientName": "Nike",
+      "uri": "http://nike.com:85",
+      "databaseServer": "localhost",
+      "createDatabase": true,
+      "databaseName": "ManageIT",
+      "isAccessControlEnabled": false,
+      "databasePassword": "Password.1",
+      "databaseUser": "manageITAdminUser",
+      "databasePort": 27017
+    }
+  ]
+}
+

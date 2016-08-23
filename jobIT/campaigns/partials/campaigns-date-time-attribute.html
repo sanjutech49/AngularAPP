@@ -1,0 +1,376 @@
+﻿
+
+<div id="DateTimeAttribute" class="attribute-container" role="dialog" data-backdrop="static" ng-controller="CampaignAttributeController as cac">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="dateTimeAttributeForm" class="form-horizontal" role="form" novalidate>
+                <link href="/lib/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet" />
+                <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="closeModal();">&times;</button>
+                    <h4><b>{{ action }}Add Date Time Attribute</b></h4>
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="basci-properties-wrap">
+                            <div class="attribute-model-title">Basic Properties</div>
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-xs-2 control-label">Name<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" class="form-control input-medium" name="name"
+                                                       ng-model="cac.model.name" ng-change="cac.deriveIdentifier()" allow-pattern="(\d|[a-z ])" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-xs-2 control-label">Identifier<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" name="identifier" ng-model="cac.model.identifier"
+                                                       ng-readonly="readonly" class="form-control" 
+                                                       allow-pattern="(\d|[a-z ])" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="Mandatory" ng-model="cac.model.Mandatory" ng-change="cac.model.ReadOnly = false" ng-checked="true"> Mandatory (Users must specify a value for this field)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" ng-disabled="cac.model.Mandatory" name="ReadOnly" ng-model="cac.model.ReadOnly"> Read Only (Users cannot modify this attribute)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <fieldset disabled>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" ng-disabled="cac.model.Mandatory" name="ReadOnly" ng-model="cac.model.ReadOnly"> Allow version specific values
+                                                        </label>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+
+                                            <div class="col-xs-offset-2 col-xs-10" ng-hide="cac.model.isCopyField">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="isUnique" ng-model="cac.model.isUnique"> Value(s) must be Unique across all Objects
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <fieldset disabled>
+                                            <div class="listbox-wrap form-group" ng-hide="!cac.model.isUnique">
+                                                <div class="col-xs-offset-2 col-xs-10">
+                                                    <div class="list-valu-box">
+
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="isSingularlyUnique" ng-model="cac.model.isSingularlyUnique"
+                                                                       ng-checked="cac.model.isSingularlyUnique==option.key" value="0">
+                                                                Sinularly Unique
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="isSingularlyUnique" ng-model="cac.model.isSingularlyUnique"
+                                                                       ng-checked="cac.model.isSingularlyUnique==option.key" value="1">
+                                                                Composite Unique
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-inline margin-left20">
+                                                            <label for="unique_group" class="control-label">Unique Group<span class="form-mandatory">*</span></label>
+                                                            <select class="form-control width100 margin-left10" ng-model="cac.model.uniqueGroup" name="uniqueGroup"
+                                                                    ng-change="cac.model.isSingularlyUnique = '0'">
+                                                                <option value="" selected hidden> Name+Brand</option>
+                                                            </select>
+                                                            <button class="btn btn-default" data-toggle="modal">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="col-xs-5" ng-hide="cac.model.isSequence">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="isAllowMultiValue" ng-model="cac.model.isAllowMultiValue" />
+                                            Allow Multiple Values
+                                        </label>
+                                    </div>
+                                    <div class="list-valu-box marginTop10" ng-hide="!cac.model.isAllowMultiValue">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="isValueUnique" ng-disabled="!cac.model.isAllowMultiValue" ng-model="cac.model.isValueUnique" class="">
+                                                Values Must be unique
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="canValueRearranged" ng-disabled="!cac.model.isAllowMultiValue" ng-model="cac.model.canValueRearranged" class="">
+                                                Values can be rearranged
+                                            </label>
+                                        </div>
+
+                                        <div class="attribute">
+                                            <div class="form-horizontal marginTop10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-7 text-left no-padding">Minimum # of values</label>
+                                                    <div class="col-xs-5">
+                                                        <input type="text" name="minNumOfValues" ng-disabled="!cac.model.isAllowMultiValue"
+                                                               ng-model="cac.model.minNumOfValues" maxlength="3" only-number0999 class="form-control" />
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="form-horizontal marginTop10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-7 text-left no-padding">Maximum # of values</label>
+                                                    <div class="col-xs-5">
+                                                        <input type="text" name="maxNumOfValues" ng-disabled="!cac.model.isAllowMultiValue"
+                                                               ng-model="cac.model.maxNumOfValues" maxlength="3" only-number0999 class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 marginTop20">
+                            <div class="form-group">
+                                <label for="exampleTextarea">Attribute Description/ Help Text</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="3" textarea name="description" ng-model="cac.model.description"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 marginTop20">
+                                <div class="attribute-model-title">Date & Time Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute">
+
+                                    <div class="form-horizontal">
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2 align-left" for="">Date Format<span class="mandatory">*</span></label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="cac.model.dateFormat"
+                                                        data-ng-options="option.key as option.value for option in cac.model.dateFormatDefaultValues"
+                                                        ng-change="cac.formatDateTimeChange(cac.model.dateFormat)"
+                                                        required></select>
+                                            </div>
+
+                                            <label class="control-label col-xs-2 align-left" for="">Time Format<span class="mandatory">*</span></label>
+                                            <div class="col-xs-5">
+                                                <select class="form-control" data-ng-model="cac.model.timeFormat"
+                                                        data-ng-options="option.key as option.value for option in cac.model.timeFormatDefaultValues"
+                                                        ng-change="timeFormatChange(cac.model.timeFormat)"
+                                                        required></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group dateTimeRowStyle">
+                                            <label class="control-label col-xs-2 align-left" for="">Minimum Date / Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="cac.model.minimumDateTime"
+                                                        data-ng-options="option.key as option.value for option in cac.model.minMaxDateTimeDefaultValues"></select>
+                                            </div>
+                                            <div class="min-wrap" ng-show="cac.model.minimumDateTime == 0 || cac.model.minimumDateTime == 2">
+
+                                                <div class="" ng-show="cac.model.minimumDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Date / Time<span class="mandatory">*</span></label>
+
+                                                    <div class="" ng-show="cac.model.minimumDateTime == 0">
+                                                        <div class="col-xs-2">
+                                                            <input class="form-control" type="text" ng-attr-placeholder="{{cac.model.timeFormatDefaultValues[cac.model.timeFormat].placeHolder}}" name="minTime" ng-model="cac.model.minDateTimeValues.time" />
+                                                        </div>
+
+                                                        <div class="col-xs-3 calendar-space">
+                                                            <input type="text" readonly uib-datepicker-popup="{{dateTimeFormat}}"
+                                                                   ng-model="cac.model.minDateTimeValues.date"
+                                                                   is-open="cac.model.datePickerControl.minOpened"
+                                                                   ng-focus="cac.openDateCalendar(0)"
+                                                                   close-text="Close" name="minDate" class="form-control"
+                                                                   ng-click="cac.openDateCalendar(0)" placeholder="{{dateTimeFormat}}" />
+                                                            <i class="fa fa-calendar form-control-feedback datetime-calendareicon" ng-click="cac.openDateCalendar(0)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="" ng-show="cac.model.minimumDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+
+                                                    <div class="" ng-show="cac.model.minimumDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+
+                                                        <div class="col-xs-1 no-padding">
+                                                            <input type="number" name="minTimeOffSetValue" ng-model="cac.model.minDateTimeValues.timeOffset"
+                                                                   class="form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select class="form-control" ng-model="cac.model.minDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in cac.model.timeOffSetDefaultValues"
+                                                                    name="minTimeOffSetType"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group dateTimeRowStyle">
+                                            <label class="control-label col-xs-2 align-left" for="">Maximum Date / Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="cac.model.maximumDateTime"
+                                                        data-ng-options="option.key as option.value for option in cac.model.minMaxDateTimeDefaultValues"></select>
+
+                                            </div>
+                                            <div class="max-wrap" ng-show="cac.model.maximumDateTime == 0 || cac.model.maximumDateTime == 2">
+
+                                                <div ng-show="cac.model.maximumDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Date / Time<span class="mandatory">*</span></label>
+
+                                                    <div class="" ng-show="cac.model.maximumDateTime == 0">
+                                                        <div class="col-xs-2">
+                                                            <input type="text" ng-attr-placeholder="{{cac.model.timeFormatDefaultValues[cac.model.timeFormat].placeHolder}}" name="maxTime"
+                                                                   ng-model="cac.model.maxDateTimeValues.time"
+                                                                   class="form-control" />
+                                                        </div>
+
+                                                        <div class="col-xs-3 calendar-space">
+                                                            <input type="text" readonly uib-datepicker-popup="{{dateTimeFormat}}"
+                                                                   ng-model="cac.model.maxDateTimeValues.date"
+                                                                   is-open="cac.model.datePickerControl.maxOpened" close-text="Close"
+                                                                   ng-focus="cac.openDateCalendar(1)"
+                                                                   name="maxDate" class="form-control" ng-click="cac.openDateCalendar(1)"
+                                                                   placeholder="{{dateTimeFormat}}" />
+                                                            <i class="fa fa-calendar form-control-feedback datetime-calendareicon" ng-click="cac.openDateCalendar(1)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div ng-show="cac.model.maximumDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+
+                                                    <div class="" ng-show="cac.model.maximumDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+
+                                                        <div class="col-xs-1 no-padding">
+                                                            <input type="number" name="maxTimeOffSetValue" ng-model="cac.model.maxDateTimeValues.timeOffset" class="input-medium form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select class="form-control" ng-model="cac.model.maxDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in cac.model.timeOffSetDefaultValues"
+                                                                    name="maxTimeOffSetType"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group dateTimeRowStyle">
+                                            <label class="control-label col-xs-2 align-left" for="">Default Date / Time</label>
+                                            <div class="col-xs-3">
+                                                <select class="form-control" data-ng-model="cac.model.defaultDateTime"
+                                                        data-ng-options="option.key as option.value for option in cac.model.minMaxDateTimeDefaultValues"></select>
+                                            </div>
+                                            <div class="default-wrap" ng-show="cac.model.defaultDateTime == 0 || cac.model.defaultDateTime == 2">
+
+                                                <div ng-show="cac.model.defaultDateTime == 0">
+                                                    <label class="control-label col-xs-2 align-left" for="">Date / Time<span class="mandatory">*</span></label>
+
+                                                    <div class="" ng-show="cac.model.defaultDateTime == 0">
+                                                        <div class="col-xs-2">
+                                                            <input type="text" ng-attr-placeholder="{{cac.model.timeFormatDefaultValues[cac.model.timeFormat].placeHolder}}" name="defaultTime"
+                                                                   ng-model="cac.model.defaultDateTimeValues.time" class="form-control" />
+                                                        </div>
+
+                                                        <div class="col-xs-3 calendar-space">
+                                                            <input type="text" readonly uib-datepicker-popup="{{dateTimeFormat}}"
+                                                                   ng-model="cac.model.defaultDateTimeValues.date"
+                                                                   is-open="cac.model.datePickerControl.defaultOpened" close-text="Close"
+                                                                   ng-focus="cac.openDateCalendar(2)"
+                                                                   name="defaultDate" class="form-control" ng-click="cac.openDateCalendar(2)"
+                                                                   placeholder="{{dateTimeFormat}}" />
+                                                            <i class="fa fa-calendar form-control-feedback datetime-calendareicon" ng-click="cac.openDateCalendar(2)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div ng-show="cac.model.defaultDateTime == 2">
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label align-left" for="">Time Offset<span class="mandatory">*</span></label>
+                                                    </div>
+
+                                                    <div class="" ng-show="cac.model.defaultDateTime == 2">
+                                                        <div class="col-xs-2">
+                                                            <label class="control-label align-left" for="">Current Time +</label>
+                                                        </div>
+
+                                                        <div class="col-xs-1 no-padding">
+                                                            <input type="number" name="defaultTimeOffSetValue" ng-model="cac.model.defaultDateTimeValues.timeOffset" class="form-control" />
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select class="form-control" ng-model="cac.model.defaultDateTimeValues.timeOffsetType"
+                                                                    data-ng-options="option.key as option.value for option in cac.model.timeOffSetDefaultValues"
+                                                                    name="defaultTimeOffSetType"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="cac.addDateAndTime(cac.model)" ng-disabled="dateTimeAttributeForm.$invalid"
+                                class="btn btn-primary" type="button" aria-hidden="true">
+                            <i class="fa fa-pencil"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

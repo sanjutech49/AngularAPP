@@ -1,0 +1,1029 @@
+﻿
+<!-- 3.1.3	Flat Plans start -->
+<div class="jobit-top-contrls-wrap" ng-controller="AddFlatPlanController as afpc">
+    <div class="left-controls">
+        <div class="jobit-top-title marginRight10">Add Catalogue</div>
+        <div class="jobit-top-links">
+            <ul>
+                <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+                <li><a href="#"><i class="fa fa-info-circle"></i></a></li>
+                <li><a href="#"><i class="fa fa-clock-o"></i></a></li>
+                <li><a href="#"><i class="fa fa-sitemap"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="right-controls">
+        <ul class="hierarchy-ref-dropdown">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-flag"></i> Actions</a>
+                <ul class="dropdown-menu">
+                    <li class="viewjobit-dropdown-header"><span class="padding-left4">Design Work Flow</span></li>
+                    <li><a href="#">Definition</a></li>
+                    <li><a href="#">Ready for Design</a></li>
+                    <li><a href="#">Ready for Print</a></li>
+                    <li class="viewjobit-dropdown-header"><span class="padding-left4">Produce IT</span></li>
+                    <li><a href="#">Send to Creative <span class="green-color flat-right paddingLeft10"><i class="fa fa-arrow-right"></i></span></a></li>
+                    <li><a href="#">Send to Premedia <span class="green-color flat-right paddingLeft10"><i class="fa fa-arrow-right"></i></span></a></li>
+                </ul>
+            </li>
+            <li><a href="#" class="orange-color"><i class="fa fa-sign-in"></i> Check In</a></li>
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+    <div class="bottom-border-empty"></div>
+    <div class="jobit-top-contrls-wrap marginbotTop5">
+        <div class="left-controls">
+            <div class="">Summer 2016</div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="alert alert-warning" ng-show="afpc.model.isLoosePageWarning">
+            <strong>Warning!</strong> There will be loose pages.
+        </div>
+        <div class="row main-content marginTop20">
+            <div class="col-xs-12 white-bg">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs position-relative" role="tablist">
+                    <li><a href="#" data-target="#flatplan" role="tab" data-toggle="tab">Flat Plan</a></li>
+                    <li class="active"><a href="#" data-target="#pagelist" role="tab" data-toggle="tab">Page list</a></li>
+                    <li><a href="#" data-target="#details" role="tab" data-toggle="tab">Details</a></li>
+                    <li><a href="#" data-target="#setup" role="tab" data-toggle="tab">Setup</a></li>
+                    <li class="pull-right position-absolute-tabs-btn2 list-options-button-wrap">
+                        <div class="table-row">
+                            <div class="table-cell table-cel-padding">
+                                <div class="table-row">
+                                    <div class="table-cell table-cel-padding">
+                                        <div class="icon-zoomout"> <a href="#"><i class="fa fa-search-minus"></i></a> </div>
+                                    </div>
+                                    <div class="table-cell table-cel-padding">
+                                        <div class="zoom-slider-wrap">
+                                            <div class="zooms-lider">
+                                                <div class="zooms-lider-handel"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-cell table-cel-padding">
+                                        <div class="icon-zoomin"> <a href="#"><i class="fa fa-search-plus"></i></a> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-cell table-cel-padding labelmargin0">
+                                <label class="control-label" for="">Vesion</label>
+                            </div>
+                            <div class="table-cell table-cel-padding">
+                                <select class="form-control width100">
+                                    <option>Base</option>
+                                    <option>Base</option>
+                                </select>
+                            </div>
+                            <div class="table-cell table-cel-padding">
+                                <div class="icon-pagesetup align-right">
+                                    <div class="dimension-dropdown">
+                                        <div class="dropdown filterlink">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li class="viewjobit-dropdown-header"><span class="padding-left4">Design Workflow</span></li>
+                                                <li><a href="#">Definition</a></li>
+                                                <li><a href="#">Reay for Design</a></li>
+                                                <li><a href="#">Reay for Print</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Tab1 -->
+                    <div role="tabpanel" class="tab-pane" id="flatplan">
+                        <div class="padding10">
+                            <div class="flatplan-dark-bg-wrap min-height350">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <p class="font-bold color-white">New Years Deals Pages / Spreads</p>
+                                    </div>
+                                </div>
+                                <div class="flatplan-sheets-list">
+                                    <ul>
+                                        <li ng-if="afpc.model.flatLayout == 'simplex'"
+                                            ng-repeat="n in [].constructor(afpc.model.totalPages) track by $index
+                                            ">
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div class="text-right">{{$index}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="def-table-row width-100-percent dimension-dropdown">
+                                                <div class="def-table-cel dropdown">
+                                                    <div class="dropdown-toggle" data-toggle="dropdown"><img src="images/page-single.jpg" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li ng-if="afpc.model.flatLayout == 'duplex'"
+                                            ng-repeat="n in [].constructor(afpc.model.totalPages) track by $index">
+                                            <div ng-if="$index != 0 && $index != afpc.model.totalPages-1">
+                                                <div class="def-table-row width-100-percent">
+                                                    <div class="def-table-cel">
+                                                        <div class="text-left">{{$index + 1}}</div>
+                                                    </div>
+                                                    <div class="def-table-cel">
+                                                        <div class="text-right">{{$index + 2}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="def-table-row width-100-percent initiateLink-dropdown">
+                                                    <div class="def-table-cel dropdown">
+                                                        <div class="dropdown-toggle" data-toggle="dropdown"><img src="images/page-spread.jpg" alt=""></div>
+                                                        <!--multimenu dropdown-->
+                                                        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                                            <li class="dropdown-submenu">
+                                                                <a tabindex="-1" href="#">Add Page</a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li><a tabindex="-1" href="#">Second level</a></li>
+                                                                    <li class="dropdown-submenu">
+                                                                        <a href="#">Even More..</a>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="#">3rd level</a></li>
+                                                                            <li><a href="#">3rd level</a></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li><a href="#">Second level</a></li>
+                                                                    <li><a href="#">Second level</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li class="dropdown-submenu">
+                                                                <a tabindex="-1" href="#">Link Existing Page</a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li><a tabindex="-1" href="#">Second level</a></li>
+                                                                    <li class="dropdown-submenu">
+                                                                        <a href="#">Even More..</a>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="#">3rd level</a></li>
+                                                                            <li><a href="#">3rd level</a></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li><a href="#">Second level</a></li>
+                                                                    <li><a href="#">Second level</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                        <!--multimenu dropdown end-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div ng-if="$index == 0 && $index == afpc.model.totalPages-1">
+                                                <div class="def-table-row width-100-percent">
+                                                    <div class="def-table-cel">
+                                                        <div class="text-right">{{$index}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="def-table-row width-100-percent dimension-dropdown">
+                                                    <div class="def-table-cel dropdown">
+                                                        <div class="dropdown-toggle" data-toggle="dropdown"><img src="images/page-single.jpg" alt=""></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div class="text-right">1</div>
+                                                </div>
+                                            </div>
+                                            <div class="def-table-row width-100-percent dimension-dropdown">
+                                                <div class="def-table-cel dropdown">
+                                                    <div class="dropdown-toggle" data-toggle="dropdown"><img src="images/page-single.jpg" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div class="text-left">2</div>
+                                                </div>
+                                                <div class="def-table-cel">
+                                                    <div class="text-right">3</div>
+                                                </div>
+                                            </div>
+                                            <div class="def-table-row width-100-percent initiateLink-dropdown">
+                                                <div class="def-table-cel dropdown">
+                                                    <div class="dropdown-toggle" data-toggle="dropdown"><img src="images/page-spread.jpg" alt=""></div>
+                                                    <!--multimenu dropdown-->
+                                                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                                        <li class="dropdown-submenu">
+                                                            <a tabindex="-1" href="#">Add Page</a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a tabindex="-1" href="#">Second level</a></li>
+                                                                <li class="dropdown-submenu">
+                                                                    <a href="#">Even More..</a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">3rd level</a></li>
+                                                                        <li><a href="#">3rd level</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li><a href="#">Second level</a></li>
+                                                                <li><a href="#">Second level</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="dropdown-submenu">
+                                                            <a tabindex="-1" href="#">Link Existing Page</a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a tabindex="-1" href="#">Second level</a></li>
+                                                                <li class="dropdown-submenu">
+                                                                    <a href="#">Even More..</a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">3rd level</a></li>
+                                                                        <li><a href="#">3rd level</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li><a href="#">Second level</a></li>
+                                                                <li><a href="#">Second level</a></li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                    <!--multimenu dropdown end-->
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div class="text-left">4</div>
+                                                </div>
+                                                <div class="def-table-cel">
+                                                    <div class="text-right">5</div>
+                                                </div>
+                                            </div>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div><img src="images/page-spread-multiple.jpg" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div class="text-left">6</div>
+                                                </div>
+                                                <div class="def-table-cel">
+                                                    <div class="text-right">7</div>
+                                                </div>
+                                            </div>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div><img src="images/page-spread.jpg" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div class="text-left">8</div>
+                                                </div>
+                                                <div class="def-table-cel">
+                                                    <div class="text-right">9</div>
+                                                </div>
+                                            </div>
+                                            <div class="def-table-row width-100-percent flatplan-img-dropdown">
+                                                <div class="def-table-cel dropdown">
+                                                    <div class="dropdown-toggle" data-toggle="dropdown"><img src="images/page-spread-with-image.jpg" alt=""></div>
+                                                    <!--dropdown-->
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#">Edit Spread</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="#">Preview page</a></li>
+                                                        <li><a href="#">Track Changes</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="#">Proof iT</a></li>
+                                                    </ul>
+                                                    <!--dropdown end-->
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div class="text-left">10</div>
+                                                </div>
+                                            </div>
+                                            <div class="def-table-row width-100-percent">
+                                                <div class="def-table-cel">
+                                                    <div><img src="images/page-single.jpg" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="clearfix"></div>
+
+                                <div class="row marginTop20">
+                                    <div class="col-xs-12">
+                                        <p class="font-bold color-white">Unallocated Pages / Spreads</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab2 -->
+                    <div role="tabpanel" class="tab-pane active" id="pagelist">
+                        <div class="padding10">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <p class="font-bold">New Years Deals Pages / Spreads</p>
+                                </div>
+                            </div>
+                            <div class="flatplan-pagelist-wrap">
+                                <div class="light-border-pagelist padding5">
+                                    <div class="dark-border-pagelist padding5">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="float-left"><span class="font-bold">Page1</span></div>
+                                                <div class="float-right"><span class="color-grey">Blank Page</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="light-border-pagelist padding5 marginTop10">
+                                    <div class="dark-border-pagelist padding5">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="def-table-row width-100-percent">
+                                                    <div class="def-table-cel valign-top width50">
+                                                        <div class="pagelist-page-listing">
+                                                            <ul>
+                                                                <li><span class="font-bold">Page2</span></li>
+                                                                <li><span class="font-bold">Page3</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="def-table-cel padding-leftright5">
+                                                        <div class="initiateLink-dropdown">
+                                                            <div class="cor-border padding10 dropdown">
+                                                                <div class="font-bold dropdown-toggle" data-toggle="dropdown">Cricket Specials</div>
+
+                                                                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                                                    <li class="viewjobit-dropdown-header"><span class="padding-left4">Print Production</span></li>
+                                                                    <li><a href="#">Corrction</a></li>
+                                                                    <li><a href="#">Ready For Creative</a></li>
+                                                                    <li class="viewjobit-dropdown-header"><span class="padding-left4">Actions</span></li>
+                                                                    <li><a href="#">Remove Jobs</a></li>
+                                                                    <li class="divider"></li>
+                                                                    <li class="dropdown-submenu">
+                                                                        <a tabindex="-1" href="#">Assign to Version</a>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a tabindex="-1" href="#">Second level</a></li>
+                                                                            <li class="dropdown-submenu">
+                                                                                <a href="#">Even More..</a>
+                                                                                <ul class="dropdown-menu">
+                                                                                    <li><a href="#">3rd level</a></li>
+                                                                                    <li><a href="#">3rd level</a></li>
+                                                                                </ul>
+                                                                            </li>
+                                                                            <li><a href="#">Second level</a></li>
+                                                                            <li><a href="#">Second level</a></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li class="divider"></li>
+                                                                    <li><a href="#">Move in to...</a></li>
+                                                                    <li><a href="#">Copy in to...</a></li>
+                                                                    <li><a href="#">Link in to...</a></li>
+                                                                    <li>
+                                                                        <div class="def-table-row width-100percent dropdown-star-topline">
+                                                                            <div class="def-table-cel dropdown-star-rightline dropdown-star-width text-center">
+                                                                                <div class="star-wrap">
+                                                                                    <i class="fa fa-star color-yellow"></i>
+                                                                                    <div class="starplus"><i class="fa fa-plus green-color"></i></div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="def-table-cel table-cel-padding text-center">
+                                                                                <div class="star-wrap">
+                                                                                    <i class="fa fa-star-o gray-color"></i>
+                                                                                    <div class="starclose"><i class="fa fa-times color-red"></i></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="def-table-cel valign-top width100">
+                                                        <div class="pagelist-page-listing flat-right">
+                                                            <ul>
+                                                                <li><span>Page Exported</span></li>
+                                                                <li><span>Page Exported</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="light-border-pagelist padding5 marginTop10">
+                                    <div class="dark-border-pagelist padding5">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="float-left"><span class="border-point-red marginRight5"></span> <span class="font-bold">Page4</span></div>
+                                                <div class="float-right"><span class="color-grey">Blank Page</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="light-border-pagelist padding5 marginTop10">
+                                    <div class="dark-border-pagelist padding5">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="float-left"><span class="border-point-red marginRight5"></span> <span class="font-bold">Page5</span></div>
+                                                <div class="float-right"><span class="color-grey">Blank Page</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="light-border-pagelist padding5 marginTop10">
+                                    <div class="dark-border-pagelist padding5">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="def-table-row width-100-percent">
+                                                    <div class="def-table-cel valign-top width50">
+                                                        <div class="pagelist-page-listing">
+                                                            <ul>
+                                                                <li><span class="font-bold">Page6</span></li>
+                                                                <li><span class="font-bold">Page7</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="def-table-cel padding-leftright5">
+                                                        <div class="cor-border padding10">
+                                                            <div class="font-bold">Cricket Specials</div>
+                                                            <div class="">
+                                                                <ul></ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="def-table-cel valign-top width100">
+                                                        <div class="pagelist-page-listing flat-right">
+                                                            <ul>
+                                                                <li><span class="color-grey">Page Defined</span></li>
+                                                                <li><span class="color-grey">Page Defined</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="light-border-pagelist padding5 marginTop10">
+                                    <div class="dark-border-pagelist padding5">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="def-table-row width-100-percent">
+                                                    <div class="def-table-cel valign-top width50">
+                                                        <div class="pagelist-page-listing">
+                                                            <ul>
+                                                                <li><span class="font-bold">Page8</span></li>
+                                                                <li><span class="font-bold">Page9</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="def-table-cel padding-leftright5">
+                                                        <div class="cor-border padding10">
+                                                            <div class="font-bold">Football Frenzy</div>
+
+                                                            <ul class="bullet-list">
+                                                                <li>Football Clearance</li>
+                                                                <li>Mens Running</li>
+                                                                <li>Womesn Running</li>
+                                                                <li>Gift Card</li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="def-table-cel valign-top width100">
+                                                        <div class="pagelist-page-listing flat-right">
+                                                            <ul>
+                                                                <li><span class="color-grey">Page Defined</span></li>
+                                                                <li><span class="color-grey">Page Defined</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="light-border-pagelist padding5 marginTop10">
+                                    <div class="dark-border-pagelist padding5">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="float-left"><span class="font-bold">Page10</span></div>
+                                                <div class="float-right"><span class="color-grey">Blank Page</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row marginTop20">
+                                <div class="col-xs-12">
+                                    <p class="font-bold">Unallocated Pages / Spreads</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="dotted-border min-height100">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Tab3 -->
+
+                    <div role="tabpanel" class="tab-pane" id="details">
+                        <div class="padding10 position-relative">
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="form-group label-bold">
+                                        <label for="" class="col-xs-2 control-label align-left">Job Number</label>
+                                        <div class="col-xs-2">
+                                            <input type="text" class="form-control" id="" ng-model="afpc.model.jobNumber">
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-bold">
+                                        <label for="" class="col-xs-2 control-label align-left">Job Name</label>
+                                        <div class="col-xs-3">
+                                            <input type="text" class="form-control" id="" ng-model="afpc.model.jobName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-bold">
+                                        <label for="" class="col-xs-2 control-label align-left">Advertisment</label>
+                                        <div class="col-xs-3">
+                                            <input type="text" class="form-control" id="" ng-model="afpc.model.advertisement">
+                                        </div>
+                                        <div class="col-xs-2 row">
+                                            <div class="general-links">
+                                                <ul>
+                                                    <li><a href="#" ng-click="afpc.clear()">Clear</a></li>
+                                                    <li><a href="#" data-toggle="modal" data-target="#changeAdertisment">Change</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-bold">
+                                        <label for="" class="col-xs-2 control-label align-left">Deadline</label>
+                                        <div class="col-xs-2">
+                                            <input type="date" class="form-control glyphicon glyphicon-calendar" id="" ng-model="afpc.model.deadline">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sub-object-footer">
+                            <div class="modal-footer">
+                                <button data-dismiss="modal" class="btn btn-grey" type="button" aria-hidden="true" ng-click="afpc.discard()"><i class="fa fa-times"></i> Discard</button>
+                                <button class="btn btn-primary" type="button" aria-hidden="true" ng-click="afpc.addDetails(afpc)"><i class="fa fa-pencil"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Tab 3 Edit Details Page-->
+                    <div role="tabpanel" class="tab-pane" id="editDetailsPage">
+                        <div class="padding10 position-relative">
+                            <div class="linkedit-details"><a href="#" ng-click="afpc.editDetails(afpc)"><i class="fa fa-pencil"></i> Edit Details</a></div>
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="form-group label-bold">
+                                        <label for="" class="col-xs-2 control-label align-left">Job Number</label>
+                                        <div class="col-xs-2">
+                                            {{afpc.model.jobNumber}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-bold">
+                                        <label for="" class="col-xs-2 control-label align-left">Job Name</label>
+                                        <div class="col-xs-3">
+                                            {{afpc.model.jobName}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-bold">
+                                        <label for="" class="col-xs-2 control-label align-left">Advertisment</label>
+                                        <div class="col-xs-3">
+                                            {{afpc.model.advertisement}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-bold">
+                                        <label for="" class="col-xs-2 control-label align-left">Deadline</label>
+                                        <div class="col-xs-2">
+                                            {{afpc.model.deadline}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sub-object-footer">
+                        </div>
+                    </div>
+
+
+                    <!-- Tab4 -->
+                    <div role="tabpanel" class="tab-pane" id="setup">
+                        <div class="padding10">
+                            <form role="form" name="setupForm">
+                                <div class="row">
+
+                                    <div class="col-xs-5 setp-flatplan-border-right">
+                                        <div class="font-bold marginbottom20">Flat Plan Settings</div>
+                                        <div class="row">
+                                            <div class="form-horizontal">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="" class="col-xs-5 control-label">Layout<span class="mandatory">*</span></label>
+                                                        <div class="col-xs-7">
+                                                            <select class="form-control" ng-model="afpc.model.setupLayout" ng-options="item.name for item in afpc.model.layoutValues track by item.id" ng-change="afpc.checkSpreadVisibility()" required></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="" class="col-xs-5 control-label">Default View<span class="mandatory">*</span></label>
+                                                        <div class="col-xs-7">
+                                                            <select class="form-control" ng-model="afpc.model.setupDefaultView" ng-options="item.name for item in afpc.model.defaultViewValues track by item.id" required></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-horizontal">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="" class="col-xs-5 control-label">Binding<span class="mandatory">*</span></label>
+                                                        <div class="col-xs-6">
+                                                            <select class="form-control" ng-model="afpc.model.setupBinding" ng-options="item.name for item in afpc.model.bindingValues track by item.id" required></select>
+                                                        </div>
+                                                        <div class="col-xs-1 no-padding">
+                                                            <div class="flat-plan-help-icon-wrap flatPlan-help-dropdown margin-top3 marleft-down10">
+                                                                <div class="dropdown">
+                                                                    <a class="flat-plan-help-icon dropdown-toggle" href="#" data-toggle="dropdown"> <i class="fa fa-question-circle"></i></a>
+                                                                    <div class="dropdown-menu">
+                                                                        <div class="def-table-row ">
+                                                                            <div class="def-table-cel text-center">
+                                                                                <div class="font-bold  marginbottom10">Fold Sheet Binding</div>
+                                                                                <div class=""><img src="images/img-foldsheet-binding.jpg" alt=""></div>
+                                                                                <div class="font-size12">Spreads are folded to create four pages then bound</div>
+                                                                            </div>
+                                                                            <div class="def-table-cel text-center platplan-help-padding">
+                                                                                <div class="font-bold marginbottom10">Loose Leaf Binding</div>
+                                                                                <div class=""><img src="images/img-foldsheet-binding.jpg" alt=""></div>
+                                                                                <div class="font-size12">Spreads are trimmed into individual pages and then bound.</div>
+                                                                            </div>
+                                                                            <div class="def-table-cel"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="" class="col-xs-5 control-label">Pages<span class="mandatory">*</span></label>
+                                                        <div class="col-xs-7">
+                                                            <input type="text" class="form-control" ng-class="{'submitted':setupForm.pages.$invalid}" ng-pattern='/^([1-9][0-9]*)$/' id="" name="pages" placeholder="" ng-model="afpc.model.setupPages" ng-change="afpc.validateForm()" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="bottom-border-empty marginbottom15"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label for="" class="col-xs-3 control-label">Allowed Types<span class="mandatory">*</span></label>
+                                                    <div class="col-xs-4">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" ng-checked="true" ng-model="afpc.model.allowedPages">
+                                                                Pages
+                                                            </label>
+                                                        </div>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" ng-checked="true" ng-model="afpc.model.allowedSpread" ng-disabled="afpc.model.isSpreadDisable">
+                                                                Spreads
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-7 paddingLeft20">
+                                        <div class="row marginTop10">
+                                            <div class="col-xs-10"><span class="font-bold">Page Dimensions</span></div>
+                                            <div class="col-xs-2 icon-pagesetup align-right">
+                                                <div class="dimension-dropdown">
+                                                    <div class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li class="viewjobit-dropdown-header"><span class="padding-left4">Page Dimensions</span></li>
+                                                            <li><a href="#" data-toggle="modal" data-target="#loadPreset">Load Preset</a></li>
+                                                            <li><a href="#" data-toggle="modal" data-target="#savepreset" ng-click="savePreset(afpc)">Save Preset</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row marginbottom20 marginTop10" >
+                                            <div class="col-xs-12">
+                                                <div class="dimension-box-wrap">
+                                                    <div ng-show="afpc.model.isIndesignTemplate"><i class="fa fa-check clr-green" aria-hidden="true"></i> InDesign Template</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <div class="table-row100 marginbottom5">
+                                                    <div class="table-cell table-cel-padding"> <span class="font-bold">Page Dimensions</span> <span class="display-block">(inc Margins, Ex Bleed)</span> </div>
+                                                </div>
+                                                <div class="table-row100 marginbottom5">
+                                                    <div class="table-cell">
+                                                        <label class="control-label">Width (mm)<span class="mandatory">*</span></label>
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.trimWidth.$invalid}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' name="trimWidth" ng-model="afpc.model.trimWidth" class="form-control" id="" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="table-row100">
+                                                    <div class="table-cell">
+                                                        <label class="control-label">Height (mm)<span class="mandatory">*</span></label>
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.trimHeight.$invalid}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' name="trimHeight" ng-model="afpc.model.trimHeight" class="form-control" id="" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-9">
+                                                <div class="table-row100 marginbottom5">
+                                                    <div class="table-cell table-cel-padding"></div>
+                                                    <div class="table-cell table-cel-padding"></div>
+                                                    <div class="table-cell table-cel-padding"><span class="font-bold">Single Page</span></div>
+                                                    <div class="table-cell table-cel-padding text-center"><span class="font-bold">Facing Page</span></div>
+                                                </div>
+                                                <div class="table-row100 text-center">
+                                                    <div class="table-cell table-cel-padding"></div>
+                                                    <div class="table-cell table-cel-padding">Top</div>
+                                                    <div class="table-cell table-cel-padding">Bottom</div>
+                                                    <div class="table-cell table-cel-padding">Left</div>
+                                                    <div class="table-cell table-cel-padding">Right</div>
+                                                    <div class="table-cell table-cel-padding">Inner</div>
+                                                    <div class="table-cell table-cel-padding">Outer</div>
+                                                </div>
+                                                <div class="table-row100 marginbottom5">
+                                                    <div class="table-cell">
+                                                        <label class="control-label">Bleed (mm)<span class="mandatory">*</span></label>
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()"  ng-class="{'submitted':setupForm.topBleed.$invalid}" name="topBleed" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' ng-model="afpc.model.topBleed" id="" placeholder="">
+                                                    </div>
+                                                    {{(model.topMargin && model.bottomMargin && model.leftMargin && model.rightMargin && model.innerMargin && model.outerMargin && model.topBleed && model.bottomBleed && model.leftBleed && model.rightBleed && model.innerBleed && model.outerBleed && model.trimWidth && model.trimHeight)}}
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()"  ng-class="{'submitted':setupForm.bottomBleed.$invalid}" name="bottomBleed" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' ng-model="afpc.model.bottomBleed" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()"  ng-class="{'submitted':setupForm.leftBleed.$invalid, 'greyedout' :afpc.model.isSimplexFlatPlan}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' name="leftBleed" ng-model="afpc.model.leftBleed" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.rightBleed.$invalid, 'greyedout' :afpc.model.isSimplexFlatPlan}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' name="rightBleed" ng-model="afpc.model.rightBleed" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.outerBleed.$invalid, 'greyedout' :!afpc.model.isSimplexFlatPlan}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' name="outerBleed" ng-model="afpc.model.outerBleed" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.innerBleed.$invalid, 'greyedout' :!afpc.model.isSimplexFlatPlan}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' name="innerBleed" ng-model="afpc.model.innerBleed" id="" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="table-row100">
+                                                    <div class="table-cell">
+                                                        <label class="control-label">Margin (mm)<span class="mandatory">*</span></label>
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.topMargin.$invalid}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' name="topMargin" ng-model="afpc.model.topMargin" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.bottomMargin.$invalid}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' name="bottomMargin" ng-model="afpc.model.bottomMargin" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.leftMargin.$invalid, 'greyedout' :afpc.model.isSimplexFlatPlan}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' ng-model="afpc.model.leftMargin" name="leftMargin" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control"  ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.rightMargin.$invalid, 'greyedout' :afpc.model.isSimplexFlatPlan}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' ng-model="afpc.model.rightMargin" name="rightMargin" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.outerMargin.$invalid, 'greyedout' :!afpc.model.isSimplexFlatPlan}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' ng-model="afpc.model.outerMargin" name="outerMargin" id="" placeholder="">
+                                                    </div>
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input type="text" class="form-control" ng-change="afpc.indesignTemplate()" ng-class="{'submitted':setupForm.innerMargin.$invalid, 'greyedout' :!afpc.model.isSimplexFlatPlan}" ng-pattern='/^[0-9]{1,7}(\.[0-9]+)?$/' ng-model="afpc.model.innerMargin" name="innerMargin" id="" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="sub-object-footer">
+                            <div class="modal-footer">
+                                <button data-dismiss="modal" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                                <button class="btn btn-primary" type="button" ng-click="afpc.saveSetup(afpc.model.layoutValues)" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 3.1.3	Flat Plans start -->
+<!--MODALS HERE/////////////////////////////////////////////////////////////////////////////////////-->
+<!--Change Advertisments Modal START--------------------------------------------------------------------->
+<div id="changeAdertisment" class="modal fade attribute-container" tabindex="-1" role="dialog" ng-controller="AddFlatPlanController as afpc">
+    <div class="modal-dialog model-width600">
+        <div class="modal-content add-sub-object-main">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                    <h4><b>Select Advertisments</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6 marginTop5">
+                            <div class="">Availible Advertisments</div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="align-right">
+                                <div class="col-xs-10 flat-right row">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <span class="fa fa-search"></span> </span>
+                                        <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="" placeholder="" id="" ng-model="afpc.model.searchKeyword">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bottom-border-empty paddingTop10"></div>
+                        </div>
+                    </div>
+                    <div class="advertisment-list marginTop15">
+                        <ul>
+                            <li ng-repeat="advertisement in afpc.model.advertisements | filter:afpc.model.searchKeyword">
+                                <a href="#" ng-click="afpc.change('{{advertisement.name}}')">{{advertisement.name}}</a>
+                            </li>
+                            <!-- Below List will get removed after API integration-->
+                            <li><a href="#" ng-click="afpc.change('New years Campaign')">New years Campaign</a></li>
+                            <li><a href="#" ng-click="afpc.change('Australian Open Supporters')">Australian Open Supporters</a></li>
+                            <li><a href="#" ng-click="afpc.change('Summer of Cricket')">Summer of Cricket</a></li>
+                            <li><a href="#" ng-click="afpc.change('Tennis Deals')">Tennis Deals</a></li>
+                            <li><a href="#" ng-click="afpc.change('Wet and Wild')">Wet and Wild</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Change Advertisments MODAL END----------------------------------------------------------------------------------------->
+<!--Search Page Preset Modal START-------------------------------------------------------------------------------------->
+<div id="loadPreset" class="attribute-container" tabindex="-1" role="dialog" ng-controller="AddFlatPlanController as afpc">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content add-sub-object-main">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                    <h4><b>Search Page Presets</b></h4>
+                </div>
+                <div class="modal-body min-height350">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon btn" role="button"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="" placeholder="" ng-model="afpc.model.loadPresetSearch">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bottom-border-empty marginbottom15 marginTop10"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="noborder-table">
+                                <table class="table table-hover table-condensed">
+                                    <tbody>
+                                        <tr ng-repeat="x in afpc.model.loadPreset">
+                                            <td class="font-bold">{{}}</td>
+                                            <td class="align-right">{{x.pageWidth}} X {{x.pageHeight}}</td>
+                                            <td class="align-right"><div><i class="fa fa-check clr-green"></i></div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Search Page Preset MODAL END----------------------------------------------------------------------------------------->
+<!--Save Page Preset Modal START-------------------------------------------------------------------------------------->
+<div id="savepreset" class="modal fade attribute-container" tabindex="-1" role="dialog" ng-controller="AddFlatPlanController as afpc">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                    <h4><b>Save Page Presets</b></h4>
+                </div>
+                <div class="modal-body min-height350">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="attribute">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="" class="col-xs-4 control-label ">Preset Name<span class="mandatory">*</span></label>
+                                        <div class="col-xs-7">
+                                            <input type="text" required="" class="form-control" id="" nmae="" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="bottom-border-empty marginbottom10"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="font-bold">InDesign Page Template</p>
+                            <p>Specify an InDesign file which will be use as the page or spread template.</p>
+                            <div class="icon-dropper-wrap table-row">
+                                <div class="table-cell">
+                                    Click Here to select or Drag and Drop an<br>
+                                    PNG file for upload.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row marginTop15">
+                        <div class="col-xs-12">
+                            <p class="font-bold">InDesign Spread Template</p>
+                            <p>Specify an InDesign file which will be use as the page or spread template.</p>
+                            <div class="icon-dropper-wrap table-row">
+                                <div class="table-cell">
+                                    Click Here to select or Drag and Drop an<br>
+                                    PNG file for upload.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Save Page Preset MODAL END----------------------------------------------------------------------------------------->
+<!--MODALS HERE/////////////////////////////////////////////////////////////////////////////////////--> 

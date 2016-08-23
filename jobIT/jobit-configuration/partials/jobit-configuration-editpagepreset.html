@@ -1,0 +1,147 @@
+﻿<!--EDIT PAGE PRESIT MODAL START------------------------------------------------------------------------->
+
+<form name="pagePresetForm" role="form" novalidate>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="jbcepp.cancel()">&times;</button>
+        <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>Edit Page Preset</b></h4>
+    </div>
+    <div class="modal-body">
+        <div class="cols-xs-12 font-bold marginbottom10 marginTop10">Preset Name</div>
+        <div class="row">
+            <div class="form-horizontal">
+                <div class="col-xs-8">
+                    <div class="form-group">
+                        <label for="" class="col-xs-3 control-label">Name<span class="mandatory">*</span></label>
+                        <div class="col-xs-9">
+                            <input type="text" required="" class="form-control" id="" placeholder="" ng-model="pagePreset.name">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4 row">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="" ng-model="pagePreset.enabled">
+                            Enabled
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row marginTop5">
+            <div class="col-xs-12">
+                <div class="settings-bottom-devider"></div>
+            </div>
+        </div>
+        <div class="cols-xs-12 marginbottom10 marginTop10"><span class="font-bold">Page Dimensions</span> (inc Margins, ex Bleed)</div>
+        <div class="row">
+            <div class="form-horizontal">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="" class="col-xs-6 control-label">Width (mm)<span class="mandatory">*</span></label>
+                        <div class="col-xs-6">
+                            <input type="text" required="" class="form-control" id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.width">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="" class="col-xs-6 control-label">Height (mm)<span class="mandatory">*</span></label>
+                        <div class="col-xs-6">
+                            <input type="text" required="" class="form-control" id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.height">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cols-xs-12 marginbottom5 marginTop10"><span class="font-bold">Bleed & Margins</span></div>
+        <div class="table-row100 marginbottom5">
+            <div class="table-cell table-cel-padding"></div>
+            <div class="table-cell table-cel-padding"></div>
+            <div class="table-cell table-cel-padding"><span class="font-bold">Single Page</span></div>
+            <div class="table-cell table-cel-padding text-center"><span class="font-bold">Facing Page</span></div>
+        </div>
+        <div class="table-row100 text-center">
+            <div class="table-cell table-cel-padding"></div>
+            <div class="table-cell table-cel-padding">Top</div>
+            <div class="table-cell table-cel-padding">Bottom</div>
+            <div class="table-cell table-cel-padding">Left</div>
+            <div class="table-cell table-cel-padding">Right</div>
+            <div class="table-cell table-cel-padding">Inner</div>
+            <div class="table-cell table-cel-padding">Outer</div>
+        </div>
+        <div class="table-row100 marginbottom5">
+            <div class="table-cell">
+                <label class="control-label">Bleed (mm)<span class="mandatory">*</span></label>
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.bleed_Top">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.bleed_Bottom">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.bleed_Left_SinglePages">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.bleed_Right_SinglePages">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.bleed_Inner_FacingPages">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.bleed_Outer_FacingPages">
+            </div>
+        </div>
+        <div class="table-row100">
+            <div class="table-cell">
+                <label class="control-label">Margin (mm)<span class="mandatory">*</span></label>
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.margin_Top">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.margin_Bottom">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.margin_Left_SinglePages">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.margin_Right_SinglePages">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.margin_Inner_FacingPages">
+            </div>
+            <div class="table-cell table-cel-padding">
+                <input type="text" class="form-control" required id="" placeholder="" ng-model="pagePreset.pagePresetDimensions.margin_Outer_FacingPages">
+            </div>
+        </div>
+        <div class="row marginTop5">
+            <div class="col-xs-12">
+                <div class="settings-bottom-devider"></div>
+            </div>
+        </div>
+        <div class="cols-xs-12 marginbottom10 marginTop10"><span class="font-bold">InDesign Template</span></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="cor-border cor-border-fill topnoborder tablebottom-empty">
+                    <table class="table">
+                        <tr>
+                            <td><span><i class="fa fa-check clr-green" aria-hidden="true"></i></span> InDesign Template Defined</td>
+                            <td><a href="#">Download</a></td>
+                            <td><a href="#">Replace</a></td>
+                            <td><a href="#">Remove</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sub-object-footer">
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+            <button class="btn btn-primary" ng-disabled="pagePresetForm.$invalid" aria-hidden="true" type="button" ng-click="addUpdatePagePreset(pagePreset)"><i class="fa fa-pencil"></i> Save</button>
+        </div>
+    </div>
+</form>
+
+<!--EDIT PAGE PRESIT MODAL END-------------------------------------------------->

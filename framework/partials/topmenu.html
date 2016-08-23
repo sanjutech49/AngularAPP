@@ -1,0 +1,1149 @@
+﻿<div class="logo-wrap">
+    <ul class="nav navbar-left top-left-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-disabled="true">
+                <div class="logo">
+                    <img id="brand" ng-src="images/{{companyLogo}}" alt="{{companyName}}" class="img-responsive" />
+                </div>
+                <div class="top-left-arrowdown"><i class="fa fa-caret-down"></i></div>
+            </a>
+
+            <ul class="dropdown-menu" ng-model="clientLogo">
+                <li ng-repeat="client in instances | filter: {IsEnabled:'true'} | orderBy: 'Name'">
+                    <a href="#" ng-click="refreshClient(client)">
+                        <div class="client-logo"><img ng-src="images/{{client.Logo}}"></div>
+                        <div class="client-name">{{client.Name}}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+<div class="porject-title">
+    <a href="#">{{companyName}}</a>
+</div>
+<div class="pull-right">
+    <ul class="nav navbar-right top-nav">
+        <li class="dropdown">
+            
+            <a href="#" ng-if="isAdmin" class="dropdown-toggle" data-toggle="dropdown" data-disabled="true" ng-click="showManageIT()"><i class="fa fa-cog"></i> Configuration </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#" data-toggle="modal"  data-backdrop="static" data-keyboard="false" ng-show="isAdmin" ng-click="showUser();SetFocus();"> Users</a>
+                </li>
+                <li>
+                    <a href="#" data-toggle="modal" data-backdrop="static" data-keyboard="false" ng-show="isAdmin" ng-click="showRole()"> Roles</a>
+                </li>
+                <li>
+                    <a href="#" data-toggle="modal" data-backdrop="static" data-keyboard="false" ng-show="isAdmin" ng-click="showSettings()"> System Settings</a>
+                </li>
+                <li ng-show="isAdmin" class="divider"></li>
+                <li ng-repeat="item in configList">
+                    <a href="#" data-toggle="modal" ng-click="showConfig(item.Id)"> {{item.Name}} </a>
+                </li>
+            </ul>
+    </li>
+
+    
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-disabled="true"><i class="fa fa-user"></i> {{userEmail}}</a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="#" ng-click="Logout()"><i class="fa fa-fw fa-power-off"></i> Logout</a>
+            </li>
+
+            <li>
+                <a href="#" ng-click="editProfile()"><i class="fa fa-fw fa-user" aria-hidden="true"></i> Edit Profile</a>
+            </li>
+            <li>
+                <a href="#" ng-click="changePassword()"><i class="fa fa-fw fa-lock" aria-hidden="true"></i> Change Password</a>
+            </li>
+        </ul>
+    </li>
+    </ul>
+
+</div>
+
+
+
+
+
+<!-- Modal for Users -->
+<div id="userModal" ng-if="isauthenticated && !isDev" class="modal fade model-box-style" role="dialog">
+    <div class="modal-dialog model-width900" ng-controller="UserActionsController as user">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header modelbox-wrap">
+                <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                <h4 class="modal-title"><i class="fa fa-user" aria-hidden="true"></i> <b>Users</b></h4>
+                <div class="add-link" ng-show="model.user.Create==1" ng-click="AddUser()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add User </div>
+                <div class="add-link" ng-show="model.user.Create!=1"><i class="fa fa-edit" aria-hidden="true"></i> {{model.SelectedUser ? model.FirstName + ' ' + model.LastName :''}} </div>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <center>
+                            <div id="error_container"></div>
+                        </center>
+                        <div class="alert alert-success fade in" ng-show="model.showSuccessMessage" role="alert">
+                            <a href="#" class="close" ng-click="clearMessage()" >&times;</a>
+                            <strong>Done!</strong> <span ng-bind="model.successMessage"></span>
+                        </div>
+
+                        <div class="alert alert-danger fade in" ng-show="model.showErrorMessage" role="alert">
+                            <a id="usererrormessage" href="#" class="close" ng-click="clearMessage()">&times;</a>
+                            <strong>Error:</strong> <span ng-bind="model.error"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4">
+
+                        <form class="form1_content ">
+                            <div class="row">
+                                <div class="col-xs-12">
+
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-search" ng-click="searchUserDetails()"></span>
+                                        </span>
+                                        <input type="text" class="form-control" name="" placeholder="" id="inputClear" ng-model="model.SearchKey">
+                                        <span class="input-group-addon btn">
+                                            <span class="fa fa-remove" ng-click="ClearSearchKey()"></span>
+                                        </span>
+                                        <span class="input-group-addon btn">
+                                            <span class="fa fa-plus" ng-click="AddUser()"></span>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="row marginTop15">
+                            <div class="col-xs-6"><b>User</b></div>
+                            <div class="col-xs-6 user_chk">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" ng-model="model.isDeleted"  ng-change="loadUsers()" value="">Show deleted</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row marginTop15">
+                            <div class="col-xs-12">
+                                <div class="multiselect-wrap">
+                                    <select  multiple class="form-control left-select" id="selectemail" size="8" ng-model="model.SelectedUserEmail" >
+                                        <option class="list-group-item" value="{{x.Email}}"   ng-if="model.UserDetails.length > 0" ng-repeat="x in model.UserDetails  | filter: { fullNameAndEmail: model.SearchKey } track by $index" ng-click="showDetails(x.Email)">{{x.fullName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-8">
+                        <div>
+
+                            <ul class="nav nav-tabs">
+                                <li id="home" ng-class="{active:model.user.activeTab == 'home'}"><a data-toggle="tab" href="#" ng-click="homeclick()">Setup</a></li>
+                                <li id="employee" ng-if="model.showEmployeeDetails" ng-class="{active:model.user.activeTab == 'employee'}"><a data-toggle="tab" href="#" ng-click="employeeclick()">Employee Details</a></li>
+                                <li id="roles" ng-if="model.SelectedUser && model.IsEnabled" ng-class="{active:model.user.activeTab == 'roles'}"><a data-toggle="tab" href="#" ng-click="rolesclick()">Roles<sup>({{model.AssignedRolesCount}})</sup></a></li>
+                                <li id="modules" ng-if="model.SelectedUser && model.IsEnabled" ng-class="{active:model.user.activeTab == 'modules'}"><a data-toggle="tab" href="#" ng-click="modulesclick()">Modules<sup>({{model.AssignedModules.length}})</sup></a></li>
+                                <li id="status" ng-if="model.SelectedUser" ng-class="{active:model.user.activeTab == 'status'}"><a data-toggle="tab" href="#" ng-click="statusclick()">Status</a></li>
+                                <li class="log-tab" id="logs" ng-if="model.SelectedUser" ng-class="{active:model.user.activeTab == 'logs'}"><a data-toggle="tab" href="#" ng-click="logsclick()">Logs<sup>({{model.UserLogs.length}})</sup></a></li>
+                                <li class="pull-right filterbtn" ng-class="{active:model.user.activeTab == 'filter'}"><button class="btn btn-grey btn-sm" ng-show="model.user.activeTab == 'logs' || model.user.activeTab == 'filter'" ng-click="ShowFilter()"><i class="fa fa-filter marginright5"></i> <i class="fa fa-caret-down"></i></button></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="menu1" class="tab-pane fade in" ng-class="{active:model.user.activeTab == 'home'}">
+                                   <form class="form-horizontal marginTop20" name="userModalForm" novalidate>
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3" for="email">Email address</label>
+                                            <div class="col-xs-4">
+                                                <input type="email" class="form-control" id="email" focus="true"  ngRequired="email" ng-model="model.UserEmail" placeholder="Email" ng-blur="ValidateEmail()">
+                                            </div>
+                                            <img ng-if="model.loading" height="50px;" width="50px;" src="/images/loading_circle.gif" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="col-xs-3 control-label ">First name</label>
+                                            <div class="col-xs-3">
+                                                <input class="form-control" id="firstname" type="text" ngRequired="string" required ng-model="model.FirstName" placeholder="First name">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="lastname" class="col-xs-3 control-label">Last name</label>
+                                            <div class="col-xs-3">
+                                                <input class="form-control" id="lastname" type="text" ngRequired="string" required ng-model="model.LastName" placeholder="Last Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Select" class="col-xs-3 control-label">Type</label>
+                                            <div class="col-xs-4">
+                                                <select id="" class="form-control">
+                                                    <option>Not Specified</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="disabledSelect" class="col-xs-3 control-label"></label>
+                                            <div class="col-xs-4">
+
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" checked="{{model.IsAdmin}}" ng-model="model.IsAdmin">Administrator</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                     <label><input type="checkbox" ng-model="model.IsEnabled"  checked="{{model.IsEnabled}}">Enabled</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="disabledSelect" class="col-sm-3 control-label">Expiry date</label>
+                                            <div class="col-xs-5">
+                                                <div class="input-group">
+                                                
+                                                    <input type="date" name="date" id="userexpdate" datepicker-popup="{{dateformat}}" placeholder="{{dateformat}}" required class="form-control" uib-datepicker-popup="{{dateformat}}" ng-model="model.dt" is-open="model.showdp" ng-click="showcalendar($event)" min="{{yesterdayDate}}" datepicker-options="dateOptions">
+                                                    <span class="input-group-addon btn" ng-click="showcalendar($event)">
+                                                        <span class="fa fa-calendar"></span>
+                                                    </span>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+
+                                <div id="menu2" class="tab-pane fade in" ng-class="{active:model.user.activeTab == 'employee'}">
+
+                                    <form class="form-horizontal marginTop20">
+                                        <div class="form-group">
+                                            <label class="col-xs-3 control-label" for="">Team Leader</label>
+                                            <div class="col-xs-4">
+                                                <select class="form-control">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-3 control-label">Notes</label>
+                                            <div class="col-xs-8">
+                                                <textarea cols="10" rows="4" class="form-control" type="text"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
+                                <div id="menu3" class="tab-pane fade in" ng-class="{active:model.user.activeTab == 'roles'}">
+                                    <div class="row">
+
+                                        <form class="form-horizontal" role="form">
+                                            <div class="row">
+                                                <div class="col-xs-5">
+
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <span class="fa fa-search" ng-click="searchRoles()"></span>
+                                                        </span>
+                                                        <input type="text" class="form-control" name="" placeholder="" ng-model="model.SearchAllRoleKey">
+                                                        <span class="input-group-addon btn">
+                                                            <span class="fa fa-times" ng-click="StopRolesSearch()"></span>
+                                                        </span>
+                                                    </div>
+                                                    
+                                                    <div class="marginTop20">
+                                                        <div class="multiselect-wrap">
+                                                            <label class="control-label">Available Roles</label>
+                                                            <select multiple class="form-control selectheight" id="sel2" size="7" ng-model="model.LeftRoles">
+                                                                <option class="list-group-item"  ng-repeat="x in model.unAssinedRoles | filter :{ IsDeleted:'false', IsImplicitRole: 'false', IsEnabled:'true' } |    filter: { Name: model.SearchAllRoleKey } | orderBy: 'Name' track by $index">{{x.Name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <div class="btns-filter">
+                                                        <ul>
+                                                            <li><button class="btn btn-default" ng-click="AssignRole()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button></li>
+                                                            <li class="marginTop10"><button class="btn btn-default" ng-click="RemoveRole()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button></li>
+                                                        </ul>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <span class="fa fa-search" ng-click="searchAssignedRoles()"></span>
+                                                        </span>
+                                                        <input type="text" class="form-control" name="" placeholder="" ng-model="model.SearchAssignedRoleKey">
+                                                        <span class="input-group-addon btn">
+                                                            <span class="fa fa-times" ng-click="StopAssignedRolesSearch()"></span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="marginTop20">
+                                                        <div class="multiselect-wrap">
+                                                            <label class="control-label">{{model.SelectedUser ? model.FirstName + ' ' + model.LastName :''}}</label>
+                                                            <select multiple class="form-control selectheight" id="sel2" size="7" ng-model="model.RightRoles">
+                                                                <option class="list-group-item" ng-repeat="x in model.AssignedRoles | filter :{ IsDeleted:'false', IsImplicitRole: 'false', IsEnabled:'true' } | filter: { Name: model.SearchAssignedRoleKey } | orderBy : 'Name' track by $index">{{x.Name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="menu4" class="tab-pane fade in" ng-class="{active:model.user.activeTab == 'modules'}">
+                                    <div class="row">
+
+                                        <form class="form-horizontal" role="form">
+                                            <div class="row">
+                                                <div class="col-xs-5">
+
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <span class="fa fa-search" ng-click="searchModules()"></span>
+                                                        </span>
+                                                        <input type="text" class="form-control" name="" placeholder="" ng-model="model.SearchAllModuleKey">
+                                                        <span class="input-group-addon btn">
+                                                            <span class="fa fa-times" ng-click="StopModuleSearch()"></span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="marginTop20">
+                                                        <div class="multiselect-wrap">
+                                                            <label class="control-label">Available Modules</label>
+                                                            <select multiple class="form-control selectheight" id="sel2" size="7" ng-model="model.LeftModules">
+                                                                <option class="list-group-item" ng-repeat="x in model.unAssinedModules | filter: { Name: model.SearchAllModuleKey } | orderBy: 'Name' track by $index">{{x.Name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <div class="btns-filter">
+                                                        <ul>
+                                                            <li><button class="btn btn-default" ng-click="AssignModule()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button></li>
+                                                            <li class="marginTop10"><button class="btn btn-default" ng-click="RemoveModule()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button></li>
+                                                        </ul>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <span class="fa fa-search" ng-click="searchAssignedModules()"></span>
+                                                        </span>
+                                                        <input type="text" class="form-control" name="" placeholder="" ng-model="model.SearchAssignedModuleKey">
+                                                        <span class="input-group-addon btn">
+                                                            <span class="fa fa-times" ng-click="StopAssignedModulesSearch()"></span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="marginTop20">
+                                                        <div class="multiselect-wrap">
+                                                            <label class="control-label">{{model.SelectedUser ? model.FirstName + ' ' + model.LastName :''}}</label>
+                                                            <select multiple class="form-control selectheight" id="sel2" size="7" ng-model="model.RightModules">
+                                                                <option class="list-group-item" ng-if="model.AssignedModules.length >0" ng-repeat="x in model.AssignedModules  | filter: {Module:{Name:model.SearchAssignedModuleKey}} | orderBy: 'Module.Name' track by $index">{{x.Module.Name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="menu5" class="tab-pane fade in" ng-class="{active:model.user.activeTab == 'status'}">
+                                    <div class="row marginTop20">
+
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <div class="col-xs-6">
+                                                    Login History
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    Last activity
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <span ng-if="model.JustNow ==1"><b>Just now</b></span>
+                                                    <span ng-bind="model.LastLoggedInDate"></span>
+                                                </div>
+                                            </div>
+                                            <div id="sel2" class="border-round">
+
+
+                                                <div class="marginbottom5" ng-repeat="x in model.LoginHistory">
+
+                                                    <span>
+                                                        {{x.CreatedDate | date:'MM/dd/yyyy hh:mm:ss'}} &nbsp;&nbsp;<span ng-if="x.IsLoginSuccess==true">Successfull login from</span>
+                                                        <span ng-if="x.IsLoginSuccess==false">Failed login from</span>&nbsp;&nbsp;{{x.IPAddress}}
+                                                    </span>
+
+                                                </div>
+
+
+
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div id="menu6" class="tab-pane fade in" ng-class="{active:model.user.activeTab == 'logs'}">
+                                    <div class="row">
+                                        <div class="position-relative" ng-class="{active:model.user.activeTab == 'filter'}">
+
+                                            <!-- filter options -->
+                                            <div id="divuserfilter" class="status-filter" ng-show="showFilter">
+                                                <div class="col-xs-12">
+                                                    <div class="row filter-head">
+                                                        <i class="fa fa-filter"></i> Filtering options
+                                                    </div>
+
+                                                    <div class="col-xs-12">
+                                                        <div class="reg-form">
+                                                            <form class="form-horizontal" role="form">
+                                                                <div class="form-group">
+                                                                    <label for="Select" class="col-xs-3 control-label">Type</label>
+                                                                    <div class="col-xs-9">
+                                                                        <select id="" class="form-control" ng-model="Type">
+                                                                            <option value="">All</option>
+                                                                            <option value="Create">Insert</option>
+                                                                            <option>Update</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="Select" class="col-xs-3 control-label">By</label>
+                                                                    <div class="col-xs-9">
+                                                                        <select id="" class="form-control" ng-model="User">
+                                                                            <option value="">Everyone</option>
+                                                                            <option ng-repeat="user in model.ChangeLogUsers" value="{{user.Name}}">{{user.Name}}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="disabledSelect" class="col-xs-3 control-label">From Date</label>
+                                                                    <div class="col-xs-9">
+                                                                        <div class="input-group">
+                                                                            <input type="date" id="expdate1" placeholder="{{dateformat}}" required class="form-control" datepicker-popup="{{dateformat}}" uib-datepicker-popup="{{dateformat}}" ng-model="model.dtFrom" is-open="model.showfromdp" max="{{todayDate}}" datepicker-options="fromdateOptions" ng-click="showcalendarFrom($event)">
+                                                                            <span class="input-group-addon btn" ng-click="showcalendarFrom($event)">
+                                                                                <span class="fa fa-calendar"></span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="disabledSelect" class="col-xs-3 control-label">To Date</label>
+                                                                    <div class="col-xs-9">
+                                                                        <div class="input-group">
+                                                                            <input type="date"id="expdate2" placeholder="{{dateformat}}" required class="form-control" datepicker-popup="{{dateformat}}" uib-datepicker-popup="{{dateformat}}" ng-model="model.dtTo" is-open="model.showtodp" max="{{todayDate}}" datepicker-options="todateOptions" ng-click="showcalendarTo($event)">
+                                                                            <span class="input-group-addon btn" ng-click="showcalendarTo($event)">
+                                                                                <span class="fa fa-calendar"></span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-xs-9 col-xs-offset-3">
+                                                                        <button type="button" class="btn btn-grey btn-sm" ng-click="RemoveFilter()"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                                                                        <button type="button" class="btn btn-primary btn-sm" ng-click="ApplyFilter()"><i class="fa fa-check" aria-hidden="true"></i> Apply</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="border2-round padding5" ng-class="{active:model.user.activeTab == 'logs'}">
+                                            <div class="table-border" ng-repeat="Y in model.UserLogs" ng-switch="Y.previousDateSame">
+                                                <table class="table table-striped" width="100%" ng-switch-when="false">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="30%"><i class="fa fa-chevron-down"></i> {{Y.ModificationType == "Create" ?"Insert":Y.ModificationType}}</th>
+                                                            <th width="35%"><span class="table-inner-text">by</span> {{Y.ActionByName ? Y.ActionByName : Y.ActionBy}}</th>
+                                                            <th width="35%"><span class="table-inner-text">at</span> {{Y.ActionDate | date:'MM/dd/yyyy hh:mm:ss Z'}}</th>
+                                                        </tr>
+                                                        <tr class="second-head">
+                                                            <td width="30%" class="font-bold">Property Name</td>
+                                                            <td width="35%" class="font-bold">Old Value</td>
+                                                            <td width="35%" class="font-bold">New Value</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="30%">{{Y.PropertyName}}</td>
+                                                            <td width="35%">{{Y.OldValue}}</td>
+                                                            <td width="35%">{{Y.NewValue}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table class="table table-striped" width="100%" ng-switch-when="true">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="30%">{{Y.PropertyName}}</td>
+                                                            <td width="35%">{{Y.OldValue}}</td>
+                                                            <td width="35%">{{Y.NewValue}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="model.user.Home==1">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button class="btn btn-danger btn-sm pull-left" type="button"  ng-if="model.user.Edit==1" ng-click="DeleteUser()"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                    <button class="btn btn-grey btn-sm" type="button" ng-click="clearMessage();model.user.Create==1 ? model.addUser() : model.showDetails(model.SelectedUser)" ng-disabled="model.user.Create==1 && model.UserEmail == '' && model.FirstName == '' && model.LastName == ''"  data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+
+                    <button class="btn btn-primary btn-sm" type="button" ng-if="model.user.Create==1" ng-disabled="model.UserEmail == '' || model.FirstName == '' || model.LastName == ''" ng-click="CreateUser()"><i class="fa fa-pencil" aria-hidden="true"></i> Create</button>
+                    <button class="btn btn-primary btn-sm" type="button" ng-if="model.user.Edit==1" ng-click="UpdateUser()"><i class="fa fa-pencil" aria-hidden="true"></i> Save</button>
+                </div>
+            </div>
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="model.user.Employee==2">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button class="btn btn-grey btn-sm" type="button" data-dismiss="modal" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                    <!--<button type="button" class="btn btn-primary" ng-if="Create==1"><li class="glyphicon glyphicon-edit"></li>&nbsp;Create</button>-->
+                    <button class="btn btn-primary btn-sm" type="button" ng-if="model.user.Edit==1"><i class="fa fa-pencil" aria-hidden="true"></i> save</button>
+                </div>
+            </div>
+
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="model.user.Role==2">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button class="btn btn-grey btn-sm" type="button" data-dismiss="modal" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                    <!--<button type="button" class="btn btn-primary" ng-if="Create==1"><li class="glyphicon glyphicon-edit"></li>&nbsp;Create</button>-->
+                    <button class="btn btn-primary btn-sm" type="button" ng-if="model.user.Edit==1"><i class="fa fa-pencil" aria-hidden="true"></i> save</button>
+                </div>
+            </div>
+
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="model.user.Module==2">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button class="btn btn-grey btn-sm" type="button" data-dismiss="modal" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                    <!--<button type="button" class="btn btn-primary" ng-if="Create==1"><li class="glyphicon glyphicon-edit"></li>&nbsp;Create</button>-->
+                    <button class="btn btn-primary btn-sm" type="button" ng-if="model.user.Edit==1"><i class="fa fa-pencil" aria-hidden="true"></i> save</button>
+                </div>
+            </div>
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="model.user.Status==2">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button class="btn btn-grey btn-sm" type="button" data-dismiss="modal" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                    <!--<button type="button" class="btn btn-primary" ng-if="Create==1"><li class="glyphicon glyphicon-edit"></li>&nbsp;Create</button>-->
+                    <button class="btn btn-primary btn-sm" type="button" ng-if="model.user.Edit==1"><i class="fa fa-pencil" aria-hidden="true"></i> save</button>
+                </div>
+            </div>
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="model.user.Logs==2">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button class="btn btn-grey btn-sm" type="button" data-dismiss="modal" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                    <!--<button type="button" class="btn btn-primary" ng-if="Create==1"><li class="glyphicon glyphicon-edit"></li>&nbsp;Create</button>-->
+                    <button class="btn btn-primary btn-sm" type="button" ng-if="model.user.Edit==1"><i class="fa fa-pencil" aria-hidden="true"></i> save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for Users End -->
+
+
+
+<!-- Modal for Roles -->
+<div id="rolesModal" ng-if="isauthenticated && !isDev" class="modal fade model-box-style" role="dialog">
+    <div class="modal-dialog model-width900" ng-controller="RolesController as roles">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header modelbox-wrap">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-user" aria-hidden="true"></i> <b>{{roles.model.text.pageTitle}}</b></h4>
+                <div class="add-link" ng-show="model.role.createMode" ng-click="roles.newRoleHomeClick()"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{roles.model.text.roleAdd}} </div>
+                <div class="add-link" ng-show="!model.role.createMode"><i class="fa fa-edit" aria-hidden="true"></i> {{model.role.selectedRole.Name}} </div>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <center>
+                            <div id="error_container"></div>
+                        </center>
+                        <div class="alert alert-success fade in" ng-show="model.showSuccessMessage" role="alert">
+                            <a href="#" class="close" ng-click="model.clearMessage();">&times;</a>
+                            <strong>Done!</strong> <span ng-bind="model.successMessage"></span>
+                        </div>
+
+                        <div class="alert alert-danger fade in" ng-show="model.showErrorMessage" role="alert">
+                            <a href="#" class="close" ng-click="model.clearMessage()">&times;</a>
+                            <strong>Error:</strong> <span ng-bind="model.error"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4">
+                        <form class="form1_content ">
+                            <div class="form-group row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-search"></span>
+                                        </span>
+                                        <input type="text" class="form-control" name="" placeholder="" id="inputClear" ng-model="roleSearchKey">
+                                        <span class="input-group-addon btn">
+                                            <span class="fa fa-remove" ng-click="roles.clearSearchKey()"></span>
+                                        </span>
+                                        <span class="input-group-addon btn">
+                                            <span class="fa fa-plus" ng-click="roles.showNewRole()"></span>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="row">
+                            <div class="col-xs-6"><b>Roles</b></div>
+                            <div class="col-xs-6 user_chk">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="showDeletedRoles"  name="showDeletedRoles" ng-model="roles.model.ShowDeleted"  ng-change="roles.loadAllRolesWithDeleteStatus()" value="">Show deleted</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row marginTop15">
+
+                            <div class="col-xs-12">
+                                <div class="form-group multiselect-wrap">
+                                    <select multiple class="form-control left-select" id="selectrole" size="8" ng-model="roles.model.role.SelectedRole">
+                                        <option class="list-group-item" ng-selected="role.Name==roles.model.role.SelectedRole.Name" ng-repeat="role in roles.model.role.allRoles | filter: { Name:roleSearchKey, IsImplicitRole:'false' } | orderBy: 'Name'" ng-click="roles.showRoleDetails(role)" value="{{role.Id}}">{{role.Name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-xs-8">
+                        <div class="tab-blue-links">
+                            <ul class="nav nav-tabs">
+                                <li id="home" ng-class="{active:roles.model.role.activeTab == 'home'}"><a data-toggle="tab" href="#" ng-click="roles.roleHomeClick()">Setup</a></li>
+                                <li id="users" ng-if="roles.model.role.selectedRole != null" ng-class="{active: roles.model.role.activeTab == 'users'}"><a ng-show="roles.selectedRole && roles.showUsersTab" data-toggle="tab" href="#" ng-click="roles.roleUsersClick()">Users<sup>({{roles.model.role.currentAssignedUsersCount}})</sup></a></li>
+                                <li id="logs" ng-if="roles.model.role.selectedRole != null" ng-class="{active: roles.model.role.activeTab == 'logs'}"><a ng-show="roles.selectedRole" data-toggle="tab" href="#" ng-click="roles.roleLogsClick()">Logs<sup>({{roles.model.role.currentRoleLogs.length}})</sup></a></li>
+                                <li class="pull-right filterbtn"><button class="btn btn-grey btn-sm" ng-click="roles.ShowFilter()" ng-show="model.role.activeTab == 'logs'"><i class="fa fa-filter marginright5"></i> <i class="fa fa-caret-down"></i></button></li>
+                            </ul>
+
+
+
+                            <div class="tab-content">
+                                <div id="home" class="tab-pane fade in marginTop20" ng-class="{active: roles.model.role.activeTab=='home'}">
+
+                                    <form class="form-horizontal" name="rolesForm" role="form">
+                                        <div class="form-group" ng-class="{ 'has-error' : rolesForm.roleName.$invalid && !rolesForm.roleName.$pristine }">
+                                            <label for="roleName" class="col-xs-3 control-label">Role Name</label>
+                                            <div class="col-xs-5">
+                                                <input class="form-control" required name="roleName" id="roleName" type="text" ng-model="model.role.currentRole.Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Select" class="col-xs-3 control-label">Type</label>
+                                            <div class="col-xs-4">
+                                                <select id="" class="form-control">
+                                                    <option>Not Specified</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-offset-3 col-sm-5">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" ng-model="model.role.currentRole.IsManager">Manager
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-offset-3 col-sm-5">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" ng-model="model.role.currentRole.IsEnabled">Enabled
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+
+
+                                </div>
+
+                                <div id="users" class="tab-pane fade in" ng-class="{active: roles.model.role.activeTab == 'users'}">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-search" ng-click="roles.searchUsers()"></span>
+                                                    </span>
+                                                    <input type="text" class="form-control" name="" placeholder="" ng-model="searchAllRoleKey">
+                                                    <span class="input-group-addon btn">
+                                                        <span class="fa fa-times" ng-click="searchAllRoleKey = ''"></span>
+                                                    </span>
+                                                </div>
+
+                                                <div class="marginTop20">
+                                                    <div class="multiselect-wrap">
+                                                        <label class="control-label">Available Users</label>
+                                                        <select multiple class="form-control selectheight" id="sel2" size="6" ng-model="roles.model.role.selectedAllUsers">
+                                                            <option class="list-group-item" ng-repeat="user in roles.model.role.currentUnassignedUsers | filter:{fullNameAndEmail : searchAllRoleKey, IsEnabled: 'true', IsDeleted: 'false'} | orderBy: ['FirstName', 'LastName'] track by user.Id" value="{{user.Id}}">{{user.FirstName}}&nbsp;{{user.LastName}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-xs-2">
+                                                <div class="btns-filter">
+                                                    <ul>
+                                                        <li><button class="btn btn-default" ng-click="roles.assignRoleUsers()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button></li>
+                                                        <li class="marginTop10"><button class="btn btn-default" ng-click="roles.removeRoleUsers()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button></li>
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-xs-5">
+
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-search" ng-click="roles.searchAssignedRoles()"></span>
+                                                    </span>
+                                                    <input type="text" class="form-control" name="" placeholder="" ng-model="searchAssignedUserKey">
+                                                    <span class="input-group-addon btn">
+                                                        <span class="fa fa-times" ng-click="searchAssignedUserKey=''"></span>
+                                                    </span>
+                                                </div>
+
+                                                <div class="marginTop20">
+                                                    <div class="multiselect-wrap">
+                                                        <label class="control-label">{{model.role.selectedRole.Name}}</label>
+                                                        <select multiple class="form-control selectheight" id="sel2" size="6" ng-model="roles.model.role.selectedAssignedUsers">
+                                                            <option class="list-group-item" ng-repeat="user in roles.model.role.currentAssignedUsers | filter:{fullNameAndEmail:searchAssignedUserKey, IsEnabled: 'true', IsDeleted: 'false'} | orderBy: ['FirstName', 'LastName'] track by user.Id"  value="{{user.Id}}">{{user.FirstName}}&nbsp;{{user.LastName}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="logs" class="tab-pane fade in" ng-class="{active: roles.model.role.activeTab == 'logs'}">
+
+                                    <div class="row">
+
+
+                                        <div class="position-relative">
+                                            <div id="divRoleUserfilter" class="status-filter" ng-show="roles.showFilter">
+                                                <div class="col-xs-12">
+                                                    <div class="row filter-head">
+                                                        <i class="fa fa-filter"></i> Filtering options
+                                                    </div>
+
+                                                    <div class="col-xs-12">
+                                                        <div class="reg-form">
+                                                            <form class="form-horizontal" role="form">
+                                                                <div class="form-group">
+                                                                    <label for="Select" class="col-xs-3 control-label">Type</label>
+                                                                    <div class="col-xs-9">
+                                                                        <select id="" class="form-control" ng-model="roles.model.type">
+                                                                            <option value="">All</option>
+                                                                            <option value="Create">Insert</option>
+                                                                            <option>Update</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="Select" class="col-xs-3 control-label">By</label>
+                                                                    <div class="col-xs-9">
+                                                                        <select id="" class="form-control" ng-model="roles.model.User">
+                                                                            <option value="">Everyone</option>
+                                                                            <option ng-repeat="user in roles.model.ChangeLogUsers" value="{{user.Name}}">{{user.Name}}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="disabledSelect" class="col-xs-3 control-label">From Date</label>
+                                                                    <div class="col-xs-9">
+                                                                        <div class="input-group">
+                                                                            <input type="date" id="expdate3" placeholder="{{dateformat}}" required class="form-control" datepicker-popup="{{dateformat}}" uib-datepicker-popup="{{dateformat}}" ng-model="dtFrom" is-open="roles.model.showfromdp" max="{{todayDate}}" datepicker-options="roles.fromdateOptions" ng-click="roles.showcalendarFrom($event)">
+                                                                            <span class="input-group-addon btn" ng-click="roles.showcalendarFrom($event)">
+                                                                                <span class="fa fa-calendar"></span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="disabledSelect" class="col-xs-3 control-label">To Date</label>
+                                                                    <div class="col-xs-9">
+                                                                        <div class="input-group">
+                                                                            <input type="date" id="expdate4" placeholder="{{dateformat}}" required class="form-control" datepicker-popup="{{dateformat}}" uib-datepicker-popup="{{dateformat}}" ng-model="dtTo" is-open="roles.model.showtodp" max="{{todayDate}}" datepicker-options="roles.todateOptions" ng-click="roles.showcalendarTo($event)">
+                                                                            <span class="input-group-addon btn" ng-click="roles.showcalendarTo($event)">
+                                                                                <span class="fa fa-calendar"></span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-xs-9 col-xs-offset-3">
+                                                                        <button type="button" class="btn btn-grey btn-sm" ng-click="roles.removeFilter()"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                                                                        <button type="button" class="btn btn-primary btn-sm" ng-click="roles.applyFilter()"><i class="fa fa-check" aria-hidden="true"></i> Apply</button>
+
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="border2-round padding5 marginTop10">
+                                            <div class="table-border" ng-repeat="log in roles.model.role.currentRoleLogs" ng-switch="log.previousDateSame">
+                                                <table class="table table-striped" width="100%"ng-switch-when="false">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="30%"><i class="fa fa-chevron-down"></i>{{log.ModificationType == "Create" ? "Insert" : log.ModificationType}}</th>
+                                                            <th width="35%"><span class="table-inner-text">by</span> {{log.ActionBy}}</th>
+                                                            <th width="35%"><span class="table-inner-text">at</span> {{ log.ActionDate | date:'MM/dd/yyyy hh:mm:ss Z'}}</th>
+                                                        </tr>
+                                                        <tr class="second-head">
+                                                            <td width="30%" class="font-bold">Property Name</td>
+                                                            <td width="35%" class="font-bold">Old Value</td>
+                                                            <td width="35%" class="font-bold">New Value</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="30%">{{log.PropertyName}}</td>
+                                                            <td width="35%">{{log.OldValue}}</td>
+                                                            <td width="35%">{{log.NewValue}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table class="table table-striped" width="100%" ng-switch-when="true">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="30%">{{log.PropertyName}}</td>
+                                                            <td width="35%">{{log.OldValue}}</td>
+                                                            <td width="35%">{{log.NewValue}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="roles.model.home==1">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button class="btn btn-danger btn-sm pull-left" type="button" ng-click="roles.deleteRole()" ng-show="roles.selectedRole"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                    <button class="btn btn-grey btn-sm" type="button" ng-disabled="model.role.createMode && (!model.role.currentRole.Name || model.role.currentRole.Name == '')" ng-click="RevertChanges();" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                    <button class="btn btn-primary btn-sm" type="button" ng-disabled="!model.role.currentRole.Name || model.role.currentRole.Name == ''" ng-if="roles.model.role.createMode" ng-click="roles.createRole()"><i class="fa fa-pencil" aria-hidden="true"></i> Create</button>
+                    <button class="btn btn-primary btn-sm" type="button" ng-disabled="!model.role.currentRole.Name || model.role.currentRole.Name == ''" ng-if="!roles.model.role.createMode" ng-click="roles.updateRole()"><i class="fa fa-pencil" aria-hidden="true"></i> Save</button>
+                </div>
+            </div>
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="roles.model.user==2">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button class="btn btn-grey btn-sm" type="button" data-dismiss="modal" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                    <button class="btn btn-primary btn-sm" type="button" nng-if="roles.model.edit==1"><i class="fa fa-pencil" aria-hidden="true"></i> Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for Roles End -->
+
+
+
+<!-- Modal for System Settengs -->
+<div id="settingsModal" ng-if="isauthenticated && !isDev" class="modal fade" role="dialog">
+    <div class="modal-dialog model-width700" ng-controller="SystemSettingsController as settings">
+        <!-- Modal content-->
+        <div class="modal-content modelbox-wrap" ng-init="SystemSettings()">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="clearMessage();CloseSettings()">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-cog" aria-hidden="true"></i> <b>System Settings for {{Name}}</b></h4>
+                <div class="col-xs-12">
+                    <center><div id="error_container"></div></center>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <center>
+                            <div id="error_container"></div>
+                        </center>
+                        <div class="alert alert-success fade in" ng-show="model.showSuccessMessage" role="alert">
+                            <a href="#" class="close" ng-click="clearMessage()">&times;</a>
+                            <strong>Done!</strong> <span ng-bind="model.successMessage"></span>
+                        </div>
+
+                        <div class="alert alert-danger fade in" ng-show="model.showErrorMessage" role="alert">
+                            <a href="#" class="close" ng-click="clearMessage()">&times;</a>
+                            <strong>Error:</strong> <span ng-bind="model.error"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="nav nav-tabs">
+                            <li id="settings" ng-class="{active:systemSettings.activeTab == 'settings'}"><a data-toggle="tab" href="#" ng-click="settings()">User</a></li>
+                            <li id="logs" ng-class="{active:systemSettings.activeTab == 'logs'}"><a data-toggle="tab" href="#" ng-click="logs()">Logs<sup>({{SystemLogs.length}})</sup></a></li>
+                            <li class="pull-right filterbtn"><button class="btn btn-grey btn-sm" ng-click="showFilter = !showFilter" ng-show="systemSettings.activeTab == 'logs'"><i class="fa fa-filter marginright5"></i> <i class="fa fa-caret-down"></i></button></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <div id="menu1" class="tab-pane fade in" ng-class="{active:systemSettings.activeTab == 'settings'}">
+                        <form class="form-horizontal" role="form" name="settingsForm">
+                            <h4>Login Settings</h4>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="session">Session Timeout(Minutes)</label>
+                                <div class="col-xs-8">
+                                    <input type="text"  numbers-only class="form-control" id="session" required ng-model="sessionTimeout" placeholder="Enter Session Timeout">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="temppassword" class="col-xs-4 control-label">Temporary Password Expiry(Hours)</label>
+                                <div class="col-xs-8">
+                                    <input class="form-control" id="temppassword" type="text"  numbers-only  required ng-model="TempPassword" placeholder="Enter Temporary Password Expiry Hours">
+                                </div>
+                            </div>
+                        </form>
+
+                        <form class="form-horizontal" role="form">
+                            <h4 class="marginTop20">Registration / Password Reset Notifications</h4>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="fromname">From Name</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" id="fromname" ngRequired="string" ng-model="FromName" placeholder="Enter From Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fromemail" class="col-sm-4 control-label">From Email</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" name="fromemail" id="fromemail" type="email" ngRequired="string" required ng-model="FromEmail" placeholder="Enter Email ID">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div id="menu2" class="tab-pane fade in" ng-class="{active:systemSettings.activeTab == 'logs'}" >
+
+                        <!-- Tooltip fo Filter ----------------------->
+                        <div class="position-relative">
+                            <div id="divsettingsfilter" class="settings-filter" ng-show="showFilter">
+                                <div class="col-xs-12">
+                                    <div class="row filter-head">
+                                        <i class="fa fa-filter"></i> Filtering options
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div class="reg-form">
+                                            <form class="form-horizontal" role="form">
+                                                <div class="form-group">
+                                                    <label for="Select" class="col-xs-3 control-label">Type</label>
+                                                    <div class="col-xs-9">
+                                                        <select id="" class="form-control" ng-model="type">
+                                                            <option value="">All</option>
+                                                            <option value="Create">Insert</option>
+                                                            <option>Update</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Select" class="col-xs-3 control-label">By</label>
+                                                    <div class="col-xs-9">
+                                                        <select id="" class="form-control" ng-model="User">
+                                                            <option value="">Everyone</option>
+                                                            <option ng-repeat="user in ChangeLogUsers" value="{{user.Name}}">{{user.Name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="disabledSelect" class="col-xs-3 control-label">From Date</label>
+                                                    <div class="col-xs-9">
+                                                        <div class="input-group">
+                                                            <input type="date" id="expdate5" placeholder="{{dateformat}}" required class="form-control" datepicker-popup="{{dateformat}}" uib-datepicker-popup="{{dateformat}}" ng-model="dtFrom" is-open="showfromdp" max="{{todayDate}}" datepicker-options="fromdateOptions" ng-click="showcalendarFrom($event)">
+                                                            <span class="input-group-addon btn" ng-click="showcalendarFrom($event)">
+                                                                <span class="fa fa-calendar"></span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="disabledSelect" class="col-xs-3 control-label">To Date</label>
+                                                    <div class="col-xs-9">
+                                                        <div class="input-group">
+                                                            <input type="date" id="expdate6" placeholder="{{dateformat}}" required class="form-control" datepicker-popup="{{dateformat}}" uib-datepicker-popup="{{dateformat}}" ng-model="dtTo" is-open="showtodp" max="{{todayDate}}" datepicker-options="todateOptions" ng-click="showcalendarTo($event)">
+                                                            <span class="input-group-addon btn" ng-click="showcalendarTo($event)">
+                                                                <span class="fa fa-calendar"></span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-xs-9 col-xs-offset-3">
+                                                        <button type="button" class="btn btn-grey btn-sm" ng-click="removeFilter()"><i class="fa fa-times" aria-hidden="true"></i> Revert</button>
+                                                        <button type="button" class="btn btn-primary btn-sm" ng-click="applyFilter()"><i class="fa fa-check" aria-hidden="true"></i> Apply</button>
+
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tooltip fo Filter End-->
+
+
+                        <div class="border2-round padding5 marginTop10 collapsible">
+                            <div class="table-border" ng-repeat="Y in SystemLogs" ng-switch="Y.previousDateSame">
+                                <table class="table table-striped" width="100%" ng-switch-when="false">
+                                    <thead>
+                                        <tr>
+                                            <th width="30%"><i class="fa fa-chevron-down"></i>{{Y.ModificationType == "Create" ?"Insert":Y.ModificationType}}</th>
+                                            <th width="35%"><span class="table-inner-text">by</span> {{Y.ActionBy}}</th>
+                                            <th width="35%"><span class="table-inner-text">at</span> {{Y.ActionDate | date:'MM/dd/yyyy hh:mm:ss Z'}}</th>
+                                        </tr>
+                                        <tr class="second-head">
+                                            <td width="30%" class="font-bold">Property Name</td>
+                                            <td width="35%" class="font-bold">Old Value</td>
+                                            <td width="35%" class="font-bold">New Value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%">{{Y.PropertyName}}</td>
+                                            <td width="35%">{{Y.OldValue}}</td>
+                                            <td width="35%">{{Y.NewValue}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-striped" width="100%" ng-switch-when="true">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%">{{Y.PropertyName}}</td>
+                                            <td width="35%">{{Y.OldValue}}</td>
+                                            <td width="35%">{{Y.NewValue}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="SettingsInfo==1">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button type="button" class="btn btn-grey" data-dismiss="modal" ng-click="clearMessage()" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Close</button>
+                    <!--<button type="button" class="btn btn-primary" ng-if="Create==1"><li class="glyphicon glyphicon-edit"></li>&nbsp;Create</button>-->
+                    <button type="button" class="btn btn-primary" ng-disabled="activate()"  ng-click="SaveSettings()"><i class="fa fa-pencil" aria-hidden="true"></i> Save</button>
+                </div>
+            </div>
+
+            <div class="sub-object-footer">
+                <div class="modal-footer" ng-if="LogsInfo==1">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button type="button" class="btn btn-grey" data-dismiss="modal" ng-click="clearMessage()" data-backdrop="false"><i class="fa fa-times" aria-hidden="true"></i> Close</button>
+                    <!--<button type="button" class="btn btn-primary" ng-if="Create==1"><li class="glyphicon glyphicon-edit"></li>&nbsp;Create</button>-->
+                    <!--<button type="button" class="btn btn-primary"><li class="glyphicon glyphicon-edit"></li>&nbsp;Save</button>-->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Modal for System Settengs End -->

@@ -1,0 +1,579 @@
+﻿<div id="ImageReferenceAttribute" class="attribute-container" role="dialog" data-backdrop="static" ng-controller="CampaignAttributeController as cac">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="imageReferenceAttributeForm" class="form-horizontal" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="closeModal();">&times;</button>
+                    <h4><b>{{ action }}Add Image Reference Attribute</b></h4>
+                    <!--Place the error directive here-->
+                    <error-control attribute-scope="errorAttribute"></error-control>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+                        <div class="basci-properties-wrap">
+                            <div class="attribute-model-title">Basic Properties</div>
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-xs-2 control-label">Name<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" class="form-control input-medium" name="name"
+                                                       ng-model="cac.model.name" ng-change="cac.deriveIdentifier()" allow-pattern="(\d|[a-z ])" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-xs-2 control-label">Identifier<span class="mandatory">*</span></label>
+                                            <div class="col-xs-7">
+                                                <input type="text" name="identifier" ng-model="cac.model.identifier"
+                                                       ng-readonly="readonly" class="form-control"
+                                                       allow-pattern="(\d|[a-z ])" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="Mandatory" ng-model="cac.model.Mandatory" ng-change="cac.model.ReadOnly = false" ng-checked="true"> Mandatory (Users must specify a value for this field)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" ng-disabled="cac.model.Mandatory" name="ReadOnly" ng-model="cac.model.ReadOnly"> Read Only (Users cannot modify this attribute)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-offset-2 col-xs-10">
+                                                <fieldset disabled>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" ng-disabled="cac.model.Mandatory" name="ReadOnly" ng-model="cac.model.ReadOnly"> Allow version specific values
+                                                        </label>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+
+                                            <div class="col-xs-offset-2 col-xs-10" ng-hide="cac.model.isCopyField">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="isUnique" ng-model="cac.model.isUnique"> Value(s) must be Unique across all Objects
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <fieldset disabled>
+                                            <div class="listbox-wrap form-group" ng-hide="!cac.model.isUnique">
+                                                <div class="col-xs-offset-2 col-xs-10">
+                                                    <div class="list-valu-box">
+
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="isSingularlyUnique" ng-model="cac.model.isSingularlyUnique"
+                                                                       ng-checked="cac.model.isSingularlyUnique==option.key" value="0">
+                                                                Sinularly Unique
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="isSingularlyUnique" ng-model="cac.model.isSingularlyUnique"
+                                                                       ng-checked="cac.model.isSingularlyUnique==option.key" value="1">
+                                                                Composite Unique
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-inline margin-left20">
+                                                            <label for="unique_group" class="control-label">Unique Group<span class="form-mandatory">*</span></label>
+                                                            <select class="form-control width100 margin-left10" ng-model="cac.model.uniqueGroup" name="uniqueGroup"
+                                                                    ng-change="cac.model.isSingularlyUnique = '0'">
+                                                                <option value="" selected hidden> Name+Brand</option>
+                                                            </select>
+                                                            <button class="btn btn-default" data-toggle="modal">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="col-xs-5" ng-hide="cac.model.isSequence">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="isAllowMultiValue" ng-model="cac.model.isAllowMultiValue" />
+                                            Allow Multiple Values
+                                        </label>
+                                    </div>
+                                    <div class="list-valu-box marginTop10" ng-hide="!cac.model.isAllowMultiValue">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="isValueUnique" ng-disabled="!cac.model.isAllowMultiValue" ng-model="cac.model.isValueUnique" class="">
+                                                Values Must be unique
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="canValueRearranged" ng-disabled="!cac.model.isAllowMultiValue" ng-model="cac.model.canValueRearranged" class="">
+                                                Values can be rearranged
+                                            </label>
+                                        </div>
+
+                                        <div class="attribute">
+                                            <div class="form-horizontal marginTop10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-7 text-left no-padding">Minimum # of values</label>
+                                                    <div class="col-xs-5">
+                                                        <input type="text" name="minNumOfValues" ng-disabled="!cac.model.isAllowMultiValue"
+                                                               ng-model="cac.model.minNumOfValues" maxlength="3" only-number0999 class="form-control" />
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="form-horizontal marginTop10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-7 text-left no-padding">Maximum # of values</label>
+                                                    <div class="col-xs-5">
+                                                        <input type="text" name="maxNumOfValues" ng-disabled="!cac.model.isAllowMultiValue"
+                                                               ng-model="cac.model.maxNumOfValues" maxlength="3" only-number0999 class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 marginTop20">
+                            <div class="form-group">
+                                <label for="exampleTextarea">Attribute Description/ Help Text</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="3" textarea name="description" ng-model="cac.model.description"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 marginTop20">
+                                <div class="attribute-model-title">Image Reference Behavior</div>
+                            </div>
+                            <div class="col-sm-12">
+                                The image references associated with this attribute can be modified when:
+                            </div>
+                            <div class="col-sm-12 top-margin-10">
+                                <div class="col-sm-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-ng-model="cac.model.isEditProduct" />Editing the Product
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-ng-model="cac.model.isViewProduct" />
+                                            Viewing the Product
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 marginTop15">
+                                <div class="attribute-model-title">Image Reference Attribute Properties</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label marginbottom5" for="">Image Selection Method<span class="mandatory">*</span></label>
+                                    <select class="form-control" data-ng-model="cac.model.imageSelectionMethod" data-ng-options="option.key as option.value for option in imageSelectionOptions"></select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-xs-6 img-ref-btn">
+                                <label class="control-label marginbottom5" for="">Specify the Image Types the reference will accept<span class="mandatory">*</span></label>
+                                <button class="btn btn-default" type="button" data-ng-click="showAcceptedImageTypes();" data-toggle="modal" data-target="#imageTypesConfigurationAttribute">Accepted Image Types</button>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-xs-12 imageroles">
+                                <div class="col-xs-4">
+                                    <div class="row">
+                                        <b class="paddingTop10 display-block">Image Roles</b>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-8 clearfix">
+                                    <div class="row">
+                                        <div class="flat-right marginbottom10">
+                                            <div class="form-group">
+                                                <div class="table-row">
+                                                    <div class="table-cell table-cel-padding labelmargin0">
+                                                        <label class="form-control-label">Add Role</label>
+                                                    </div>
+
+                                                    <div class="table-cell table-cel-padding">
+                                                        <input class="form-control" type="text" data-ng-model="cac.model.newImageRoleName" />
+                                                    </div>
+
+                                                    <div class="table-cell table-cel-padding">
+                                                        <button class="btn btn-default" type="button" data-ng-click="cac.addNewImageRole();"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <div id="newImageRoleError" class="error-message"></div>
+                                    <error-control attribute-scope="errorRoleAttribute" ng-show="!errorRoleAttribute.isHide"></error-control>
+
+                                </div>
+                                <div class="settings-bottom-devider clearfix"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 table-border-radius marginTop10">
+
+                                <table class="table table-condensed table-hover">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th class="align-center">Default</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr data-ng-repeat="role in cac.model.imageRoles">
+                                            <td data-ng-bind="role.name"></td>
+                                            <td class="align-center">
+                                                <input type="radio" name="isDefaultImageRole" value="{{role.id}}" data-ng-click="cac.changeDefaultImageRole(role.id)"
+                                                       data-ng-model="cac.model.defaultImageRole" />
+                                            </td>
+                                            <td class="text-right table-links">
+                                                <a href="#"><i class="fa fa-pencil grid-actions" data-toggle="modal" data-target="#editImageRoleSectionAttribute" data-ng-click="editImageRole(role);"></i></a>
+                                                <a href="#"><i class="fa fa-times grid-actions" data-ng-click="confirmClick('Are you sure you want to delete?','Confirm','Delete','Cancel') && deleteImageRole(role);" confirm-click></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="cac.addImageReference(cac.model)" ng-disabled="imageReferenceAttributeForm.$invalid" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="editImageRoleSectionAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="editImageRoleSectionAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-ng-click="openErrorScreen(editImageRoleSectionAttributeForm.$dirty,'editImageRoleSection',true,'imageReferenceAttributeForm');" aria-hidden="true">&times;</button>
+                    <h4><b>Edit Image Role</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline marginbottom10">
+                        <div class="form-group">
+                            <label class="form-control-label">Role Name</label>
+                            <input class="form-control" type="text" data-ng-model="cac.model.editImageRole.name" />
+                        </div>
+                    </div>
+                    <div id="editImageRoleError" class="error-message"></div>
+                    <error-control attribute-scope="errorRoleAttribute"></error-control>
+                    <div class="sub-object-footer">
+                        <div class="modal-footer">
+                            <button data-ng-click="openErrorScreen(editImageRoleSectionAttributeForm.$dirty,'editImageRoleSection',true,'imageReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button data-ng-click="saveImageRoleName()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="imageTypesConfigurationAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="imageTypesConfigurationAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="resetErrorDirective(errorAttribute);openErrorScreen(imageTypesConfigurationAttributeForm.$dirty,'imageTypesConfiguration',true,'imageReferenceAttributeForm');">&times;</button>
+                    <h4><b>Accepted Image Types</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="attribute-model-title">Configure Image Reference</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4">
+
+                                <label>
+                                    <input type="radio" name="applyImageType" value="1" ng-checked="(cac.model.imageApplyType == '1')" data-ng-click="changeImageApplyType('1');" />
+                                    <b>Any Image Type</b>
+                                </label>
+
+                            </div>
+                            <div class="col-xs-4">
+
+                                <label>
+                                    <input type="radio" name="applyImageType" value="2" ng-checked="(cac.model.imageApplyType == '2')" data-ng-click="changeImageApplyType('2');" />
+                                    <b>Specific Image Types</b>
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <div class="specific-img-main-box clearfix marginTop15" data-ng-show="(cac.model.imageApplyType == '2')">
+                            <div class="clearfix">
+                                <tree-multi-select control-id="acceptedImageTypes" options-list="allImageLibraryTypes"
+                                                   selected-values="selectedImageLibraryTypes" create-content-node="createImageTypeInnerContentNode">
+                                </tree-multi-select>
+
+                                <div id="imageMultiSelectInnerDroppdown_parent">
+                                    <div id="imagePropertiesDropdown" class="dropdown">
+                                        <div id="toggleImageProperties" href="#" data-toggle="dropdown"></div>
+                                        <div class="dropdown-menu dropdown-menu-right width220">
+                                            <div class="margin-10 reference-dropdown-label">
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" data-ng-model="imageProperties.canAddNewImages" />
+                                                        User can Add New Images
+                                                    </label>
+                                                </div>
+
+
+                                                <div class="specific-img-main-box" data-ng-show="imageProperties.canAddNewImages">
+                                                    <p><b>Link New Images to</b></p>
+
+                                                    <div class="radio" data-ng-repeat="option in linkImageOptions">
+                                                        <label>
+                                                            <input type="radio" name="linkNewImage" value="{{option.key}}"
+                                                                   data-ng-checked="(imageProperties.linkNewImageOption == option.key)"
+                                                                   data-ng-model="imageProperties.linkNewImageOption">
+                                                            {{option.value}}
+                                                        </label>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" data-ng-model="imageProperties.canLinkImages" />
+                                                        User can Link to Existing Images
+                                                    </label>
+                                                </div>
+
+                                                <div data-ng-show="imageProperties.canLinkImages">
+                                                    <button class="btn btn-default btn-xs" type="button" data-ng-click="showImageLinkSources();" data-toggle="modal" data-target="#imageReferenceConfigurationAttribute">Specify Linking Sources</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="imageFiltersDropdown" class="dropdown image-type-nav">
+                                        <div id="toggleImageFilters" href="#" data-toggle="dropdown"></div>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <div class="margin-10 reference-dropdown-label" data-ng-repeat="option in imageFilterOptions">
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="imageFilter" value="{{option.key}}"
+                                                               data-ng-checked="isImageOptionSelected(option.key)"
+                                                               data-ng-disabled="isImageOptionDisabled(option.key)"
+                                                               data-ng-click="changeImageFilters(option.key)">
+                                                        {{option.value}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row top-margin-10">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-plus fa-lg green-color"></i>
+                                    Define Image Addition & Linking Properties
+                                </div>
+                                <div class="col-xs-6">
+                                    <i class="fa fa-filter fa-lg gray-color"></i>
+                                    Define Image Classification Filters
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <div class="modal-footer">
+                            <button ng-click="resetErrorDirective(errorAttribute);openErrorScreen(imageTypesConfigurationAttributeForm.$dirty,'imageTypesConfiguration',true,'imageReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                            <button data-ng-click="saveAcceptedImageTypes()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="imageReferenceConfigurationAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width800">
+        <div class="modal-content add-sub-object-main">
+            <form name="imageReferenceConfigurationAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(imageReferenceConfigurationAttributeForm.$dirty,'imageReferenceConfiguration',true,'imageReferenceAttributeForm');" aria-hidden="true">&times;</button>
+                    <h4><b>Linked Image Sources</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="attribute-scroll-wrap">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="attribute-model-title">Configure Image Reference</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 refefence-tabbing">
+
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#" data-target="#imageSourceSection">Source Content Types</a></li>
+                                    <li><a data-toggle="tab" href="#" data-target="#imageSearchLibrariesSection">Source Image Libraries</a></li>
+                                    <li><a data-toggle="tab" href="#" data-target="#imageSearchSection">Search Options</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="imageSourceSection">
+                                        <div>
+                                            <tree-multi-select control-id="imageContentTypes" options-list="allImageContentTypes"
+                                                               selected-values="selectedImageContentTypes" create-content-node="createImageContentTypeInnerNode">
+                                            </tree-multi-select>
+                                            <div>
+                                                <i class="fa fa-search right-margin-10"></i>
+                                                <span>Select Searches used to find Content Objects which have linkable images</span>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="tab-pane" id="imageSearchLibrariesSection">
+                                        <div>
+                                            <tree-multi-select control-id="imageLibraries" options-list="allImageLibraryTypes"
+                                                               selected-values="selectedImageLibraries" create-content-node="createImageLibraryInnerNode">
+                                            </tree-multi-select>
+                                            <div>
+                                                <i class="fa fa-search right-margin-10"></i>
+                                                <span>Select Searches used to find Images within the Selected Image Library</span>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="tab-pane" id="imageSearchSection">
+                                        <div class="bottom-margin-10">
+                                            Select the search interfaces which can be used to link images from other content objects
+                                        </div>
+                                        <div>
+                                            <tree-multi-select control-id="imageSearchOptions" options-list="allImageSearchOptions"
+                                                               selected-values="selectedImageSearchOptions" create-content-node="createImageSearchOptionInnerNode">
+                                            </tree-multi-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(imageReferenceConfigurationAttributeForm.$dirty,'imageReferenceConfiguration',true,'imageReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button data-ng-click="saveImageReferenceConfiguration()" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="editImageSearchOptionSectionAttribute" class="modal fade attribute-container" role="dialog" data-backdrop="static">
+    <div class="modal-dialog model-width400">
+        <div class="modal-content add-sub-object-main">
+            <form name="editImageSearchOptionSectionAttributeForm" role="form" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="openErrorScreen(editImageSearchOptionSectionAttributeForm.$dirty,'editImageSearchOptionSection',true,'imageReferenceAttributeForm');" aria-hidden="true">&times;</button>
+                    <h4><b>Select Search Interface</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="bottom-gray-border font-bold">
+                        Selected Search Interface
+                    </div>
+                    <div class="specific-img-main-box marginTop15">
+                        <div id="editImageSearchOption"></div>
+                    </div>
+                    <div class="bottom-gray-border marginTop15 font-bold">
+                        Search Name
+                    </div>
+                    <div class="top-margin-5 marginbottom10">
+                        <input id="imageSearchOptionName" class="form-control" type="text" value="" />
+                    </div>
+
+                </div>
+                <div class="sub-object-footer">
+                    <div class="modal-footer">
+                        <button ng-click="openErrorScreen(editImageSearchOptionSectionAttributeForm.$dirty,'editImageSearchOptionSection',true,'imageReferenceAttributeForm');" class="btn btn-grey" type="button" aria-hidden="true"><i class="fa fa-times"></i> Discard</button>
+                        <button ng-click="cac.addImageReference(cac.model)" class="btn btn-primary" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

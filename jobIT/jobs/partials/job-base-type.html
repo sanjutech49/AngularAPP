@@ -1,0 +1,114 @@
+﻿    
+<!--Create new Content Type using Job Base Type MODAL START--------------------------------------------------------------------->
+            <form>
+                <div class="alert alert-success" ng-show="jbtc.model.isAddSucess">
+                    <strong>Success!</strong> Successfully added.
+                </div>
+                <div class="alert alert-danger" ng-show="jbtc.model.isAddError">
+                    {{jbtc.model.addErrorMessage}}
+                </div>
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="jbtc.cancel()" aria-label="Close">&times;</button>
+                    <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>Add Job Content Type</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row marginTop10">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Domain<span class="mandatory">*</span></label>
+                                <div class="col-xs-3">
+                                    <select name="domain" ng-if="jbtc.model.domains.length > 0" ng-model="jbtc.model.selectedDomain" 
+                                            data-ng-options="domain.domainId as domain.domainName for domain in jbtc.model.domains" 
+                                            class="form-control ng-pristine ng-valid ng-touched domain-select"
+                                              aria-invalid="false" required>
+                                        <option value="">Select Domain</option>
+
+                                    </select>
+                                </div>
+                                <div class="col-xs-4 imageroles row">
+                                    <button type="button" class="btn btn-default" ng-click="jbtc.selectDomain()"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Singular Name<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="jbtc.model.sName"  placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Plural Name<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="jbtc.model.pName" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Identifier<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="jbtc.model.identifier" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="bottom-border-empty"></div>
+                            </div>
+                            <div class="form-group marginbottom5">
+                                <label for="" class="col-xs-5 control-label">Job Number<span class="mandatory">*</span></label>
+                                <div class="col-xs-4">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio"  ng-model="jbtc.model.mEntered"  value="true" ng-click="jbtc.showSequence('Y')" ng-checked="true">
+                                            Manually Entered
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio"  ng-model="jbtc.model.aEntered"  value="true" ng-click="jbtc.showSequence('N')" >
+                                            Auto Entered
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-show="jbtc.model.isManual">
+                                <div class="col-xs-5"></div>
+                                <div class="col-xs-3">
+                                    <input type="text" class="form-control" ng-model="jbtc.model.jobNumber" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="jbtc.model.isAuto">
+                                <div class="col-xs-5"></div>
+                                <div class="col-xs-3">
+                                    <select class="form-control" name="jobNumber" ng-model="jbtc.model.jobNumber">
+                                       
+                                    </select>
+                                </div>
+                                <div class="col-xs-4 imageroles row">
+                                    <button type="button" class="btn btn-default" ng-click="jbtc.newJobNumber()"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 marginbottom10">
+                                <div class="bottom-border-empty"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-5 control-label">Job Files</label>
+                                <div class="col-xs-3">
+                                    <select class="form-control" name="jobNumber" ng-model="jbtc.model.jobFiles">
+                                    </select>
+                                </div>
+                                <div class="col-xs-4 imageroles row">
+                                    <button type="button" class="btn btn-default" ng-click="jbtc.newJobFiles()"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-left">
+                        <button class="btn btn-danger btn-sm" type="button" ng-click="jbtc.cancel()"><i class="fa fa-times"></i> Cancel</button>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-sm" type="button" ng-disabled="jbtc.activate()"  ng-click="jbtc.add()"><i class="fa fa-pencil"></i> Add</button>
+                    </div>
+                </div>
+            </form>
+      
+<!--Create new Content Type using Job Base Type MODAL END-----------------------------------------------------------------------------------------> 

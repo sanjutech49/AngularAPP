@@ -1,0 +1,595 @@
+﻿<form name="frm1oi" role="form" novalidate>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="jbcc.cancel()">&times;</button>
+        <h4><i class="fa fa-cogs" aria-hidden="true"></i> <b>JobiT Settings</b></h4>
+    </div>
+    <div class="modal-body">
+        <div class="row main-content">
+            <div class="col-xs-12 white-bg">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs position-relative" role="tablist">
+                    <li class="active"><a href="#" data-target="#administrators" role="tab" data-toggle="tab">Administrators</a></li>
+                    <li><a href="#" data-target="#productionHierachy" role="tab" data-toggle="tab">Production Hierachy</a></li>
+                    <li><a href="" data-target="#pagePresets" role="tab" data-toggle="tab" ng-click="jbcc.getPagePresets()">Page Presets</a></li>
+                    <li><a href="#" data-target="#pageLayouts" role="tab" data-toggle="tab">Page Layouts</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div class="alert alert-success fade in" ng-repeat="message in jbcc.model.messages" role="alert">
+                        <a href="#" class="close" ng-click="jbcc.model.clearMessages()">&times;</a>
+                        <strong>Done!</strong> <span ng-bind="message"></span>
+                    </div>
+
+                    <div class="alert alert-danger fade in" ng-repeat="error in jbcc.model.errors" role="alert">
+                        <a href="#" class="close" ng-click="jbcc.model.clearErrors()">&times;</a>
+                        <strong>Error:</strong> <span ng-bind="error"></span>
+                    </div>
+
+                    <!-- Tab1 -->
+
+                    <div role="tabpanel" class="tab-pane active" id="administrators">
+                        <div class="padding10">
+                            <div class="filter-table-row">
+                                <div class="filter-table-cell filter-table-cel-padding width-50-percent">
+                                    <div class="form-group">
+                                        <label for="" class="font-bold">Available Roles</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon btn" role="button"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="" placeholder="" ng-model="jbcc.modal.searchAllRoleKey">
+                                        </div>
+                                    </div>
+                                    <div class="jobit-multi-select">
+
+                                        <select multiple class="jobit-multi-select-list" id="sel2" size="7" ng-model="model.LeftRoles">
+                                            <option class="list-group-item" ng-repeat="x in jbcc.model.unAssignedRoles | filter :{ IsProductionAdmin:'false', IsDeleted:'false', IsImplicitRole: 'false', IsEnabled:'true' } |    filter: { Name: model.searchAllRoleKey } | orderBy: 'Name' track by $index">{{x.Name}}</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="filter-table-cell filter-table-cel-padding">
+                                    <div class="jobit-multi-select-list-buttons">
+                                        <button ng-click="jbcc.model.moveRight()" type="button" class="btn btn-default marginbottom10"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                        <button ng-click="jbcc.model.moveLeft()" type="button" class="btn btn-default marginbottom10"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="filter-table-cell filter-table-cel-padding width-50-percent">
+                                    <div class="form-group">
+                                        <label for="" class="font-bold">JobiT Production Administrators</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon btn" role="button"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="" placeholder="" ng-model="jbcc.modal.searchAssignedRoleKey">
+                                        </div>
+                                    </div>
+                                    <div class="jobit-multi-select">
+
+                                        <select multiple class="jobit-multi-select-list" id="sel2" size="7" ng-model="model.RightRoles">
+                                            <option class="list-group-item" ng-repeat="x in jbcc.model.assignedRoles | filter :{ IsDeleted:'false', IsImplicitRole: 'false', IsEnabled:'true' } | filter: { Name: model.searchAssignedRoleKey } | orderBy : 'Name' track by $index">{{x.Name}}</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab2 -->
+                    <div role="tabpanel" class="tab-pane" id="productionHierachy">
+                        <div class="padding10 position-relative">
+                            <div class="hierachy-edit-wrap">
+                                <div class="table-row">
+                                    <div class="table-cell">Production Hierachy<span class="mandatory">*</span></div>
+                                    <div class="filter-table-cell table-cel-padding">
+                                        <select class="form-control">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                    <div class="table-cell table-cel-padding imageroles">
+                                        <div class="center">
+                                            <a class="btn btn-default" href="#" rel="tooltip" title="Click the + button to add a production hierachy"
+                                               ng-click="openProductionHierchyModal()">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 white-bg">
+
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs position-relative" role="tablist">
+                                        <li class="active"><a href="#" data-target="#phProperties" role="tab" data-toggle="tab">Properties</a></li>
+                                        <li><a href="#" data-target="#phHierachy" role="tab" data-toggle="tab">Hierachy</a></li>
+                                        <li><a href="" data-target="#phcheckOutSets" role="tab" data-toggle="tab">Check-Out Sets</a></li>
+                                        <li><a href="" data-target="#phtemplates" role="tab" data-toggle="tab">Templates</a></li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+
+                                        <!-- Tab1 -->
+                                        <div role="tabpanel" class="tab-pane active" id="phProperties">
+                                            <div class="padding10"> Dev1 </div>
+                                        </div>
+
+                                        <!-- Tab2 -->
+                                        <div role="tabpanel" class="tab-pane" id="phHierachy">
+                                            <div class="settings-table-row">
+                                                <div class="settings-table-cell square-border width220">
+                                                    <div class="padding5">
+                                                        <!--Create root node link start-->
+                                                        <div class="create-rootnode-list">
+                                                            <ul>
+                                                                <li> <a href="#" title="" data-toggle="modal" data-target="#createNodeDefinition"> <i class="fa fa-plus-square" aria-hidden="true"></i> Add Root Node</a> </li>
+                                                            </ul>
+                                                        </div>
+                                                        <!--Create root node link End-->
+                                                        <!--Hierachy tree view list start-->
+                                                        <ul class="tree">
+                                                            <li>
+                                                                <div class="full-container">
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox">
+                                                                            Campaign
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <ul>
+                                                                    <li>
+                                                                        <div class="full-container">
+                                                                            <div class="checkbox">
+                                                                                <label>
+                                                                                    <input type="checkbox">
+                                                                                    Advertisment
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="full-container">
+                                                                            <div class="checkbox">
+                                                                                <label>
+                                                                                    <input type="checkbox">
+                                                                                    Job
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <ul>
+                                                                            <li>
+                                                                                <div class="full-container">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <input type="checkbox">
+                                                                                            Offer(Nested)
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="redicon"> <span class="icon">Catalogue</span> </div>
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        <div class="full-container">
+                                                                                            <div class="checkbox">
+                                                                                                <label>
+                                                                                                    <input type="checkbox">
+                                                                                                    Catalogue spread
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                                <div class="full-container">
+                                                                                                    <div class="checkbox">
+                                                                                                        <label>
+                                                                                                            <input type="checkbox">
+                                                                                                            Page Regions
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <ul>
+                                                                                                    <li>
+                                                                                                        <div class="full-container">
+                                                                                                            <div class="checkbox">
+                                                                                                                <label>
+                                                                                                                    <input type="checkbox">
+                                                                                                                    Offer (Nested)
+                                                                                                                </label>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="redicon"> <span class="icon">Press Ad</span> </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+
+                                                        <!--Hierachy tree view list start End-->
+                                                    </div>
+                                                </div>
+                                                <div class="settings-table-cell width5"></div>
+                                                <div class="settings-table-cell square-border  margin-left15">
+                                                    <div class="padding10">
+                                                        <div class="row">
+                                                            <div class="col-xs-12">
+                                                                <div class="hierarchy-titile-wrap">Campaign</div>
+                                                                <div class="hierarchy-greenlinks flat-right">
+                                                                    <ul>
+                                                                        <li><a href="#"> <i class="fa fa-plus-square" aria-hidden="true"></i> Add Child Node</a></li>
+                                                                        <li><a href="#" data-toggle="modal" data-target="#addSubtype"> <i class="fa fa-plus-square" aria-hidden="true"></i> Add Sub Type</a></li>
+                                                                        <li><a href="#" data-toggle="modal" data-target="#addContext"> <i class="fa fa-plus-square" aria-hidden="true"></i> Add Context</a></li>
+                                                                        <li><a href="#"> <i class="fa fa-plus-square" aria-hidden="true"></i> Add Versions</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row marginTop15">
+                                                            <div class="col-xs-12">
+                                                                <div class="attribute-model-title">Node Properties</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-12">
+                                                                <div class="hierarchy-bluelinks flat-right">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <a href="#" ng-click="jbcc.newWorkflowPreset()"> <i class="fa fa-sitemap" aria-hidden="true"></i> Workflows</a>
+                                                                        </li>
+                                                                        <li><a href="#"> <i class="fa fa-users" aria-hidden="true"></i> Permissions</a></li>
+                                                                        <li><a href="#"> <i class="fa fa-wrench" aria-hidden="true"></i> Configure</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row marginTop20">
+                                                            <div class="col-xs-12">
+                                                                <div ng-form name="frmNodeProperty" class="form-horizontal">
+                                                                    <div class="form-group">
+                                                                        <label for="" class="col-xs-4 control-label">Singular Node Name<span class="mandatory">*</span></label>
+                                                                        <div class="col-xs-4">
+                                                                            <input type="text" name="nodeame" ng-model="nodeame" class="form-control" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="" class="col-xs-4 control-label">Plural Node Name<span class="mandatory">*</span></label>
+                                                                        <div class="col-xs-4">
+                                                                            <input type="text" name="nodeamePlural" ng-model="nodeamePlural" required class="form-control" id="" placeholder="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="" class="col-xs-4 control-label">Content Type<span class="mandatory">*</span></label>
+                                                                        <div class="col-xs-4">
+                                                                            <label for="" class="control-label">Campaign</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row marginbottom15">
+                                                            <div class="col-xs-12 marginTop20">
+                                                                <div class="bg-grey padding5">
+                                                                    <div class="btn-left">
+                                                                        <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-times"></i> Cancel</button>
+                                                                    </div>
+                                                                    <div class="btn-right">
+                                                                        <button data-dismiss="modal" class="btn btn-grey btn-sm" type="button"><i class="fa fa-times"></i> Discard</button>
+                                                                        <button ng-disabled="frmNodeProperty.$invalid" class="btn btn-primary btn-sm" type="button"><i class="fa fa-pencil"></i> Add</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="hierarchy-table-wrap">
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <div class="hierarchy-table">
+                                                                        <table class="table table-condensed table-hover">
+                                                                            <tr>
+                                                                                <th><b>Job Attributes</b></th>
+                                                                                <th class="links-green align-right"> <a href="#" data-toggle="modal" data-target="#addAttribute"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Attribute</a></th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Job Number</td>
+                                                                                <td class="align-right list-edit-icons"><a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#"></a> <a href="#" class="fa fa-times"></a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Job Name</td>
+                                                                                <td class="align-right list-edit-icons"><a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#"></a> <a href="#" class="fa fa-times"></a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Advertisment</td>
+                                                                                <td class="align-right list-edit-icons"><a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#"></a> <a href="#" class="fa fa-times"></a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Appearance Date</td>
+                                                                                <td class="align-right list-edit-icons"><a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#"></a> <a href="#" class="fa fa-times"></a></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <div class="hierarchy-table">
+                                                                        <table class="table table-condensed table-hover">
+                                                                            <tr>
+                                                                                <th><b>Child Nodes</b></th>
+                                                                                <th class="links-green align-right"> <a href="#"> <i class="fa fa-plus-square" aria-hidden="true"></i> Add Child Node</a></th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Paper Type</td>
+                                                                                <td class="align-right list-edit-icons"><a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#selectChildNodeProperties"></a> <a href="#" class="fa fa-times"></a></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <div class="hierarchy-table">
+                                                                        <table class="table table-condensed table-hover">
+                                                                            <tr>
+                                                                                <th><b>Contexts</b></th>
+                                                                                <th class="links-green align-right"><a href="#"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Context</a></th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Paper Type</td>
+                                                                                <td class="align-right list-edit-icons"><a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#"></a> <a href="#" class="fa fa-times"></a></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <div class="hierarchy-table">
+                                                                        <table class="table table-condensed table-hover">
+                                                                            <tr>
+                                                                                <th><b>Sub-Types</b></th>
+                                                                                <th class="links-green align-right"><a href="#"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Sub-Type</a></th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Catalogue</td>
+                                                                                <td class="align-right list-edit-icons"><a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#"></a> <a href="#" class="fa fa-times"></a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Press Ad</td>
+                                                                                <td class="align-right list-edit-icons"><a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#"></a> <a href="#" class="fa fa-times"></a></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tab3 -->
+                                        <div role="tabpanel" class="tab-pane" id="phcheckOutSets">
+                                            <div class="padding10"> Dev3 </div>
+                                        </div>
+                                        <!-- Tab4 -->
+                                        <div role="tabpanel" class="tab-pane" id="phtemplates">
+                                            <div class="padding10"> Dev4 </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab3 -->
+                    <div role="tabpanel" class="tab-pane" id="pagePresets">
+                        <div class="padding10">
+                            <div class="row">
+                                <div class="col-xs-8 links-green marginTop5">
+                                    <a href="#" ng-click="jbcc.newPagePreset()">
+                                        <i class="fa fa-plus-square" aria-hidden="true"></i> Add Page Preset
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon btn" role="button"><i class="fa fa-search" aria-hidden="true"></i> </span>
+                                        <input type="text" class="form-control" name="" placeholder="" ng-model="pagePresetSearch.name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row marginTop5">
+                                <div class="col-xs-12">
+                                    <div class="settings-bottom-devider"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 marginTop5">
+                                    <div class="topnoborder">
+                                        <table class="table table-hover">
+                                            <tr ng-repeat="item in pagePresets | filter:pagePresetSearch">
+                                                <td><b>{{item.name}}</b></td>
+                                                <td>{{item.pagePresetDimensions.width}} mm x {{item.pagePresetDimensions.height}} mm</td>
+                                                <td ng-click=""><span><i class="fa fa-check clr-green" aria-hidden="true"></i></span> InDesign Template</td>
+                                                <td class="align-right list-edit-icons">
+                                                    <a href="#" class="fa fa-pencil" ng-click="jbcc.editPagePreset(item)"></a>
+                                                    <a href="#" class="fa fa-times" ng-click="jbcc.remove(item.pagePresetId)"></a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab4 -->
+                    <div role="tabpanel" class="tab-pane" id="pageLayouts">
+                        <div class="padding10">
+                            <div class="row">
+                                <div class="col-xs-6 links-green marginTop5"><a href="#"> <i class="fa fa-plus-square" aria-hidden="true"></i> Add Page / Spread Layout</a></div>
+                                <div class="col-xs-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon btn" role="button"> <i class="fa fa-search" aria-hidden="true"></i> </span>
+                                        <input type="text" class="form-control" name="" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <select class="form-control">
+                                        <option>Spreads & Pages</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row marginTop5">
+                                <div class="col-xs-12">
+                                    <div class="settings-bottom-devider"></div>
+                                </div>
+                            </div>
+                            <div class="attribute-scroll-wrap">
+                                <div class="row marginTop15">
+                                    <div class="col-xs-4">
+                                        <div class="jbit-layout-wrap">
+                                            <div class="icon-zoom"><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i></a></div>
+                                            <img src="images/img-pagelayout.jpg" alt="">
+                                        </div>
+                                        <div class="jbit-layout-trow marginTop5">
+                                            <div class="jbit-layout-tcell text-center">Hero Spread</div>
+                                            <div class="jbit-layout-tcell">
+                                                <div class="align-right jbit-layout-edit-del-icons"> <a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#editpageSpreadlyouttemplte"></a> <a href="#" class="fa fa-times"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="jbit-layout-wrap">
+                                            <div class="icon-zoom"><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i></a></div>
+                                            <img src="images/img-pagelayout.jpg" alt="">
+                                        </div>
+                                        <div class="jbit-layout-trow marginTop5 marginbottom10">
+                                            <div class="jbit-layout-tcell text-center">Cricket Hero Spread</div>
+                                            <div class="jbit-layout-tcell">
+                                                <div class="align-right jbit-layout-edit-del-icons"> <a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#editpageSpreadlyouttemplte"></a> <a href="#" class="fa fa-times"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="jbit-layout-wrap">
+                                            <div class="icon-zoom"><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i></a></div>
+                                            <img src="images/img-pagelayout.jpg" alt="">
+                                        </div>
+                                        <div class="jbit-layout-trow marginTop5 marginbottom10">
+                                            <div class="jbit-layout-tcell text-center">Hero Spread - No Header</div>
+                                            <div class="jbit-layout-tcell">
+                                                <div class="align-right jbit-layout-edit-del-icons"> <a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#editpageSpreadlyouttemplte"></a> <a href="#" class="fa fa-times"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="jbit-layout-wrap">
+                                            <div class="icon-zoom"><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i></a></div>
+                                            <img src="images/img-pagelayout.jpg" alt="">
+                                        </div>
+                                        <div class="jbit-layout-trow marginTop5 marginbottom10">
+                                            <div class="jbit-layout-tcell text-center">Product List - large</div>
+                                            <div class="jbit-layout-tcell">
+                                                <div class="align-right jbit-layout-edit-del-icons"> <a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#editpageSpreadlyouttemplte"></a> <a href="#" class="fa fa-times"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="jbit-layout-wrap">
+                                            <div class="icon-zoom"><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i></a></div>
+                                            <img src="images/img-pagelayout.jpg" alt="">
+                                        </div>
+                                        <div class="jbit-layout-trow marginTop5 marginbottom10">
+                                            <div class="jbit-layout-tcell text-center">Cricket Product Spread</div>
+                                            <div class="jbit-layout-tcell">
+                                                <div class="align-right jbit-layout-edit-del-icons"> <a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#editpageSpreadlyouttemplte"></a> <a href="#" class="fa fa-times"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="jbit-layout-wrap">
+                                            <div class="icon-zoom"><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i></a></div>
+                                            <img src="images/img-pagelayout.jpg" alt="">
+                                        </div>
+                                        <div class="jbit-layout-trow marginTop5 marginbottom10">
+                                            <div class="jbit-layout-tcell text-center">Product List Medium</div>
+                                            <div class="jbit-layout-tcell">
+                                                <div class="align-right jbit-layout-edit-del-icons"> <a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#editpageSpreadlyouttemplte"></a> <a href="#" class="fa fa-times"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="jbit-layout-wrap">
+                                            <div class="icon-zoom"><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i></a></div>
+                                            <img src="images/img-pagelayout.jpg" alt="">
+                                        </div>
+                                        <div class="jbit-layout-trow marginTop5 marginbottom10">
+                                            <div class="jbit-layout-tcell text-center">Product List Medium</div>
+                                            <div class="jbit-layout-tcell">
+                                                <div class="align-right jbit-layout-edit-del-icons"> <a href="#" class="fa fa-pencil" data-toggle="modal" data-target="#editpageSpreadlyouttemplte"></a> <a href="#" class="fa fa-times"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sub-object-footer">
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-grey" type="button" aria-hidden="true" ng-click="jbcc.cancel()"><i class="fa fa-times"></i> Discard</button>
+            <button class="btn btn-primary" ng-click="jbcc.model.UpdateProductionAdminRoles()" type="button" aria-hidden="true"><i class="fa fa-pencil"></i> Save</button>
+        </div>
+    </div>
+</form>
+
+
+<!--Please load all this templates on demond----------------------------------------------------------------------------------------->
+<!--JobIT SETTINGS MODAL END----------------------------------------------------------------------------------------->
+<!--<ng-include src="'jobIT/jobit-configuration/partials/jobit-configuration-editpagepreset.html'"></ng-include>-->
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-pagespreadlayout.html'"></ng-include>
+<!--<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-addproductionhierarchy.html'"></ng-include>-->
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-createnodedefinition.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-addcampagincontenttype.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-addattribute.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-addsubtype.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-addflatplancontentsubtype.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-selectchildnodeproperties.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-nodesources.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-searchname.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-contentobjectsources.html'"></ng-include>
+<ng-include src="'jobit/jobit-configuration/partials/jobit-configuration-addcontext.html'"></ng-include>
+
+<!-- For tooltip script -->
+<script>
+    $(document).ready(function () {
+        $("a").tooltip({
+            'selector': '',
+            'placement': 'bottom',
+            'container': 'body'
+        });
+    });
+
+    $('.auto-tooltip').tooltip();
+</script>
+<!-- For tooltip script -->

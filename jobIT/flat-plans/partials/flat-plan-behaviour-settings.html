@@ -1,0 +1,117 @@
+﻿<!--Specify Flat Plan Behaviour Settings start-->
+<div class="row" ng-controller="FlatPlanBehaviourSettingsController as fpbsc">
+    <div class="col-xs-12 padding20">
+        <p class="font-bold">Please specify the functionality which the Flat Plan will support</p>
+        <form name="flatPlanSettingsForm" role="form" novalidate>
+            <div class="box-square marginTop5">
+                <div class="box-square-head font-bold">Flat Plan Settings</div>
+                <div class="">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="" class="col-xs-3 control-label">Flat Plan Types<span class="mandatory">*</span></label>
+                            <div class="col-xs-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="fpbsc.model.planTypeSimplex" ng-click="fpbsc.validateSettings()" ng-checked="fpbsc.model.planTypeSimplex" ng-change="fbpsc.click(ng-model)">
+                                        Simplex
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="fpbsc.model.planTypeDuplex" ng-checked="fpbsc.model.planTypeDuplex" ng-click="fpbsc.validateSettings()">
+                                        Duplex
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="bottom-border-empty"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-3 control-label">Binding Options<span class="mandatory">*</span></label>
+                            <div class="col-xs-4">
+                                <div class="checkbox">
+                                    <label class="float-left">
+                                        <input type="checkbox" ng-model="fpbsc.model.bindingOption1" ng-checked="fpbsc.model.bindingOption1" ng-click="fpbsc.validateSettings()">
+                                        Loose Leaf Binding
+                                    </label>
+                                    <div class="flat-plan-help-icon-wrap flatPlan-help-dropdown">
+                                        <div class="dropdown">
+                                            <a class="flat-plan-help-icon dropdown-toggle" href="#" data-toggle="dropdown"> <i class="fa fa-question-circle"></i></a>
+                                            <div class="dropdown-menu">
+                                                <div class="def-table-row">
+                                                    <div class="def-table-cel text-center">
+                                                        <div class="font-bold  marginbottom10">Fold Sheet Binding</div>
+                                                        <div class=""><img src="images/img-foldsheet-binding.jpg" alt=""></div>
+                                                        <div class="font-size12">Spreads are folded to create four pages then bound</div>
+                                                    </div>
+                                                    <div class="def-table-cel text-center platplan-help-padding">
+                                                        <div class="font-bold marginbottom10">Loose Leaf Binding</div>
+                                                        <div class=""><img src="images/img-foldsheet-binding.jpg" alt=""></div>
+                                                        <div class="font-size12">Spreads are trimmed into individual pages and then bound.</div>
+                                                    </div>
+                                                    <div class="def-table-cel"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="fpbsc.model.bindingOption2" ng-checked="fpbsc.model.bindingOption2" ng-click="fpbsc.showAllowLoosePages(fpbsc.model.isVisible)">
+                                        Folded Sheet Binding
+                                    </label>
+                                </div>
+                                <div class="checkbox margin-left20" ng-show="fpbsc.model.isVisible">
+                                    <label>
+                                        <input type="checkbox" ng-checked="fpbsc.model.isVisible" ng-model="fpbsc.model.allowLoosePages">
+                                        Allow loose Pages
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12">
+                            <div class="bottom-border-empty"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-3 control-label">Allowed Layouts<span class="mandatory">*</span></label>
+                            <div class="col-xs-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="fpbsc.model.allowedLayoutsOption1" ng-click="fpbsc.validateSettings()" ng-checked="fpbsc.model.allowedLayoutsOption1">
+                                        Pages
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="fpbsc.model.allowedLayoutsOption2" ng-checked="fpbsc.model.allowedLayoutsOption2" ng-click="fpbsc.validateSettings()">
+                                        Spreads
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="bottom-border-empty marginbottom15"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-3 control-label">Default Appearance<span class="mandatory">*</span></label>
+                            <div class="col-xs-3">
+                                <select class="form-control" ng-model="fpbsc.model.defaultAppearance" ng-options="o.name for o in fpbsc.model.appearanceValues" required></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="btn-right paddingRight10 paddingBottom10">
+                            <button class="btn btn-primary btn-sm" type="submit" ng-disabled="fpbsc.model.isButtonDisabled" ng-click="fpbsc.saveSettings(fpbsc.model);"><i class="fa fa-pencil"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Specify Flat Plan Behaviour Settings End-->

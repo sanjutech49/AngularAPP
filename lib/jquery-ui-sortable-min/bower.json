@@ -1,0 +1,12 @@
+{
+  "name": "jquery-ui-sortable-min",
+  "main": "jquery-ui-sortable-min.js",
+  "version": "1.11.4",
+  "authors": [
+    "jQuery Foundation and other contributors"
+  ],
+  "description": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "https://github.com/schne324/jquery-ui-sortable-min"
+}

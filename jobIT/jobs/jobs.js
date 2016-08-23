@@ -1,0 +1,1 @@
+﻿var jobsModule = angular.module('jobit.jobs', []);

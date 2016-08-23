@@ -1,0 +1,1 @@
+﻿var flatPlanModule = angular.module('jobit.flatplan', []);

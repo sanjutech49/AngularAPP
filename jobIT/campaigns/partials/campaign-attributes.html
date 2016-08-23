@@ -1,0 +1,72 @@
+﻿<div class="col-lg-12 padding20" ng-controller="CampaignAttributeController as cac">
+
+    <div class="object-head-wrap clearfix">
+        <div class="object-head">{{cac.model.attributeScreenName}} > Attributes</div>
+        <div class="sub-object-btn">
+            <a href="#" data-toggle="modal" data-target="#addAttribute" ng-click="cac.showAttributeTypeList();">
+                <i class="fa fa-plus"></i>
+                Add Attribute
+            </a>
+        </div>
+    </div>
+   
+    <div class="objects-table links-hover">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Attribute Type</th>
+                        <th>Required</th>
+                        <th>Read Only</th>
+                        <th>Multiple</th>
+                        <th>Min Items</th>
+                        <th>Max Items</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody ui-sortable="sortableOptionsA" ng-model="cac.model.attributes">
+                    <tr ng-repeat="attr in cac.model.defaultAttributes" class="ui-state-default" style="cursor: move;">
+                        <td width="230" class="grey">
+                            <ul class="dragging-table">
+                                <li>{{attr.name}}</li>
+                                <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <!-- Will change later after API issue fixed-->
+                            <span ng-show="attr.attributeType != 'SubObjectAttribute'" ng-if="attr.format != 124">{{attr.attributeType.replace('Attribute','')}}</span>
+                            <span ng-show="attr.attributeType != 'SubObjectAttribute'" ng-if="attr.format == 124">Sequence</span>
+                            <span ng-show="attr.attributeType == 'TextAttribute'" ng-if="attr.format == 123">&nbsp;(Single Line)</span>
+                            <span ng-show="attr.attributeType == 'TextAttribute'" ng-if="attr.format != 123 && attr.format != 124">&nbsp;({{lineFormat[attr.format].value}})</span>
+                            <span ng-show="attr.attributeType == 'SubObjectAttribute'">{{attr.attributeType.replace('SubObjectAttribute','Sub-Object')}})</span>
+
+                            <!--<span ng-show="attr.attributeType != 'SubObjectAttribute'">{{attr.attributeType.replace('Attribute','')}}</span>
+                            <span ng-show="attr.attributeType == 'TextAttribute'">&nbsp;({{lineFormat[attr.format].value}})</span>
+                            <span ng-show="attr.attributeType == 'SubObjectAttribute'">{{attr.attributeType.replace('SubObjectAttribute','Sub-Object')}})</span>-->
+                        </td>
+                        <td><input type="checkbox" ng-checked="{{attr.mandatory}}" name="isMandatory" disabled="disabled" /></td>
+                        <td><input type="checkbox" ng-checked="{{attr.readOnly}}" name="isReadOnly" disabled="disabled" /></td>
+                        <td><input type="checkbox" ng-checked="{{attr.multipleValues.allowMultipleValues}}" name="isAllowMultipleValues" disabled="disabled" /></td>
+                        <td>{{attr.multipleValues.minimumValue}}</td>
+                        <td>{{attr.multipleValues.maximumValue}}</td>
+                        <td width="60" class="align-right table-links">
+                            <a href="#" rel="tooltip" title="Edit" data-toggle="modal" data-target="#{{attr.attributeType == 'IntegerAttribute' ? 'DecimalAttribute' : attr.attributeType}}" ng-click="cac.editCampaignAttribute(attr)"><i class="fa fa-pencil"></i></a>&nbsp;
+                            <a href="#" rel="tooltip" title="Delete" ng-click="cac.model.resetErrorDirective(errorAttribute);confirmClick('Are you sure you want to delete?','Confirm','Delete','Cancel') && deleteAttribute(attr)" ng-disabled="true"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="col-sm-12 marginTop20">
+                <div class="row">
+                    <div class="form-group color-red" ng-show="cac.model.errors.length > 0" ng-repeat="error in cac.model.errors">{{error}}</div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+</div>
